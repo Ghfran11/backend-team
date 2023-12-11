@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\time;
-use App\Http\Requests\StoretimeRequest;
-use App\Http\Requests\UpdatetimeRequest;
+use App\Models\programm;
+use App\Http\Requests\StoreprogrammRequest;
+use App\Http\Requests\UpdateprogrammRequest;
 
-class TimeController extends Controller
+class ProgrammController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,15 +19,15 @@ class TimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoretimeRequest $request)
+    public function store(StoreprogrammRequest $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(time $time)
+    public function show(programm $programm)
     {
         //
     }
@@ -35,7 +35,7 @@ class TimeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatetimeRequest $request, time $time)
+    public function update(UpdateprogrammRequest $request, programm $programm)
     {
         //
     }
@@ -43,7 +43,7 @@ class TimeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(time $time)
+    public function destroy(programm $programm)
     {
         //
     }

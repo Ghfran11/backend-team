@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class exercise extends Model
+class Exercise extends Model
 {
     use HasFactory;
+    protected $fillable = ['name','description'];
+    public function programme()
+{
+    return $this->hasMany(Programme::class,'exerciseId');
+
+}
 }

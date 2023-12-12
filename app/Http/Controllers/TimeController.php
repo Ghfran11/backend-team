@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\time;
+use App\Models\Time;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use PHPOpenSourceSaver\JWTAuth\Providers\Auth\Illuminate;
 
 class TimeController extends Controller
 {
@@ -13,7 +16,8 @@ class TimeController extends Controller
      */
     public function index()
     {
-        //
+
+
     }
 
     /**
@@ -21,30 +25,63 @@ class TimeController extends Controller
      */
     public function store(StoretimeRequest $request)
     {
-        
+
+        if(Auth::user()->type='admin')
+        {
+            $userId=$request->userId;
+
+        }
+        else{
+            $userId=Auth::id();
+        }
+        $time=Time::query()->create(
+            [
+                'userId'=>$userId,
+                'startTime'=>$request->atartTime,
+                'endTime'=>$request->endTime,
+                'dayId'=>$request->dayId,
+            ]
+            );
+
+    return response($time,Response::HTTP_CREATED);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(time $time)
+    public function show(Time $time)
     {
-        //
+        $result=$time->get();
+        return response($result,Response::HTTP_OK);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatetimeRequest $request, time $time)
+    public function update(UpdatetimeRequest $request, Time $time)
     {
-        //
+        $time->update(
+            [
+                'userId'=>$request->userId,
+                'startTime'=>$request->atartTime,
+                'endTime'=>$request->endTime,
+                'dayId'=>$request->dayId,
+
+            ]
+            );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(time $time)
+    public function destroy(Time $time)
     {
-        //
+        if(Auth::user()->type='admin' || Auth::id()== $time->userId )
+        $time->delete();
+        return response('time deleted successfully',Response::HTTP_OK);
+
     }
+
 }

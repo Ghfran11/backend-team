@@ -13,7 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -21,7 +21,7 @@ class OrderController extends Controller
      */
     public function store(StoreorderRequest $request)
     {
-        //
+        
     }
 
     /**

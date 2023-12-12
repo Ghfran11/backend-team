@@ -11,7 +11,7 @@ class UpdatetimeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdatetimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+                 'startTime'=>['required'],
+                'endTime'=>['required'],
+                'dayId'=>['required'],
+                'userId'=>['required']
+
         ];
     }
 }

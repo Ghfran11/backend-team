@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoretimeRequest extends FormRequest
 {
@@ -11,7 +12,9 @@ class StoretimeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+
+
     }
 
     /**
@@ -22,7 +25,10 @@ class StoretimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'startTime'=>['required'],
+            'endTime'=>['required'],
+            'dayId'=>['required'],
+            'userId'=>['required']
         ];
     }
 }

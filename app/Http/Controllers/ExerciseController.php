@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\exercise;
 use App\Http\Requests\StoreexerciseRequest;
 use App\Http\Requests\UpdateexerciseRequest;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Exercise as ModelsExercise;
 
 class ExerciseController extends Controller
 {
@@ -21,15 +24,28 @@ class ExerciseController extends Controller
      */
     public function store(StoreexerciseRequest $request)
     {
-        //
+
+        $exercie=Exercise::query()->create(
+            [
+                'name'=>$request->name,
+                'description'=>$request->description
+            ]
+            );
+
+
+    return response($exercie,Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(exercise $exercise)
+    public function show(Exercise $exercise)
     {
-        //
+       $result['exercise']=$exercise->get();
+       $result['images']=$exercise->image()->get();
+
+
+       return response($result,Response::HTTP_OK);
     }
 
     /**

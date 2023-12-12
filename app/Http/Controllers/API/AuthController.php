@@ -42,16 +42,29 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $request->validate([
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
         ]);
+        if($request->has('iscoach'))
+        {
+            $userType='coach';
+        }
+            else
+            {
+                $userType='player';
+
+            }
+
+
 
         $user = User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'birthDate'=>$request->birthDate,
-            'phoneNumber'=>$request->phoneNumber
+            'phoneNumber'=>$request->phoneNumber,
+            'type'=>$userType
         ]);
 
         return response()->json([

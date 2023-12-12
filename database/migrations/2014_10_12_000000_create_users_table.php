@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phoneNumber');
             $table->date('birthDate');
             $table->string('password');
+            $table->enum('type',['coach','player','admin']);
             $table->rememberToken();
             $table->timestamps();
         });

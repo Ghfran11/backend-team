@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\programm;
+use App\Models\Programme;
 use App\Http\Requests\StoreprogrammRequest;
 use App\Http\Requests\UpdateprogrammRequest;
 
@@ -13,7 +13,7 @@ class ProgrammController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -21,21 +21,21 @@ class ProgrammController extends Controller
      */
     public function store(StoreprogrammRequest $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(programm $programm)
+    public function show(Programme $programme)
     {
-        //
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateprogrammRequest $request, programm $programm)
+    public function update(UpdateprogrammRequest $request, Programme $programme)
     {
         //
     }
@@ -43,7 +43,7 @@ class ProgrammController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(programm $programm)
+    public function destroy(programme $programme)
     {
         //
     }

@@ -17,16 +17,20 @@ class ImageController extends Controller
 
     public function storeUserImage(Request $request)
     {
-        $result = $this->imageService
-        ->storeImage($request, Auth::user()->id, null, 'user/images');
+        foreach($request as $item)
+        {
+        $result[]= $this->imageService
+        ->storeImage($item, Auth::user()->id, null, 'user/images');
 
+        }
         return $result;
     }
 
     public function storeExerciseImage(Request $request)
     {
-        $result = $this->imageService
-        ->storeImage($request, null, $request->exerciseId, 'exercise/images');
+        foreach($request as $item)
+        $result[] = $this->imageService
+        ->storeImage($item, null, $request->exerciseId, 'exercise/images');
 
         return $result;
     }

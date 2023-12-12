@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\days;
+use App\Models\Day;
 use App\Http\Requests\StoredaysRequest;
 use App\Http\Requests\UpdatedaysRequest;
+use Illuminate\Http\Response;
+
+
 
 class DaysController extends Controller
 {
@@ -13,7 +16,10 @@ class DaysController extends Controller
      */
     public function index()
     {
-        //
+        $days=Day::query()->get();
+
+        return response($days,Response::HTTP_OK);
+
     }
 
     /**
@@ -27,7 +33,7 @@ class DaysController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(days $days)
+    public function show(Day $day)
     {
         //
     }
@@ -35,7 +41,7 @@ class DaysController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatedaysRequest $request, days $days)
+    public function update(UpdatedaysRequest $request, Day $day)
     {
         //
     }
@@ -43,7 +49,7 @@ class DaysController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(days $days)
+    public function destroy(Day $Day)
     {
         //
     }

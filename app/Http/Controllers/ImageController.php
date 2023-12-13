@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ImageService;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,25 +18,13 @@ class ImageController extends Controller
 
     public function storeUserImage(Request $request)
     {
-        $result = $this->imageService
-        ->storeImage($request->image, Auth::user()->id, null, 'user/images');
-
+        $result = $this->imageService->storeImage($request, Auth::user()->id, null);
         return $result;
     }
-
 
     public function storeExerciseImage(Request $request)
     {
-        $result = [];
-
-        if ($request->hasFile('image')) {
-            $image = $request->image;
-            $result = $this->imageService
-            ->storeImage($image, null, $request->exerciseId, 'exercise/images');
-        }
-
+        $result = $this->imageService->storeImage($request, null, $request->exerciseId);
         return $result;
     }
 }
-
-

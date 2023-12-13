@@ -14,4 +14,10 @@ class Exercise extends Model
     return $this->hasMany(Programme::class,'exerciseId');
 
 }
+
+public function image()
+{
+    return $this->hasMany(Image::class,'exerciseId');
+
+}
 }

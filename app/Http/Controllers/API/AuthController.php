@@ -47,15 +47,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
         ]);
-        if($request->has('iscoach'))
-        {
-            $userType='coach';
-        }
-            else
-            {
-                $userType='player';
 
-            }
 
 
 
@@ -64,7 +56,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'birthDate'=>$request->birthDate,
             'phoneNumber'=>$request->phoneNumber,
-            'type'=>$userType
+            'type'=>$request->type
         ]);
 
         return response()->json([

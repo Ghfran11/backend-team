@@ -51,7 +51,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'birthDate'=>$request->birthDate,
             'phoneNumber'=>$request->phoneNumber,
-            'type'=>$request->type
+            'role'=>$request->role
         ]);
 
         return ResponseHelper::success([

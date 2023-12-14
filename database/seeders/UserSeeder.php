@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {  DB::table('users')->insert([
-        ['name' => 'Admin','birthDate'=>'2023-11-13','password'=>'$2y$12$v7GBqNWcAan3omc2hoRp9u4epVIc5p1yR2N7uJ0.2wmKfJiadQdYW','phoneNumber'=>'12345678','type'=>'admin'],
+        ['name' => 'Admin','birthDate'=>'2023-11-13','password'=>'$2y$12$v7GBqNWcAan3omc2hoRp9u4epVIc5p1yR2N7uJ0.2wmKfJiadQdYW','phoneNumber'=>'12345678','role'=>'admin'],
 
     ]);
 }

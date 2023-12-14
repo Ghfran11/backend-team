@@ -56,7 +56,7 @@ class TimeController extends Controller
 
 
 
-    return response($time, Response::HTTP_CREATED);
+    return ResponseHelper::success($time);
 }
 
     /**
@@ -65,8 +65,7 @@ class TimeController extends Controller
     public function show(Time $time)
     {
         $result=$time->get();
-        return response($result,Response::HTTP_OK);
-
+        return ResponseHelper::success($result);
     }
 
 
@@ -110,6 +109,7 @@ class TimeController extends Controller
 
             ]
             );
+            return ResponseHelper::success('updated successfuly');
     }
 
     /**
@@ -119,7 +119,7 @@ class TimeController extends Controller
     {
         if(Auth::user()->type='admin' || Auth::id()== $time->userId )
         $time->delete();
-        return response('time deleted successfully',Response::HTTP_OK);
+        return ResponseHelper::success('time deleted successfully');
 
     }
 

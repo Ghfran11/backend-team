@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use App\Services\ImageService;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -19,12 +20,10 @@ class ImageController extends Controller
     public function storeUserImage(Request $request)
     {
         $result = $this->imageService->storeImage($request, Auth::user()->id, null);
-        return $result;
-    }
+        return ResponseHelper::success($result);    }
 
     public function storeExerciseImage(Request $request)
     {
         $result = $this->imageService->storeImage($request, null, $request->exerciseId);
-        return $result;
-    }
+        return ResponseHelper::success($result);    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DaysController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TimeController;
@@ -22,6 +23,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('showCoach',[UserController::class,'showCoach']);
     Route::get('showPlayer',[UserController::class,'showPlayer']);
     Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
+
+    Route::get('showDays',[DaysController::class,'index']);
 
     Route::get('playerInfo',[UserController::class,'playerInfo']);
 

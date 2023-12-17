@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Time extends Model
 {
-<<<<<<< HEAD
-    protected $fillable = ['playerId','startTime','endTime','dayId','coachId'];
-=======
+
+
     protected $guarded=[];
 
->>>>>>> c7a182187fcf5d51d56d60cf8afdd4de3ea5a68e
+
     use HasFactory;
 
     public function days()
@@ -21,17 +20,11 @@ class Time extends Model
 
     }
 
-    public function player()
+    public function user()
     {
-<<<<<<< HEAD
-        return $this->belongsTo(User::class,'playerId');
+
+        return $this->belongsTo(User::class,'userId');
     }
-    public function coach()
-    {
-        return $this->belongsTo(User::class,'coachId');
-=======
-        return $this->belongsTo(User::class,'coachId','playerId');
->>>>>>> c7a182187fcf5d51d56d60cf8afdd4de3ea5a68e
-    }
+
 
 }

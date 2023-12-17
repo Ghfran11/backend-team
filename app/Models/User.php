@@ -87,16 +87,12 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function player()
+    public function time()
     {
-        return $this->hasMany(Time::class, 'playerId');
+        return $this->hasMany(Time::class, 'userId');
 
     }
-    public function coach()
-    {
-        return $this->hasMany(Time::class, 'coachId');
 
-    }
     public function image()
     {
         return $this->hasMany(Image::class,'userId');

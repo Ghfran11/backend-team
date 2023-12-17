@@ -27,21 +27,13 @@ class TimeController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoretimeRequest $request)
-<<<<<<< HEAD
+
     {
 
-        if(Auth::user()->type='admin')
-        {
-            $userId=$request->userId;
-
-        }
-        else{
-            $userId=Auth::id();
-        }
         $time=Time::query()->create(
             [
-                'userId'=>$userId,
-                'startTime'=>$request->atartTime,
+                'userId'=>Auth::id(),
+                'startTime'=>$request->startTime,
                 'endTime'=>$request->endTime,
                 'dayId'=>$request->dayId,
             ]
@@ -49,39 +41,39 @@ class TimeController extends Controller
 
         return ResponseHelper::success($time);
 
-=======
+
 {
-    if (Auth::user()->type == 'admin') {
-        $time = Time::query()->create([
-            'playerId' => null,
-            'coachId' => null,
-            'startTime' => $request->startTime,
-            'endTime' => $request->endTime,
-            'dayId' => $request->dayId,
-        ]);
-    } elseif (Auth::user()->type == 'coach') {
-        $time = Time::query()->create([
-            'playerId' => null,
-            'coachId' => Auth::user()->id,
-            'startTime' => $request->startTime,
-            'endTime' => $request->endTime,
-            'dayId' => $request->dayId,
-        ]);
-    } else {
-        $time = Time::query()->create([
-            'playerId' => Auth::user()->id,
-            'coachId' => null,
-            'startTime' => $request->startTime,
-            'endTime' => $request->endTime,
-            'dayId' => $request->dayId,
-        ]);
->>>>>>> c7a182187fcf5d51d56d60cf8afdd4de3ea5a68e
-    }
+    // if (Auth::user()->type == 'admin') {
+    //     $time = Time::query()->create([
+    //         'playerId' => null,
+    //         'coachId' => null,
+    //         'startTime' => $request->startTime,
+    //         'endTime' => $request->endTime,
+    //         'dayId' => $request->dayId,
+    //     ]);
+    // } elseif (Auth::user()->type == 'coach') {
+    //     $time = Time::query()->create([
+    //         'playerId' => null,
+    //         'coachId' => Auth::user()->id,
+    //         'startTime' => $request->startTime,
+    //         'endTime' => $request->endTime,
+    //         'dayId' => $request->dayId,
+    //     ]);
+    // } else {
+    //     $time = Time::query()->create([
+    //         'playerId' => Auth::user()->id,
+    //         'coachId' => null,
+    //         'startTime' => $request->startTime,
+    //         'endTime' => $request->endTime,
+    //         'dayId' => $request->dayId,
+    //     ]);
+    // }
 
 
 
-    return ResponseHelper::success($time);
+    // return ResponseHelper::success($time);
 }
+    }
 
     /**
      * Display the specified resource.
@@ -93,17 +85,18 @@ class TimeController extends Controller
     }
 
 
-    public function showCoachTime(Request $request)
+    public function showUserTime(User $user,Request $request)
     {
-        $result = User::query()
-            ->where('id', $request->id)
-            ->where('type', 'coach')
-            ->with('coach.days')
-            ->get();
+        // $result = User::query()
+        //     ->where('id', $request->id)
+        //     ->where('type', 'coach')
+        //     ->with('coach.days')
+        //     ->get();
 
-        $days = $result->pluck('coach');
 
-        return ResponseHelper::success($days);
+        $time=$user->time()->where('dayId',$request->dayId)->get();
+
+        return ResponseHelper::success($time);
     }
 
     public function showPlayerTime(Request $request)
@@ -133,11 +126,7 @@ class TimeController extends Controller
 
             ]
             );
-<<<<<<< HEAD
-            
-=======
-            return ResponseHelper::success('updated successfuly');
->>>>>>> c7a182187fcf5d51d56d60cf8afdd4de3ea5a68e
+
     }
 
     /**

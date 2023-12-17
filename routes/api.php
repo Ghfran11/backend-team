@@ -30,8 +30,8 @@ Route::middleware('auth:api')->group(function () {
 
     //time
     Route::post('storeTime',[TimeController::class,'store']);
-    Route::get('showCoachTime',[TimeController::class,'showCoachTime']);
-    Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
+    Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
+    //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
 
 
     Route::get('showCoach',[UserController::class,'showCoach']);

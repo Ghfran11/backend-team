@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('times', function (Blueprint $table) {
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
             $table->date('startTime');
             $table->date('endTime');
-            $table->foreignId('playerId')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
             $table->id();
             $table->timestamps();
         });

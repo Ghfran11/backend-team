@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('programmes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dayId')->constrained('day')->cascadeOnDelete();
-            $table->foreignId('coachId')->constrained('user')->cascadeOnDelete();
-            $table->foreignId('exerciseId')->constrained('user')->cascadeOnDelete();
+            $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
+            $table->foreignId('coachId')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('exerciseId')->constrained('users')->cascadeOnDelete();
 
 
             $table->timestamps();

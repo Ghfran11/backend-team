@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use App\Models\Time;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
@@ -43,7 +44,7 @@ class TimeController extends Controller
             ]
             );
 
-    return response($time,Response::HTTP_CREATED);
+        return ResponseHelper::success($time);
 
     }
 
@@ -71,6 +72,7 @@ class TimeController extends Controller
 
             ]
             );
+            
     }
 
     /**

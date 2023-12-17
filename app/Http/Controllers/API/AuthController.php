@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
 use App\Helpers\ResponseHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,10 +18,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'phoneNumber' => 'required|string',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->only('phoneNumber', 'password');
         $token = Auth::attempt($credentials);
 
         if (!$token) {
@@ -38,9 +37,14 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
+        ///edit her by ghfran (add validate)
         $request->validate([
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
+            'birthDate'=>'required',
+            'phoneNumber'=>'required|min:10|max:10||unique:users',
+            'role'=>'required'
+
         ]);
 
 
@@ -51,9 +55,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'birthDate'=>$request->birthDate,
             'phoneNumber'=>$request->phoneNumber,
-            'role'=>$request->role
-        ]);
+            'role'=>$request->role,
 
+        ]);
+      
         return ResponseHelper::success([
             'message' => 'User created successfully',
             'user' => $user

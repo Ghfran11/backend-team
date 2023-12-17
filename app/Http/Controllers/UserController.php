@@ -8,35 +8,42 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function showCoach( Request $request)
+    public function showCoach()
     {
         $result=User::query()
-        ->where('type','coach')->get();
+        ->where('role','coach')->get();
         return ResponseHelper::success($result);
 
     }
 
-    public function showCoachInfo( Request $request)
+    public function showCoachInfo( User $user)
     {
-        $result=User::query()->where('id',$request->id)
-        ->where('type','coach')->with('image')->get();
+        //الكود ما عطى نتيجة صح هون او ما اعطى اي نتيجة
+        // $result=User::query()->where('id',$request->id)
+        // ->where('role','coach')->with('image')->get();
+        $result['coach']=$user;
+        $result['images']=$user->image()->get();
         return ResponseHelper::success($result);
 
     }
 
-    public function showPlayer( Request $request)
+    public function showPlayer( )
     {
         $result=User::query()
-        ->where('type','player')->get();
+        ->where('role','player')->get();
         return ResponseHelper::success($result);
 
     }
 
-    public function playerInfo( Request $request)
+    public function playerInfo( User $user)
     {
-        $result=User::query()
-        ->where('id',$request->id)
-        ->where('type','player')->with('image')->get();
+        //كمان نفس قصة الكوتش عم يجيب مصفوفة الصور فاضية
+        // $result=User::query()
+        // ->where('id',$request->id)
+        // ->where('role','player')->with('image')->get();
+
+        $result['player']=$user;
+        $result['images']=$user->image()->get();
         return ResponseHelper::success($result);
 
     }

@@ -10,16 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class ImageController extends Controller
 {
+
     protected $imageService;
 
     public function __construct(ImageService $imageService)
     {
+
         $this->imageService = $imageService;
     }
 
     public function storeUserImage(Request $request)
     {
-        $result = $this->imageService->storeImage($request, Auth::user()->id, null);
+        $result = $this->imageService->storeImage($request, Auth::id(), null);
         return ResponseHelper::success($result);    }
 
     public function storeExerciseImage(Request $request)

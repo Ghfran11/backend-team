@@ -17,7 +17,8 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        //
+        $result= Exercise::query()->get();
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -34,7 +35,7 @@ class ExerciseController extends Controller
             );
 
 
-    return response($exercie,Response::HTTP_CREATED);
+            return ResponseHelper::success($exercie);
     }
 
     /**
@@ -42,11 +43,13 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-    //    $result['exercise']=$exercise->get();
-    //    $result['images']=$exercise->image()->get();
+       $result['exercise']=$exercise;
+       $result['images']=$exercise->image();
 
-        $result= Exercise::query()
-        ->with('image')->get();
+       //هاد الكود بيجيب كلشي اكسرسايز مو اللي نحنا بدنا ياه ةالميثود هي وظيفتا تفرجينا التفاصيل
+
+        // $result= Exercise::query()
+        // ->with('image')->get();
        return ResponseHelper::success($result);
     }
 

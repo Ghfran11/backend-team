@@ -23,7 +23,7 @@ class ResponseHelper
         }
         if ($service == null || $service == false) {
             if ($data instanceof ResourceCollection || $data instanceof Collection) {
-                $response['data'] =  response()->json(array('data' => $response['data']))->getData();
+                $response['data'] =  response()->json(array($response['data']))->getData();
             }
         }
         return response()->json($response, $status);

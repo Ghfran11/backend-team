@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'phoneNumber',
         'birthDate',
-        'type'
+        'role'
     ];
 
     /**
@@ -33,7 +33,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'remember_token','email_verified_at'
     ];
 
     /**
@@ -68,26 +68,40 @@ class User extends Authenticatable implements JWTSubject
 
     public function coachProgramme()
     {
-        return $this->hasMany(Programme::class,'coachId');
+        return $this->hasMany(Programme::class, 'coachId');
 
     }
     public function playerProgramme()
     {
-        return $this->hasMany(Programme::class,'playerId');
+        return $this->hasMany(Programme::class, 'playerId');
 
     }
     public function coachOrder()
     {
-        return $this->hasMany(Order::class,'coachId');
+        return $this->hasMany(Order::class, 'coachId');
 
     }
     public function playerOrser()
     {
-        return $this->hasMany(Order::class,'playerId');
+        return $this->hasMany(Order::class, 'playerId');
     }
-    public function time()
-{
-    return $this->hasMany(Time::class,'userId');
-}
+
+
+    public function player()
+    {
+        return $this->hasMany(Time::class, 'playerId');
+
+    }
+    public function coach()
+    {
+        return $this->hasMany(Time::class, 'coachId');
+
+    }
+    public function image()
+    {
+        return $this->hasMany(Image::class,'userId');
+
+    }
+
 }
 

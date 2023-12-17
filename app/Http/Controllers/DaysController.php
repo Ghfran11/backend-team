@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use App\Models\Day;
 use App\Http\Requests\StoredaysRequest;
 use App\Http\Requests\UpdatedaysRequest;
@@ -18,8 +19,7 @@ class DaysController extends Controller
     {
         $days=Day::query()->get();
 
-        return response($days,Response::HTTP_OK);
-
+        return ResponseHelper::success($days);
     }
 
     /**

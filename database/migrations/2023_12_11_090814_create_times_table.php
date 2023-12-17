@@ -12,9 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('times', function (Blueprint $table) {
+<<<<<<< HEAD
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             $table->date('startTime');
             $table->date('endTime');
+=======
+            $table->foreignId('playerId')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignId('coachId')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->dateTime('startTime');
+            $table->dateTime('endTime');
+>>>>>>> c7a182187fcf5d51d56d60cf8afdd4de3ea5a68e
             $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
             $table->id();
             $table->timestamps();

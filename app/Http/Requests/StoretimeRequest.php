@@ -28,7 +28,6 @@ class StoretimeRequest extends FormRequest
             'startTime'=>['required'],
             'endTime'=>['required'],
             'dayId'=>['required'],
-            'userId'=>['required']
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\ResponseHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,20 +26,14 @@ class AuthController extends Controller
         $token = Auth::attempt($credentials);
 
         if (!$token) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
+            return ResponseHelper::error('Faild login');
         }
 
         $user = Auth::user();
-        return response()->json([
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
-    }
+        $response = [
+            'data' => ['user'=>$user,'token'=>$token]
+        ];
+        return ResponseHelper::success($response);    }
 
     public function register(Request $request)
     {
@@ -47,15 +42,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
         ]);
-        if($request->has('iscoach'))
-        {
-            $userType='coach';
-        }
-            else
-            {
-                $userType='player';
 
-            }
 
 
 
@@ -64,10 +51,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'birthDate'=>$request->birthDate,
             'phoneNumber'=>$request->phoneNumber,
-            'type'=>$userType
+            'role'=>$request->role
         ]);
 
-        return response()->json([
+        return ResponseHelper::success([
             'message' => 'User created successfully',
             'user' => $user
         ]);
@@ -76,7 +63,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return response()->json([
+        return ResponseHelper::success([
             'message' => 'Successfully logged out',
         ]);
     }

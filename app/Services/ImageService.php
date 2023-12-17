@@ -1,26 +1,28 @@
 <?php
 
+
 namespace App\Services;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Image;
-use Auth;
 
 class ImageService
 {
-    public function storeImage($request, $userId = null, $exerciseId = null, $path = '')
+    public function storeImage($request, $userId = null, $exerciseId = null)
     {
-        $request->validate([
-            'image' => 'required|mimes:jpg,png',
-        ]);
+        $images = $request->file('image');
+        $result = [];
 
-        $image = upload($request->image, $path);
+        foreach ($images as $image) {
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/images'), $new_name);
 
-        $result = Image::query()
-        ->create([
-            'userId' => $userId,
-            'exerciseId' => $exerciseId,
-            'image' => $image
-        ]);
+            $result[] = Image::query()->create([
+                'userId' => $exerciseId ? null : ($userId ?? Auth::user()->id),
+                'exerciseId' => $exerciseId,
+                'image' => $new_name
+            ]);
+        }
 
         return $result;
     }

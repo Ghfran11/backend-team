@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('coachId')->constrained('users')->cascadeOnDelete();
             $table->foreignId('playerId')->constrained('users')->cascadeOnDelete();
+<<<<<<< HEAD
             $table->enum('status',['waiting','accepted','rejected']);
+=======
+>>>>>>> c7a182187fcf5d51d56d60cf8afdd4de3ea5a68e
             $table->timestamps();
         });
     }

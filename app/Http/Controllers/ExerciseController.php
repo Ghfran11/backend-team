@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\exercise;
+use App\Helpers\ResponseHelper;
+use App\Models\Exercise;
 use App\Http\Requests\StoreexerciseRequest;
 use App\Http\Requests\UpdateexerciseRequest;
 use Illuminate\Http\Response;
@@ -41,11 +42,12 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-       $result['exercise']=$exercise->get();
-       $result['images']=$exercise->image()->get();
+    //    $result['exercise']=$exercise->get();
+    //    $result['images']=$exercise->image()->get();
 
-
-       return response($result,Response::HTTP_OK);
+        $result= Exercise::query()
+        ->with('image')->get();
+       return ResponseHelper::success($result);
     }
 
     /**

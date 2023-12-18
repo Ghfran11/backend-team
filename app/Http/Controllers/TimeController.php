@@ -85,39 +85,36 @@ class TimeController extends Controller
     }
 
 
-    public function showUserTime(User $user,Request $request)
+    public function showUserTime(Request $request,User $user)
     {
         // $result = User::query()
         //     ->where('id', $request->id)
         //     ->where('type', 'coach')
         //     ->with('coach.days')
         //     ->get();
-
-
-        $time=$user->time()->where('dayId',$request->dayId)->get();
-
+        $time=$user->time()->where('dayId',$request->dayId)->get()->toArray();
         return ResponseHelper::success($time);
     }
 
-    public function showPlayerTime(Request $request)
-    {
-        $result = User::query()
-            ->where('id', $request->id)
-            ->where('type', 'player')
-            ->with('player.days')
-            ->get();
+    // public function showPlayerTime(Request $request)
+    // {
+    //     $result = User::query()
+    //         ->where('id', $request->id)
+    //         ->where('type', 'player')
+    //         ->with('player.days')
+    //         ->get();
 
-        $days = $result->pluck('player');
+    //     $days = $result->pluck('player');
 
-        return ResponseHelper::success($days);
-    }
+    //     return ResponseHelper::success($days);
+    // }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdatetimeRequest $request, Time $time)
     {
-        $time->update(
+        $result=$time->update(
             [
                 'userId'=>$request->userId,
                 'startTime'=>$request->atartTime,
@@ -126,6 +123,12 @@ class TimeController extends Controller
 
             ]
             );
+            return ResponseHelper::success(
+                [
+                    'message'=>'program updated successfuly',
+                    'data'=>$result,
+                ]
+             );
 
     }
 
@@ -136,7 +139,7 @@ class TimeController extends Controller
     {
         if(Auth::user()->type='admin' || Auth::id()== $time->userId )
         $time->delete();
-        return ResponseHelper::success('time deleted successfully');
+        return ResponseHelper::success(['message'=>'deleted successfuly']);
 
     }
 

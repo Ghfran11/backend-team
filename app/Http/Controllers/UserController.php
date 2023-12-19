@@ -77,9 +77,25 @@ class UserController extends Controller
         );
 
     }
-    public function rateCoach(User $user)
+    public function rateCoach(User $user,Request $request)
     {
-        
+
+       $reting= ($request->numberOfRate/5)*100;
+       $newrate=($user->rate+$reting)/2;
+       $user->update(
+        [
+            'rate'=>$newrate
+        ]
+        );
+        return ResponseHelper::success(
+            [
+
+                'message' => 'rate added successfully'
+            ]
+        );
+
+
+
 
     }
 }

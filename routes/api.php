@@ -34,7 +34,7 @@ Route::middleware('auth:api')->group(function () {
 //user
     Route::get('showCoach',[UserController::class,'showCoach']);
     Route::get('showPlayer',[UserController::class,'showPlayer']);
-    Route::get('showCoachInfo/{user}',[UserController::class,'showCoachInfo']);
+    Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
     Route::get('showDays',[DaysController::class,'index']);
     Route::get('playerInfo/{user}',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);

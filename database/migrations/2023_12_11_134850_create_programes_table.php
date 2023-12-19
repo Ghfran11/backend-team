@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
-            $table->foreignId('coachId')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('exerciseId')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('categoryId')->constrained('categories')->cascadeOnDelete();
+            $table->string('name');
+            $table->string('file');
+            $table->enum('type',['general','private']);
+
+
 
 
             $table->timestamps();

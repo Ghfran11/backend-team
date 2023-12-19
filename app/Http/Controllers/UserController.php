@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -11,7 +12,7 @@ class UserController extends Controller
     public function showCoach()
     {
         $result=User::query()
-        ->where('role','coach')->get();
+        ->where('role','coach')->get()->toArray();
         return ResponseHelper::success($result);
 
     }
@@ -30,7 +31,7 @@ class UserController extends Controller
     public function showPlayer( )
     {
         $result=User::query()
-        ->where('role','player')->get();
+        ->where('role','player')->get()->toArray();
         return ResponseHelper::success($result);
 
     }
@@ -46,6 +47,40 @@ class UserController extends Controller
         // $result['player']=$user;
         // $result['images']=$user->image()->get();
         return ResponseHelper::success($result);
+
+    }
+    public function updateUser(User $user, Request $request)
+    {
+        $user->update(
+            [
+                'name' => $request->name,
+                'birthDate'=>$request->birthDate,
+                'phoneNumber'=>$request->phoneNumber,
+                'role'=>$request->role,
+
+            ]
+
+            );
+            $result=$user->get();
+            return ResponseHelper::success($result);
+
+
+    }
+    public function deleteUser(User $user)
+    {
+        $result=$user->delete();
+
+        return ResponseHelper::success(
+            [
+
+                'message' => 'user deleted successfully'
+            ]
+        );
+
+    }
+    public function rateCoach(User $user)
+    {
+        
 
     }
 }

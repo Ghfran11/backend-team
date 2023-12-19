@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
+
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -22,7 +25,8 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('phoneNumber', 'password');
-        $token = Auth::attempt($credentials);
+        $token = Auth::attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp]);
+       // $token = Auth::attempt($credentials);
 
         if (!$token) {
             return ResponseHelper::error('Faild login');
@@ -58,7 +62,8 @@ class AuthController extends Controller
             'role'=>$request->role,
 
         ]);
-      
+
+
         return ResponseHelper::success([
             'message' => 'User created successfully',
             'user' => $user

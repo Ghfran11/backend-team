@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateprogramRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Carbon\carbon;
 
 class ProgramController extends Controller
 {
@@ -29,9 +30,9 @@ class ProgramController extends Controller
      */
     public function store(StoreprogramRequest $request)
     {
-        $user=User::find(Auth::id());
+
         $path = Files::saveFile($request);
-        $result=$user->coachprogrames()->create(
+        $result=Program::query()->create(
             [
                 'name'=>$request->name,
                 'file'=>$path,
@@ -103,22 +104,16 @@ class ProgramController extends Controller
     public function showMyPrograme()
     {
         $user=User::find(Auth::id());
-        if( $user->type = 'coach')
-        {
-        $result=$user->coachprogrames()->get()->toArray();
-        }
-        else if( $user->type = 'player')
-        {
             $result=$user->playerprogrames()->get()->toArray();
-        }
         return ResponseHelper::success($result);
 
     }
     public function assignProgram(Program $program,Request $request)
     {
-       $result=$program->players()->syncWithoutDetaching(['playerId'=>$request->userId]);
-       return ResponseHelper::success($result);
+        $attach=['user_id'=>Auth::id(),'player_id'=>$request->player_id, 'days'=>$request->days,'created_at'=>Carbon::now()];
+        $result=$program->coachs()->syncWithoutDetaching([$attach]);
 
+       return ResponseHelper::success($result);
     }
 
 }

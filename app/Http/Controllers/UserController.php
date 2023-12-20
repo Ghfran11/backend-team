@@ -77,9 +77,5 @@ class UserController extends Controller
         );
 
     }
-    public function rateCoach(User $user)
-    {
-
-
-    }
+  
 }

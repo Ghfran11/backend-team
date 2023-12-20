@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('birthDate');
             $table->string('password');
             $table->enum('role' , ['admin','player','coach']);
+            $table->integer('rate')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -40,6 +40,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('playerInfo',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('update/{user}',[UserController::class,'updateUser']);
+    Route::post('rate/{user}',[UserController::class,'rateCoach']);
 
 
     //program

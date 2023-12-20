@@ -44,7 +44,7 @@ class UserController extends Controller
         ->where('id', $request->id)
         ->where('role','player')
         ->with('image')->get();
-      
+
         return ResponseHelper::success($result);
 
     }

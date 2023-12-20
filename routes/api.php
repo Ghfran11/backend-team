@@ -3,6 +3,7 @@
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgramController;
@@ -36,7 +37,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('showPlayer',[UserController::class,'showPlayer']);
     Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
     Route::get('showDays',[DaysController::class,'index']);
-    Route::get('playerInfo/{user}',[UserController::class,'playerInfo']);
+    Route::get('playerInfo',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('update/{user}',[UserController::class,'updateUser']);
 
@@ -47,6 +48,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('store',[ProgramController::class,'store']);
     Route::post('updateprogram/{program}',[ProgramController::class,'update']);
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
+
+
+    //rate
+    Route::post('setRate',[RatingController::class,'setRate']);
+    Route::post('deleteRate',[RatingController::class,'deleteRate']);
+
 
 
 });

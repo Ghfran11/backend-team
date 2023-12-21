@@ -53,7 +53,7 @@ Route::middleware('auth:api')->group(function () {
 
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
-    Route::post('deleteRate',[RatingController::class,'deleteRate']);
+    Route::delete('deleteRate',[RatingController::class,'deleteRate']);
 
 
 

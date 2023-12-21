@@ -31,8 +31,8 @@ class AuthController extends Controller
         if (!$token) {
             return ResponseHelper::error('Faild login');
         }
-
         $user = Auth::user();
+        $user->image;
         $response = [
             'data' => ['user'=>$user,'token'=>$token]
         ];

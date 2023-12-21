@@ -26,7 +26,7 @@ class ImageService
             ]);
 
         }
-       
+
         return $result;
 
     }

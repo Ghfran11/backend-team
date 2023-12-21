@@ -12,7 +12,7 @@ class UserController extends Controller
     public function showCoach()
     {
         $result=User::query()
-        ->where('role','coach')->get()->toArray();
+        ->where('role','coach')->with('image')->get()->toArray();
         return ResponseHelper::success($result);
 
     }
@@ -23,7 +23,7 @@ class UserController extends Controller
         $result=User::query()
         ->where('id', $request->id)
         ->where('role','coach')
-        ->with('image')->get();
+        ->with('image')->get()->toArray();
 
         return ResponseHelper::success($result);
 
@@ -77,5 +77,5 @@ class UserController extends Controller
         );
 
     }
-  
+
 }

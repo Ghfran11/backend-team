@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgramController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\ReportController;
 use App\Models\Programe;
 
 Route::controller(AuthController::class)->group(function () {
@@ -48,6 +49,17 @@ Route::middleware('auth:api')->group(function () {
     Route::post('store',[ProgramController::class,'store']);
     Route::post('updateprogram/{program}',[ProgramController::class,'update']);
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
+
+
+
+
+    //report
+    Route::get('/indexreport',[ReportController::class ,'index']);
+    Route::post('/report',[ReportController::class ,'store']);
+    Route::delete('/deletereport/{report}',[ReportController::class ,'destroy']);
+    Route::get('/myreport',[ReportController::class ,'showMyReport']);
+
+
 
 
 });

@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DaysSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(ImageSeeder::class);
+
 
         // \App\Models\User::factory(10)->create();
 

@@ -41,38 +41,6 @@ class TimeController extends Controller
 
         return ResponseHelper::success($time);
 
-
-{
-    // if (Auth::user()->type == 'admin') {
-    //     $time = Time::query()->create([
-    //         'playerId' => null,
-    //         'coachId' => null,
-    //         'startTime' => $request->startTime,
-    //         'endTime' => $request->endTime,
-    //         'dayId' => $request->dayId,
-    //     ]);
-    // } elseif (Auth::user()->type == 'coach') {
-    //     $time = Time::query()->create([
-    //         'playerId' => null,
-    //         'coachId' => Auth::user()->id,
-    //         'startTime' => $request->startTime,
-    //         'endTime' => $request->endTime,
-    //         'dayId' => $request->dayId,
-    //     ]);
-    // } else {
-    //     $time = Time::query()->create([
-    //         'playerId' => Auth::user()->id,
-    //         'coachId' => null,
-    //         'startTime' => $request->startTime,
-    //         'endTime' => $request->endTime,
-    //         'dayId' => $request->dayId,
-    //     ]);
-    // }
-
-
-
-    // return ResponseHelper::success($time);
-}
     }
 
     /**
@@ -87,27 +55,15 @@ class TimeController extends Controller
 
     public function showUserTime(Request $request,User $user)
     {
-        // $result = User::query()
-        //     ->where('id', $request->id)
-        //     ->where('type', 'coach')
-        //     ->with('coach.days')
-        //     ->get();
-        $time=$user->time()->where('dayId',$request->dayId)->get()->toArray();
+
+        $time=$user->time()
+        ->with('days')
+        ->get()
+        ->toArray();
         return ResponseHelper::success($time);
     }
 
-    // public function showPlayerTime(Request $request)
-    // {
-    //     $result = User::query()
-    //         ->where('id', $request->id)
-    //         ->where('type', 'player')
-    //         ->with('player.days')
-    //         ->get();
-
-    //     $days = $result->pluck('player');
-
-    //     return ResponseHelper::success($days);
-    // }
+    
 
     /**
      * Update the specified resource in storage.

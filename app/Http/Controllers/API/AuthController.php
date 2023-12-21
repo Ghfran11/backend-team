@@ -30,13 +30,16 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('phoneNumber', 'password');
+
         $token = Auth::attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp]);
         // $token = Auth::attempt($credentials);
 
         if (!$token) {
-            return ResponseHelper::error('Faild login');
+        
+            return ResponseHelper::error('phonenumber or password are not correct', null, 'error', 401);
         }
         $user = Auth::user();
+        $user->image;
         $response = [
             'data' => ['user' => $user, 'token' => $token]
         ];

@@ -11,44 +11,74 @@ class UserController extends Controller
 {
     public function showCoach()
     {
-        $result=User::query()
-        ->where('role','coach')->get()->toArray();
-        return ResponseHelper::success($result);
+        try {
+            $result = User::query()
+                ->where('role', 'coach')
+                ->with('image')
+                ->get()
+                ->toArray();
 
+            if (empty($result)) {
+                return ResponseHelper::error([], null, 'No coaches found', 404);
+            }
+
+            return ResponseHelper::success($result, null, 'Show Coaches', 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::error([], null, $e->getMessage(), 500);
+        }
     }
 
     public function showCoachInfo(Request $request)
     {
-        //الكود ما عطى نتيجة صح هون او ما اعطى اي نتيجة
-        $result=User::query()->where('id',$request->id)
-        ->where('role','coach')->with('image')->get();
-        // $result['coach']=$user;
-        // $result['images']=$user->image()->get();
-        return ResponseHelper::success($result);
-
+        try {
+            $result = User::query()
+                ->where('id', $request->id)
+                ->where('role', 'coach')
+                ->with('image')
+                ->get()
+                ->toArray();
+            if (empty($result)) {
+                return ResponseHelper::error([], null, 'Coach not found', 404);
+            }
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error([], null, $e->getMessage(), 500);
+        }
     }
 
-    public function showPlayer( )
+    public function showPlayer()
     {
-        $result=User::query()
-        ->where('role','player')->get()->toArray();
-        return ResponseHelper::success($result);
-
+        try {
+            $result = User::query()
+                ->where('role', 'player')
+                ->with('image')
+                ->get()
+                ->toArray();
+            if (empty($result)) {
+                return ResponseHelper::error([], null, 'No players found', 404);
+            }
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error([], null, $e->getMessage(), 500);
+        }
     }
 
-    public function playerInfo(Request $request )
-    {
-        //كمان نفس قصة الكوتش عم يجيب مصفوفة الصور فاضية
-        $result=User::query()
-        ->where('id',$request->id)
-        ->where('role','player')
-        ->with('image')->get();
-
-        // $result['player']=$user;
-        // $result['images']=$user->image()->get();
+    public function playerInfo(Request $request)
+{
+    try {
+        $result = User::query()
+            ->where('id', $request->id)
+            ->where('role', 'player')
+            ->with('image')
+            ->get();
+        if ($result->isEmpty()) {
+            return ResponseHelper::error([], null, 'User not found', 404);
+        }
         return ResponseHelper::success($result);
-
+    } catch (\Exception $e) {
+        return ResponseHelper::error([], null, $e->getMessage(), 500);
     }
+}
     public function updateUser(User $user, Request $request)
     {
         $user->update(
@@ -63,40 +93,19 @@ class UserController extends Controller
             );
             $result=$user->get();
             return ResponseHelper::success($result);
-
-
     }
     public function deleteUser(User $user)
     {
-        $result=$user->delete();
+        try {
+            $result = $user->delete();
 
-        return ResponseHelper::success(
-            [
-
-                'message' => 'user deleted successfully'
-            ]
-        );
-
-    }
-    public function rateCoach(User $user,Request $request)
-    {
-
-       $reting= ($request->numberOfRate/5)*100;
-       $newrate=($user->rate+$reting)/2;
-       $user->update(
-        [
-            'rate'=>$newrate
-        ]
-        );
-        return ResponseHelper::success(
-            [
-
-                'message' => 'rate added successfully'
-            ]
-        );
-
-
-
-
+            if ($result) {
+                return ResponseHelper::success(['message' => 'User deleted successfully']);
+            } else {
+                return ResponseHelper::error([], null, 'Failed to delete user', 500);
+            }
+        } catch (\Exception $e) {
+            return ResponseHelper::error([], null, $e->getMessage(), 500);
+        }
     }
 }

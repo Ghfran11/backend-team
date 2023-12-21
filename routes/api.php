@@ -4,6 +4,7 @@ use App\Http\Controllers\DaysController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgramController;
@@ -11,6 +12,9 @@ use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReportController;
+use App\Models\Programe;
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -38,7 +42,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('showPlayer',[UserController::class,'showPlayer']);
     Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
     Route::get('showDays',[DaysController::class,'index']);
-    Route::get('playerInfo/{user}',[UserController::class,'playerInfo']);
+    Route::get('playerInfo',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('update/{user}',[UserController::class,'updateUser']);
     Route::post('rate/{user}',[UserController::class,'rateCoach']);
@@ -61,5 +65,20 @@ Route::middleware('auth:api')->group(function () {
 
     //notification
     Route::get('listNotification',[NotificationController::class,'index']);
+
+
+
+    //report
+    Route::get('/indexreport',[ReportController::class ,'index']);
+    Route::post('/report',[ReportController::class ,'store']);
+    Route::delete('/deletereport/{report}',[ReportController::class ,'destroy']);
+    Route::get('/myreport',[ReportController::class ,'showMyReport']);
+
+
+    //rate
+    Route::post('setRate',[RatingController::class,'setRate']);
+
+    Route::delete('deleteRate',[RatingController::class,'deleteRate']);
+
 
 });

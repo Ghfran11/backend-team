@@ -49,7 +49,8 @@ class ResponseHelper
         $response = [
             'success' => false,
             'message' => $message,
-            'data' => $data
+            'data' => $data,
+            'status'=>$status
         ];
 
         if ($service == 1) {

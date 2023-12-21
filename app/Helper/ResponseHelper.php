@@ -14,7 +14,7 @@ class ResponseHelper
         $response = array(
             'success' => true,
             'message' => $message,
-            'data' => $data
+            'data' => $data,
         );
 
         if ($service == 1) {

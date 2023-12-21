@@ -12,8 +12,10 @@ class UserController extends Controller
     public function showCoach()
     {
         $result=User::query()
-        ->where('role','coach')->with('image')->get()->toArray();
-        return ResponseHelper::success($result);
+        ->where('role','coach')
+        ->with('image')
+        ->get()->toArray();
+        return ResponseHelper::success($result,null,'Show Coaches',200);
 
     }
 

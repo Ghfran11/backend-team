@@ -20,6 +20,9 @@ class UserSeeder extends Seeder
         ['name' => 'coach4','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622244','role'=>'coach'],
         ['name' => 'coach5','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622245','role'=>'coach'],
 
+        ['name' => 'player1','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622246','role'=>'player'],
+        ['name' => 'player2','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622247','role'=>'player'],
+        ['name' => 'player3','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622248','role'=>'player'],
     ]);
 
 }

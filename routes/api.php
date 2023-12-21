@@ -52,7 +52,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
 
 
-<<<<<<< HEAD
 
 
     //report
@@ -62,12 +61,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/myreport',[ReportController::class ,'showMyReport']);
 
 
-=======
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
 
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
->>>>>>> 2bbacbe60a88ac70ecf31b96b95545fc68f0439d
 
 
 });

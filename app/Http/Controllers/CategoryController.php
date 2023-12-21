@@ -15,9 +15,9 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-       $result=Category::query()->where('type',$request->type)->get('name');
+        $result = Category::query()->where('type', $request->type)->get('name');
 
-       return ResponseHelper::success($result);
+        return ResponseHelper::success($result);
     }
 
     /**

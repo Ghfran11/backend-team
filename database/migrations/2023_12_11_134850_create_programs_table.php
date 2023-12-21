@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->text('content')->default('empty');
-            $table->foreignId('chat_id')->constrained('chats')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('categoryId')->constrained('categories')->cascadeOnDelete();
+            $table->string('name');
+            $table->string('file');
+            $table->enum('type', ['general', 'private']);
             $table->timestamps();
         });
-
     }
 
     /**
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('programms');
     }
 };

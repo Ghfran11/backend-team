@@ -1,14 +1,16 @@
 <?php
 
 use App\Http\Controllers\DaysController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
-use App\Models\Programe;
+use App\Http\Controllers\ChatController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -49,5 +51,15 @@ Route::middleware('auth:api')->group(function () {
     Route::post('updateprogram/{program}',[ProgramController::class,'update']);
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
 
+    //chat
+    Route::get('listChat',[ChatController::class,'index']);
+    Route::get('showChat/{chat}',[ChatController::class,'show']);
+
+    //message
+    Route::post('sendMessage',[MessageController::class,'store']);
+    Route::delete('delete/{message}',[MessageController::class,'destroy']);
+
+    //notification
+    Route::get('listNotification',[NotificationController::class,'index']);
 
 });

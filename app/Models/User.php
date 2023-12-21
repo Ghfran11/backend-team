@@ -8,6 +8,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -34,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-        'remember_token','email_verified_at'
+        'remember_token', 'email_verified_at'
     ];
 
     /**
@@ -67,16 +69,15 @@ class User extends Authenticatable implements JWTSubject
     }
     public function coachprogrames()
     {
-        return $this->belongsToMany(Program::class,'programe_users','user_id');
+        return $this->belongsToMany(Program::class, 'programe_users', 'user_id');
     }
     public function playerprogrames()
     {
-        return $this->belongsToMany(Program::class,'programe_users','player_id');
+        return $this->belongsToMany(Program::class, 'programe_users', 'player_id');
     }
     public function coachOrder()
     {
         return $this->hasMany(Order::class, 'coachId');
-
     }
     public function playerOrser()
     {
@@ -87,14 +88,25 @@ class User extends Authenticatable implements JWTSubject
     public function time()
     {
         return $this->hasMany(Time::class, 'userId');
-
     }
 
     public function image()
     {
-        return $this->hasMany(Image::class,'userId');
-
+        return $this->hasMany(Image::class, 'userId');
     }
 
-}
+    // public function messages(): HasMany
+    // {
+    //     return $this->hasMany(Message::class);
+    // }
 
+    public function chats(): HasMany
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+}

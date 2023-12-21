@@ -12,18 +12,21 @@ class UserController extends Controller
     public function showCoach()
     {
         $result=User::query()
-        ->where('role','coach')->get()->toArray();
-        return ResponseHelper::success($result);
+        ->where('role','coach')
+        ->with('image')
+        ->get()->toArray();
+        return ResponseHelper::success($result,null,'Show Coaches',200);
 
     }
 
     public function showCoachInfo(Request $request)
     {
         //الكود ما عطى نتيجة صح هون او ما اعطى اي نتيجة
-        $result=User::query()->where('id',$request->id)
-        ->where('role','coach')->with('image')->get();
-        // $result['coach']=$user;
-        // $result['images']=$user->image()->get();
+        $result=User::query()
+        ->where('id', $request->id)
+        ->where('role','coach')
+        ->with('image')->get()->toArray();
+
         return ResponseHelper::success($result);
 
     }
@@ -36,16 +39,14 @@ class UserController extends Controller
 
     }
 
-    public function playerInfo(Request $request )
+    public function playerInfo(Request $request)
     {
-        //كمان نفس قصة الكوتش عم يجيب مصفوفة الصور فاضية
+
         $result=User::query()
-        ->where('id',$request->id)
+        ->where('id', $request->id)
         ->where('role','player')
         ->with('image')->get();
 
-        // $result['player']=$user;
-        // $result['images']=$user->image()->get();
         return ResponseHelper::success($result);
 
     }
@@ -78,9 +79,8 @@ class UserController extends Controller
         );
 
     }
-    public function rateCoach(User $user,Request $request)
-    {
 
+<<<<<<< HEAD
        $reting= ($request->numberOfRate/5)*100;
        $newrate=($user->rate+$reting)/2;
        $user->update(
@@ -96,4 +96,6 @@ class UserController extends Controller
         );
 
     }
+=======
+>>>>>>> 2bbacbe60a88ac70ecf31b96b95545fc68f0439d
 }

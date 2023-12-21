@@ -36,6 +36,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token','email_verified_at'
     ];
+    protected $appends=['rate'];
 
     /**
      * The attributes that should be cast.
@@ -98,6 +99,34 @@ class User extends Authenticatable implements JWTSubject
     public function report()
     {
         return $this->hasMany(Report::class,'userId');
+    }
+
+    public function rate()
+    {
+        return $this->hasMany(Rating::class,'coachId');
+
+    }
+
+
+    public function getRateAttribute()
+    {
+        $coachId = $this->id;
+
+        $totalRating = Rating::query()
+            ->where('coachId', $coachId)
+            ->sum('rate');
+
+        $userCount = Rating::query()
+            ->where('coachId', $coachId)
+            ->count('playerId');
+
+        if ($userCount === 0) {
+            return 0;
+        }
+
+        $averageRating = $totalRating / $userCount;
+
+        return intval($averageRating);
     }
 
 }

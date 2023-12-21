@@ -1,0 +1,27 @@
+<?php
+
+namespace Database\Seeders;
+use Illuminate\Support\Facades\DB;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class ImageSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    { DB::table('images')->insert([
+
+        ['userId' => '2','exerciseId'=>null,'image'=>'694402835.jpg'],
+        ['userId' => '3','exerciseId'=>null,'image'=>'694402835.jpg'],
+        ['userId' => '4','exerciseId'=>null,'image'=>'694402835.jpg'],
+        ['userId' => '5','exerciseId'=>null,'image'=>'694402835.jpg'],
+        ['userId' => '3','exerciseId'=>null,'image'=>'694402835.jpg'],
+
+
+    ]);
+
+    }
+}

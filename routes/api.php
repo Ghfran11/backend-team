@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubscriptionController;
 use App\Models\Programe;
 
 
@@ -94,8 +95,10 @@ Route::middleware('auth:api')->group(function () {
 
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
-
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
+
+    //subscribe
+    Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
 
 });

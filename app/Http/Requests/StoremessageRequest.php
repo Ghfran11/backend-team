@@ -27,4 +27,4 @@ class StoremessageRequest extends FormRequest
             'content' => ['required', 'string', 'max:255']
         ];
     }
-}
+} 

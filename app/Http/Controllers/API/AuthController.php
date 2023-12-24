@@ -35,7 +35,7 @@ class AuthController extends Controller
         // $token = Auth::attempt($credentials);
 
         if (!$token) {
-        
+
             return ResponseHelper::error('phonenumber or password are not correct', null, 'error', 401);
         }
         $user = Auth::user();

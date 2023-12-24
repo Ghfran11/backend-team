@@ -56,12 +56,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
 
     //chat
-    Route::get('listChat',[ChatController::class,'index']);
-    Route::get('showChat/{chat}',[ChatController::class,'show']);
+    Route::get('listChat',[MessageController::class,'index']);
+    Route::get('showChat',[MessageController::class,'show']);
 
     //message
     Route::post('sendMessage',[MessageController::class,'store']);
-    Route::delete('delete/{message}',[MessageController::class,'destroy']);
+    Route::delete('deleteMessage/{message}',[MessageController::class,'destroy']);
 
     //notification
     Route::get('listNotification',[NotificationController::class,'index']);
@@ -77,7 +77,6 @@ Route::middleware('auth:api')->group(function () {
 
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
-
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
 
 

@@ -43,9 +43,9 @@ class MessagesNotification implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'sender' => $this->sender_name,
-            'message' => $this->message->content,
-            'timestammp' => $this->message->created_at,
+            'sender:' => $this->sender_name,
+            'message:' => $this->message->content,
+            'timestammp:' => $this->message->created_at,
         ];
     }
 }

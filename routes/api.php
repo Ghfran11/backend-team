@@ -13,17 +13,35 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubscriptionController;
 use App\Models\Programe;
 
 
 Route::controller(AuthController::class)->group(function () {
+
+    Route::middleware('AdminMiddleware')->group(function () {
+        Route::post('register', 'register');
+    });
+
     Route::post('login', 'login');
-    Route::post('register','register');
-    Route::post('logout','logout');
+    Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
+
 });
 
 Route::middleware('auth:api')->group(function () {
+
+
+
+
+
+
+
+
+
+
+
+
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
 
 
@@ -78,6 +96,9 @@ Route::middleware('auth:api')->group(function () {
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
+
+    //subscribe
+    Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
 
 });

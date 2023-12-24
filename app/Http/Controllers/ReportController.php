@@ -16,7 +16,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $report=Report::query()->with('user.image')->get()->toArray();
+        $report=Report::query()
+        ->with('user.image')
+        ->get()->toArray();
 
         return ResponseHelper::success($report);
 

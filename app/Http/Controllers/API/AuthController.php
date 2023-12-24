@@ -20,7 +20,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     public function login(Request $request)
@@ -35,7 +35,7 @@ class AuthController extends Controller
         // $token = Auth::attempt($credentials);
 
         if (!$token) {
-        
+
             return ResponseHelper::error('phonenumber or password are not correct', null, 'error', 401);
         }
         $user = Auth::user();

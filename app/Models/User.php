@@ -149,10 +149,7 @@ class User extends Authenticatable implements JWTSubject
         return 'unpaid';
     }
 }
-    public function chats(): HasMany
-    {
-        return $this->hasMany(Chat::class);
-    }
+ 
 
     public function notifications(): HasMany
     {

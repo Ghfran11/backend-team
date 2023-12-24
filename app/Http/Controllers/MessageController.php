@@ -20,7 +20,7 @@ class MessageController extends Controller
     {
         $list_chats = ModelsMessage::where('sender_id', Auth::id())
             ->orWhere('receiver_id', Auth::id())
-            ->latest()->first();
+            ->first();
         //->get();
         return response($list_chats, Response::HTTP_OK);
     }
@@ -52,7 +52,6 @@ class MessageController extends Controller
             ->orWhere('receiver_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
-        //dd($chat->created_at`->format('Y-m-d H:i:s')`);
         return response($chat, Response::HTTP_OK);
     }
 
@@ -80,3 +79,11 @@ class MessageController extends Controller
         }
     }
 }
+// public function show(User $user)
+//     {
+//         $userInfo=$user->userInfo()->get()->toArray();
+//         $weight=$user->userInfo()->value('weight');
+//         $height=$user->userInfo()->value('height');
+//         $BFP=$this->calculateBFP($weight,$height);
+
+//     }

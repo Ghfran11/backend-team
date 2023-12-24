@@ -17,14 +17,30 @@ use App\Models\Programe;
 
 
 Route::controller(AuthController::class)->group(function () {
+
+    Route::middleware('AdminMiddleware')->group(function () {
+        Route::post('register', 'register');
+    });
+
     Route::post('login', 'login');
-    Route::post('logout','logout');
+    Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-    Route::post('register','register');
 
 });
 
 Route::middleware('auth:api')->group(function () {
+
+
+
+
+
+
+
+
+
+
+
+
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
 
 

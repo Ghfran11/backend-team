@@ -52,6 +52,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeExerciseImage',[ImageController::class,'storeExerciseImage']);
     //time
     Route::post('storeTime',[TimeController::class,'store']);
+    Route::post('storeCoachTime',[TimeController::class,'storeCoachTime']);
+
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
 
@@ -99,6 +101,9 @@ Route::middleware('auth:api')->group(function () {
 
     //subscribe
     Route::post('subscribe',[SubscriptionController::class,'subscribe']);
+
+
+
 
 
 });

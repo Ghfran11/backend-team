@@ -7,6 +7,7 @@ use App\Models\Time;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -26,23 +27,30 @@ class TimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoretimeRequest $request)
-
+    public function storeUserTime(StoretimeRequest $request)
     {
+        $time = Time::query()->create([
+            'userId' => Auth::id(),
+            'startTime' => now(),
+            'status' => '0'
+        ]);
 
-        $time=Time::query()->create(
-            [
-                'userId'=>Auth::id(),
-                'startTime'=>$request->startTime,
-                'endTime'=>$request->endTime,
-                'dayId'=>$request->dayId,
-            ]
-            );
-
-        return ResponseHelper::success($time);
-
+        return ResponseHelper::success();
     }
 
+
+    public function storeCoachTime(StoretimeRequest $request)
+    {
+        $time = Time::query()
+        ->create([
+            'userId' => Auth::id(),
+            'startTime' => $request->startTime,
+            'isCoach' => '1',
+            'dayId'=>$request->dayId
+        ]);
+
+        return ResponseHelper::success();
+    }
     /**
      * Display the specified resource.
      */
@@ -53,17 +61,23 @@ class TimeController extends Controller
     }
 
 
-    public function showUserTime(Request $request,User $user)
+    public function showUserTime(User $user)
     {
-
-        $time=$user->time()
-        ->with('days')
+        $time = $user->time()
         ->get()
+        ->map(function ($item) {
+            $startTime = Carbon::parse($item['startTime'])
+            ->format('l');
+            $item['startTimeWithDate'] = $startTime;
+            return $item;
+        })
         ->toArray();
-        return ResponseHelper::success($time);
+
+    return ResponseHelper::success($time);
+
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.

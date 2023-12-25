@@ -25,9 +25,6 @@ class StoretimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'startTime'=>['required'],
-            'endTime'=>['required'],
-            'dayId'=>['required'],
         ];
     }
 }

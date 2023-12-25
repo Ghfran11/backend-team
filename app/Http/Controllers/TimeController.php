@@ -31,11 +31,12 @@ class TimeController extends Controller
     {
         $time = Time::query()->create([
             'userId' => Auth::id(),
-            'startTime' => now(),
-            'status' => '0'
+            'startTime' => now()->format('Y-m-d H:i:s'),
+            'isCoach' => '0',
+            'dayId'=>null
         ]);
 
-        return ResponseHelper::success();
+        return ResponseHelper::success($time,null,'success',200);
     }
 
 
@@ -44,26 +45,45 @@ class TimeController extends Controller
         $time = Time::query()
         ->create([
             'userId' => Auth::id(),
-            'startTime' => $request->startTime,
             'isCoach' => '1',
-            'dayId'=>$request->dayId
+            'dayId'=>$request->dayId,
+            'startTime'=>$request->startTime,
+            'endTime'=>$request->endTime
         ]);
 
-        return ResponseHelper::success();
+        return ResponseHelper::success($time,null,'success',200);
     }
+
+
+    public function endCounter(Request $request){
+        $result = Time::query()
+        ->where('userId', Auth::user()->id)
+        ->whereNotNull('startTime')
+        ->whereNull('endTime')
+        ->update(['endTime' => Carbon::now()
+        ->format('Y-m-d H:i:s')]);
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(Time $time)
-    {
-        $result=$time->get();
+    public function show()
+    {$user=User::find(Auth::id());
+        $result=$user->time()->get()
+        ->map(function ($item) {
+            $startTime = Carbon::parse($item['startTime'])
+            ->format('l');
+            $item['startTimeWithDate'] = $startTime;
+            return $item;
+        })
+        ->toArray();
         return ResponseHelper::success($result);
     }
 
 
     public function showUserTime(User $user)
     {
-        $time = $user->time()
+        $time = $user->time()->where('isCoach','0')
         ->get()
         ->map(function ($item) {
             $startTime = Carbon::parse($item['startTime'])

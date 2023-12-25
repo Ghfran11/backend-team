@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('times', function (Blueprint $table) {
             $table->id();
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
-            $table->dateTime('startTime');
-            $table->dateTime('endTime')->nullable();
+            $table->foreignId('dayId')->nullable()->constrained('days')->cascadeOnDelete();
+            $table->string('startTime')->nullable();
+            $table->string('endTime')->nullable();
             $table->boolean('isCoach');
             $table->timestamps();
         });

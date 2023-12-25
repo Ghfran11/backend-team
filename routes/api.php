@@ -36,12 +36,6 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-
-
-
-
-
-
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
 
 
@@ -53,6 +47,12 @@ Route::middleware('auth:api')->group(function () {
     //time
     Route::post('storeTime',[TimeController::class,'store']);
     Route::post('storeCoachTime',[TimeController::class,'storeCoachTime']);
+    Route::post('storeUserTime',[TimeController::class,'storeUserTime']);
+    Route::post('endCounter',[TimeController::class,'endCounter']);
+    Route::get('showMyTime',[TimeController::class,'show']);
+
+
+
 
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);

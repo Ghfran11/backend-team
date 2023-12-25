@@ -110,10 +110,13 @@ class ProgramController extends Controller
     }
     public function assignProgram(Program $program,Request $request)
     {
-        $attach=['user_id'=>Auth::id(),'player_id'=>$request->player_id, 'days'=>$request->days,'created_at'=>Carbon::now()];
-        $result=$program->coachs()->syncWithoutDetaching([$attach]);
+        $attach=['user_id'=>Auth::id(),'player_id'=>$request
+        ->player_id, 'days'=>$request->days,'created_at'=>Carbon::now()];
+        $result=$program
+        ->coachs()
+        ->syncWithoutDetaching([$attach]);
 
-       return ResponseHelper::success($result);
+       return ResponseHelper::success([],null,'success',200);
     }
 
 }

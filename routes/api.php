@@ -10,7 +10,9 @@ use App\Http\Controllers\ProgramController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserInfoController;
 use App\Models\Programe;
+use App\Models\UserInfo;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -21,8 +23,6 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
-
-
     //exercise
     Route::post('storeExercise',[ExerciseController::class,'store']);
     Route::get('showExercise/{exercise}',[ExerciseController::class,'show']);
@@ -32,7 +32,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeTime',[TimeController::class,'store']);
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
-
 //user
     Route::get('showCoach',[UserController::class,'showCoach']);
     Route::get('showPlayer',[UserController::class,'showPlayer']);
@@ -42,8 +41,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('update/{user}',[UserController::class,'updateUser']);
     Route::post('rate/{user}',[UserController::class,'rateCoach']);
-
-
     //program
     Route::get('index/{category}',[ProgramController::class,'index']);
     Route::get('myprogram',[ProgramController::class,'showMyPrograme']);
@@ -52,7 +49,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
 
 
-<<<<<<< HEAD
+
 
 
     //report
@@ -62,12 +59,18 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/myreport',[ReportController::class ,'showMyReport']);
 
 
-=======
+
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
 
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
->>>>>>> 2bbacbe60a88ac70ecf31b96b95545fc68f0439d
+
+
+    //userinfo
+    Route::post('addinfo',[UserInfoController::class,'store']);
+    Route::post('updateinfo',[UserInfoController::class,'update']);
+    Route::get('showinfo/{user}',[UserInfoController::class,'show']);
+
 
 
 });

@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function showCoachInfo(Request $request)
     {
-        //الكود ما عطى نتيجة صح هون او ما اعطى اي نتيجة
+    
         $result=User::query()
         ->where('id', $request->id)
         ->where('role','coach')
@@ -80,22 +80,7 @@ class UserController extends Controller
 
     }
 
-<<<<<<< HEAD
-       $reting= ($request->numberOfRate/5)*100;
-       $newrate=($user->rate+$reting)/2;
-       $user->update(
-        [
-            'rate'=>$newrate
-        ]
-        );
-        return ResponseHelper::success(
-            [
 
-                'message' => 'rate added successfully'
-            ]
-        );
 
-    }
-=======
->>>>>>> 2bbacbe60a88ac70ecf31b96b95545fc68f0439d
+
 }

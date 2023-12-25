@@ -128,6 +128,10 @@ class User extends Authenticatable implements JWTSubject
 
         return intval($averageRating);
     }
+    public function userInfo()
 
+    {
+        return $this->hasOne(UserInfo::class,'userId');
+    }
 }
 

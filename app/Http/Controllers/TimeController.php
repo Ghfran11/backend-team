@@ -27,15 +27,14 @@ class TimeController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoretimeRequest $request)
-
     {
-
         $time=Time::query()->create(
             [
                 'userId'=>Auth::id(),
                 'startTime'=>$request->startTime,
                 'endTime'=>$request->endTime,
                 'dayId'=>$request->dayId,
+                'status'=>$request->status
             ]
             );
 
@@ -56,14 +55,14 @@ class TimeController extends Controller
     public function showUserTime(Request $request,User $user)
     {
 
-        $time=$user->time()
+        $time=$user->time()->where('status',$request->status)
         ->with('days')
         ->get()
         ->toArray();
         return ResponseHelper::success($time);
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -76,6 +75,7 @@ class TimeController extends Controller
                 'startTime'=>$request->atartTime,
                 'endTime'=>$request->endTime,
                 'dayId'=>$request->dayId,
+                'status'=>$request->status
 
             ]
             );
@@ -97,6 +97,6 @@ class TimeController extends Controller
         $time->delete();
         return ResponseHelper::success(['message'=>'deleted successfuly']);
 
-    }
 
+    }
 }

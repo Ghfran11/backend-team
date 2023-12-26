@@ -108,13 +108,23 @@ class ProgramController extends Controller
         return ResponseHelper::success($result);
 
     }
-    public function assignProgram(Program $program,Request $request)
+    public function assignProgram(Program $program, Request $request)
     {
-        $attach=['user_id'=>Auth::id(),'player_id'=>$request
-        ->player_id, 'days'=>$request->days,'created_at'=>Carbon::now()];
-        $result=$program
-        ->coachs()
-        ->syncWithoutDetaching([$attach]);
+        $startDate = Carbon::parse($request->startDate)
+        ->addDays($request->days)
+        ->toDateString();
+        $attach = [
+            'user_id' => Auth::id(),
+            'player_id' => $request->player_id,
+            'startDate' => $startDate,
+            'days' => $request->days,
+            'created_at' => Carbon::now()
+        ];
+
+        $result = $program
+            ->coachs()
+            ->syncWithoutDetaching([$attach]);
+
 
        return ResponseHelper::success([],null,'success',200);
     }

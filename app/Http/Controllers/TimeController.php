@@ -68,15 +68,19 @@ class TimeController extends Controller
      * Display the specified resource.
      */
     public function show()
-    {$user=User::find(Auth::id());
-        $result=$user->time()->get()
-        ->map(function ($item) {
-            $startTime = Carbon::parse($item['startTime'])
-            ->format('l');
-            $item['startTimeWithDate'] = $startTime;
-            return $item;
-        })
-        ->toArray();
+    {
+        $user = User::find(Auth::id());
+        $program = $user->playerprogrames()->get()->pluck('pivot.startDate');
+
+        $result = $user->time()
+            ->get()
+            ->filter(function ($item) use ($program) {
+                $startTime = Carbon::parse($item['startTime']);
+                $startDate = Carbon::parse($program[0]);
+                return $startTime->lessThan($startDate);
+            })
+            ->count();
+
         return ResponseHelper::success($result);
     }
 
@@ -121,6 +125,8 @@ class TimeController extends Controller
              );
 
     }
+
+
 
     /**
      * Remove the specified resource from storage.

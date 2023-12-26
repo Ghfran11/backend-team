@@ -40,6 +40,12 @@ class RatingController extends Controller
     }
 
 
+    public function mvpCoach( ){
+        
+
+
+    }
+
 
 
 }

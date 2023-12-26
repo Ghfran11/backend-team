@@ -31,7 +31,8 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('phoneNumber', 'password');
 
-        $token = Auth::attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp]);
+        $token = Auth::attempt($credentials, [
+            'exp' => Carbon::now()->addDays(7)->timestamp]);
         // $token = Auth::attempt($credentials);
 
         if (!$token) {

@@ -60,9 +60,9 @@ Route::middleware('auth:api')->group(function () {
 //user
     Route::get('showCoach',[UserController::class,'showCoach']);
     Route::get('showPlayer',[UserController::class,'showPlayer']);
-    Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
+    Route::get('showCoachInfo/{id}',[UserController::class,'showCoachInfo']);
     Route::get('showDays',[DaysController::class,'index']);
-    Route::get('playerInfo',[UserController::class,'playerInfo']);
+    Route::get('playerInfo/{id}',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('update/{user}',[UserController::class,'updateUser']);
     Route::post('rate/{user}',[UserController::class,'rateCoach']);
@@ -99,10 +99,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('setRate',[RatingController::class,'setRate']);
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
 
+
+
     //subscribe
     Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
 
+    //charts
+    Route::get('showPercentage',[UserController::class,'showPercentage']);
 
 
 

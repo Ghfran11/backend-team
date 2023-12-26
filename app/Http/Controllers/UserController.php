@@ -34,12 +34,7 @@ class UserController extends Controller
     public function showCoachInfo($id)
     {
 
-        $result=User::query()
-        ->where('id', $request->id)
-        ->where('role','coach')
-        ->with('image')->get()->toArray();
-
-        return ResponseHelper::success($result);
+      
 
 
         try {
@@ -126,7 +121,6 @@ class UserController extends Controller
     }
 
 
-<<<<<<< HEAD
     public function financial()
     {
         $payments=User::query()->where('role','coach')->sum('finance');
@@ -192,9 +186,8 @@ class UserController extends Controller
 
 
 
-    }
 
-=======
+
 
     public function showPercentage(User $user, Request $request)
     {
@@ -251,4 +244,3 @@ class UserController extends Controller
     }
 
 }
->>>>>>> 9f4de87ea81fac892fa8094389c4baccadc8f168

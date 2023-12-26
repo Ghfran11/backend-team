@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
+use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -147,4 +148,31 @@ class UserController extends Controller
             'total_percentage' => round($totalPercentage, 2)
         ]);
     }
+
+
+    public function mvpCoach()
+    {
+        $currentMonth = Carbon::now()->startOfMonth();
+        $coaches = User::where('role', 'coach')->get();
+
+        $coachRatings = [];
+
+        foreach ($coaches as $coach) {
+            $rating = Rating::where('coachId', $coach->id)
+                ->whereMonth('created_at', $currentMonth->month)
+                ->sum('rate');
+
+            $coachRatings[] = [
+                'coach' => $coach,
+                'rating' => $rating,
+            ];
+        }
+
+        usort($coachRatings, function ($a, $b) {
+            return $b['rating'] - $a['rating'];
+        });
+
+        return $coachRatings;
+    }
+
 }

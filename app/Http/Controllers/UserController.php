@@ -19,7 +19,7 @@ class UserController extends Controller
                 ->toArray();
 
             if (empty($result)) {
-                return ResponseHelper::error([], null, 'No coaches found', 404);
+                return ResponseHelper::error([], null, 'No coaches found', 204);
             }
 
             return ResponseHelper::success($result, null, 'Show Coaches', 200);
@@ -55,7 +55,7 @@ class UserController extends Controller
                 ->get()
                 ->toArray();
             if (empty($result)) {
-                return ResponseHelper::error([], null, 'No players found', 404);
+                return ResponseHelper::error([], null, 'No players found', 204);
             }
             return ResponseHelper::success($result);
         } catch (\Exception $e) {

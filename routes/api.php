@@ -13,17 +13,24 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubscriptionController;
 use App\Models\Programe;
 
 
 Route::controller(AuthController::class)->group(function () {
+
+    Route::middleware('AdminMiddleware')->group(function () {
+        Route::post('register', 'register');
+    });
+
     Route::post('login', 'login');
-    Route::post('register','register');
-    Route::post('logout','logout');
+    Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
+
 });
 
 Route::middleware('auth:api')->group(function () {
+
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
 
 
@@ -32,11 +39,20 @@ Route::middleware('auth:api')->group(function () {
     Route::get('showExercise/{exercise}',[ExerciseController::class,'show']);
     Route::get('indexExercise',[ExerciseController::class,'index']);
     Route::post('storeExerciseImage',[ImageController::class,'storeExerciseImage']);
+
     //time
     Route::post('storeTime',[TimeController::class,'store']);
+    Route::post('storeCoachTime',[TimeController::class,'storeCoachTime']);
+    Route::post('storeUserTime',[TimeController::class,'storeUserTime']);
+    Route::post('endCounter',[TimeController::class,'endCounter']);
+    Route::get('showMyTime',[TimeController::class,'show']);
+    Route::get('countActivePlayers',[TimeController::class,'activePlayersCounter']);
+    Route::get('activePlayers',[TimeController::class,'activePlayers']);
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
-    Route::get('onlineplayers',[TimeController::class,'end_time_counter']);
+
+
+
 
     //Days
     Route::post('storeday',[DaysController::class,'store']);
@@ -61,12 +77,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
 
     //chat
-    Route::get('listChat',[ChatController::class,'index']);
-    Route::get('showChat/{chat}',[ChatController::class,'show']);
+    Route::get('listChat',[MessageController::class,'index']);
+    Route::get('showChat',[MessageController::class,'show']);
 
     //message
     Route::post('sendMessage',[MessageController::class,'store']);
-    Route::delete('delete/{message}',[MessageController::class,'destroy']);
+    Route::delete('deleteMessage/{message}',[MessageController::class,'destroy']);
 
     //notification
     Route::get('listNotification',[NotificationController::class,'index']);
@@ -82,8 +98,9 @@ Route::middleware('auth:api')->group(function () {
 
     //rate
     Route::post('setRate',[RatingController::class,'setRate']);
-
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
 
+    //subscribe
+    Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
 });

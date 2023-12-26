@@ -46,8 +46,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeUserTime',[TimeController::class,'storeUserTime']);
     Route::post('endCounter',[TimeController::class,'endCounter']);
     Route::get('showMyTime',[TimeController::class,'show']);
-    Route::get('countActivePlayers',[TimeController::class,'activePlayersCounter']);
-    Route::get('activePlayers',[TimeController::class,'activePlayers']);
+
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
 
@@ -97,7 +96,12 @@ Route::middleware('auth:api')->group(function () {
     //subscribe
   //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
+//charts
 
+Route::get('countActivePlayers',[TimeController::class,'activePlayersCounter']);
+Route::get('activePlayers',[TimeController::class,'activePlayers']);
+Route::get('mvpCoach',[UserController::class,'mvpCoach']);
+Route::get('showPercentage',[UserController::class,'showPercentage']);
 
 
 

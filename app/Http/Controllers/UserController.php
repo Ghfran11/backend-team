@@ -34,9 +34,6 @@ class UserController extends Controller
     public function showCoachInfo($id)
     {
 
-      
-
-
         try {
             $result = User::query()
                 ->where('id', $id)
@@ -45,7 +42,7 @@ class UserController extends Controller
                 ->get()
                 ->toArray();
             if (empty($result)) {
-                return ResponseHelper::error([], null, 'Coach not found', 404);
+                return ResponseHelper::error([], null, 'Coach not found', 202);
             }
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
@@ -78,9 +75,10 @@ class UserController extends Controller
             ->where('id', $id)
             ->where('role', 'player')
             ->with('image')
-            ->get();
-        if ($result->isEmpty()) {
-            return ResponseHelper::error([], null, 'User not found', 404);
+            ->get()
+            ->toArray();
+        if (empty($result)) {
+            return ResponseHelper::error([], null, 'User not found', 202);
         }
         return ResponseHelper::success($result);
     } catch (\Exception $e) {

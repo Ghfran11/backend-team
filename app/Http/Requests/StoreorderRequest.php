@@ -23,7 +23,7 @@ class StoreorderRequest extends FormRequest
     {
         return [
             'coachId'=>['required'],
-            'playerId'=>['required']
+            
         ];
     }
 }

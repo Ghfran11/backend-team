@@ -8,6 +8,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -24,7 +26,8 @@ class User extends Authenticatable implements JWTSubject
         'phoneNumber',
         'birthDate',
         'role',
-        'rate'
+        'rate',
+        'expiration'
     ];
 
     /**
@@ -34,9 +37,9 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-        'remember_token','email_verified_at'
+        'remember_token', 'email_verified_at'
     ];
-    protected $appends=['rate'];
+    protected $appends=['rate','is_paid'];
 
     /**
      * The attributes that should be cast.
@@ -68,18 +71,17 @@ class User extends Authenticatable implements JWTSubject
     }
     public function coachprogrames()
     {
-        return $this->belongsToMany(Program::class,'programe_users','user_id');
+        return $this->belongsToMany(Program::class, 'programe_users', 'user_id');
     }
     public function playerprogrames()
     {
-        return $this->belongsToMany(Program::class,'programe_users','player_id');
+        return $this->belongsToMany(Program::class, 'programe_users', 'player_id');
     }
     public function coachOrder()
     {
         return $this->hasMany(Order::class, 'coachId');
-
     }
-    public function playerOrser()
+    public function playerOrder()
     {
         return $this->hasMany(Order::class, 'playerId');
     }
@@ -88,13 +90,11 @@ class User extends Authenticatable implements JWTSubject
     public function time()
     {
         return $this->hasMany(Time::class, 'userId');
-
     }
 
     public function image()
     {
-        return $this->hasMany(Image::class,'userId');
-
+        return $this->hasMany(Image::class, 'userId');
     }
     public function report()
     {
@@ -133,5 +133,36 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(UserInfo::class,'userId');
     }
+
+    public function sendedmessages(): HasMany
+    {
+        return $this->hasMany(Message::class,'sennder_id');
+    }
+    public function receivedmessages(): HasMany
+    {
+        return $this->hasMany(Message::class,'receiver_id');
+    }
+
+    public function getIsPaidAttribute()
+    {
+        return $this->isPaid();
+    }
+
+
+    public function isPaid()
+{
+    $currentDate = now();
+    $expirationDate = $this->expiration;
+    if ($currentDate->lessThanOrEqualTo($expirationDate)) {
+        return 'paid';
+    } else {
+        return 'unpaid';
+    }
 }
 
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+}

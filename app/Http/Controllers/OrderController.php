@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\order;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreorderRequest;
 use App\Http\Requests\UpdateorderRequest;
 use Illuminate\Http\Response;
+use App\Helpers\ResponseHelper;
 
 class OrderController extends Controller
 {
@@ -14,8 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $Order=Order::query()->get();
-        return response($Order,Response::HTTP_OK);
+
+
     }
 
     /**
@@ -26,10 +29,13 @@ class OrderController extends Controller
         $Order=Order::query()->create(
             [
                 'coachId'=>$request->coachId,
-                'playerId'=>$request->playerId
+                'playerId'=>Auth::id(),
+
+
             ]
             );
-            return response($Order,Response::HTTP_CREATED);
+            return ResponseHelper::success($Order);
+
 
 
     }
@@ -39,8 +45,9 @@ class OrderController extends Controller
      */
     public function show(order $order)
     {
-        $result=$order->get();
-        return response($result,Response::HTTP_OK);
+        $result=$order->get()->toArray();
+        return ResponseHelper::success($result);
+
 
 
     }
@@ -55,9 +62,11 @@ class OrderController extends Controller
         $order=Order::query()->update(
             [
                 'coachId'=>$request->coachId,
-                'playerId'=>$request->coachId
+                'playerId'=>$request->coachId,
+
             ]
             );
+            return ResponseHelper::success($order);
 
        }
     }
@@ -71,9 +80,47 @@ class OrderController extends Controller
         {
             $order->delete();
         }
+
+        return ResponseHelper::success(['deleted succesfully']);
     }
     public function getMyOrder()
     {
-        
+
+
+        $user=User::find(Auth::id());
+
+        if( $user->role == 'coach')
+        {
+        $result=$user->coachOrder()->get()->toArray();
+        }
+        else if( $user->role == 'player')
+        {
+
+            $result=$user->playerOrder()->get()->toArray();
+
+        }
+
+        return ResponseHelper::success($result);
+
+
+    }
+    public function acceptOrder(Order $order)
+    {
+        if($order->status= 'waiting')
+        {
+       $result= $order->update(
+            [
+                'status'=>'accepted',
+            ]
+            );
+
+            $otherOrder=Order::query()->where('playerId',$order->playerId)->where('coachId','!=',Auth::id())->delete();;
+          
+
+
+        }
+        return ResponseHelper::success($result);
+
+
     }
 }

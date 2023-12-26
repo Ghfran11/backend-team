@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use function Laravel\Prompts\table;
+
 return new class extends Migration
 {
     /**
@@ -18,8 +20,10 @@ return new class extends Migration
             $table->string('phoneNumber')->unique();
             $table->date('birthDate');
             $table->string('password');
-            $table->enum('role' , ['admin','player','coach']);
+            $table->enum('role', ['admin', 'player', 'coach']);
             $table->integer('rate')->default(0);
+            $table->date('expiration')->default(now()->addMonth());
+            $table->double('finance');
             $table->rememberToken();
             $table->timestamps();
         });

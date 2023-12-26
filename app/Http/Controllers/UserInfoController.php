@@ -97,3 +97,4 @@ class UserInfoController extends Controller
         return round($BFP, 2); // round to 2 decimal places
      }
 }
+

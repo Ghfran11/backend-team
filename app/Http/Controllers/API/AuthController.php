@@ -63,7 +63,8 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'birthDate' => 'required',
             'phoneNumber' => 'required|min:10|max:10||unique:users',
-            'role' => 'required'
+            'role' => 'required',
+
         ]);
         $user = User::create([
             'name' => $request->name,
@@ -71,6 +72,7 @@ class AuthController extends Controller
             'birthDate' => $request->birthDate,
             'phoneNumber' => $request->phoneNumber,
             'role' => $request->role,
+            'finance'=>$request->finance
 
         ]);
 

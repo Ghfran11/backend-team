@@ -27,6 +27,19 @@ class TimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+<<<<<<< HEAD
+    public function store(StoretimeRequest $request)
+    {
+        $time=Time::query()->create(
+            [
+                'userId'=>Auth::id(),
+                'startTime'=>$request->startTime,
+                'endTime'=>$request->endTime,
+                'dayId'=>$request->dayId,
+                'status'=>$request->status
+            ]
+            );
+=======
     public function storeUserTime(StoretimeRequest $request)
     {
         $time = Time::query()->create([
@@ -38,6 +51,7 @@ class TimeController extends Controller
 
         return ResponseHelper::success($time,null,'success',200);
     }
+>>>>>>> 9f4de87ea81fac892fa8094389c4baccadc8f168
 
 
     public function storeCoachTime(StoretimeRequest $request)
@@ -90,7 +104,13 @@ class TimeController extends Controller
 
     public function showUserTime(User $user)
     {
+<<<<<<< HEAD
+
+        $time=$user->time()->where('status',$request->status)
+        ->with('days')
+=======
         $time = $user->time()->where('isCoach','0')
+>>>>>>> 9f4de87ea81fac892fa8094389c4baccadc8f168
         ->get()
         ->map(function ($item) {
             $startTime = Carbon::parse($item['startTime'])
@@ -117,6 +137,7 @@ class TimeController extends Controller
                 'startTime'=>$request->atartTime,
                 'endTime'=>$request->endTime,
                 'dayId'=>$request->dayId,
+                'status'=>$request->status
 
             ]
             );
@@ -140,6 +161,6 @@ class TimeController extends Controller
         $time->delete();
         return ResponseHelper::success(['message'=>'deleted successfuly']);
 
-    }
 
+    }
 }

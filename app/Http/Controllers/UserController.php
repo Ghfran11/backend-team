@@ -33,6 +33,15 @@ class UserController extends Controller
 
     public function showCoachInfo($id)
     {
+
+        $result=User::query()
+        ->where('id', $request->id)
+        ->where('role','coach')
+        ->with('image')->get()->toArray();
+
+        return ResponseHelper::success($result);
+
+
         try {
             $result = User::query()
                 ->where('id', $id)
@@ -47,6 +56,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error([], null, $e->getMessage(), 500);
         }
+
     }
 
     public function showPlayer()
@@ -90,12 +100,14 @@ class UserController extends Controller
                 'birthDate'=>$request->birthDate,
                 'phoneNumber'=>$request->phoneNumber,
                 'role'=>$request->role,
+                'finance'=>$request->finance
+
 
             ]
 
             );
-            $result=$user->get();
-            return ResponseHelper::success($result);
+
+            return ResponseHelper::success(['updated successfuly']);
     }
     public function deleteUser(User $user)
     {
@@ -110,9 +122,79 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error([], null, $e->getMessage(), 500);
         }
+
     }
 
 
+<<<<<<< HEAD
+    public function financial()
+    {
+        $payments=User::query()->where('role','coach')->sum('finance');
+        $Imports=User::query()->where('role','player')->sum('finance');
+        return ResponseHelper::success([
+            'payments'=>$payments,
+            'Imports'=>$Imports
+        ]);
+
+
+
+    }
+    public function Subscription()
+    {
+        $users=User::query()->where('role','player')->get()->toArray();
+        foreach($users as $user)
+        {
+        $userName=$user['name'];
+        $expiration = \Carbon\Carbon::parse($user['expiration']);
+         $now = \Carbon\Carbon::now();
+         $remainingTime = $now->diffInDays($expiration, false);
+         if($remainingTime < 0 )
+         {
+            $daysNotPaid=abs($remainingTime);
+         }
+         else{
+            $daysNotPaid=null;
+
+         }
+         $SubscriptionDate=$expiration->subMonth();
+         $Paid=$user['is_paid'];
+         $result=[
+         'userNaname'=>$userName,
+         'remainingTime'=> $remainingTime,
+         'paidStatus'=>$Paid,
+         'SubscriptionDate'=> $SubscriptionDate,
+         'daysNotPaid'=> $daysNotPaid,
+         ];
+         $results[] = $result;
+        }
+         return ResponseHelper::success($results);
+
+
+    }
+         public function updateSubscription(User $user, Request $request)
+         {
+            if($user->is_paid == 'unpaid')
+            {
+            $user->update(
+        [
+            'expiration'=>now()->addMonth(),
+            'finance'=>$request->subscriptionFee
+        ]);
+        return ResponseHelper::success('updated successfully');
+    }
+    else
+    {
+        return ResponseHelper::success('this user was paid');
+
+    }
+
+ }
+
+
+
+    }
+
+=======
 
     public function showPercentage(User $user, Request $request)
     {
@@ -169,3 +251,4 @@ class UserController extends Controller
     }
 
 }
+>>>>>>> 9f4de87ea81fac892fa8094389c4baccadc8f168

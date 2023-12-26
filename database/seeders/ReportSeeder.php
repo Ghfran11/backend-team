@@ -13,18 +13,18 @@ class ReportSeeder extends Seeder
      */
     public function run(): void
     { DB::table('reports')->insert([
-        ['userId' => '2','title'=>'aaaaaaaaa','text'=>'welcome project manager'],
-        ['userId' => '3','title'=>'sss','text'=>'welcome project manager'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
-        ['userId' => '4','title'=>'aaa','text'=>'welcome project manager'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
-        ['userId' => '4','title'=>'hhh','text'=>'welcome project manager'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
-        ['userId' => '2','title'=>'jjjj','text'=>'welcome project manager'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
-        ['userId' => '3','title'=>'iii','text'=>'welcome project manager'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
-        ['userId' => '2','title'=>'rrr','text'=>'welcome project manager'],
+        ['userId' => '2','title'=>'aaa','text'=>'welcome project manager','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
 
     ]); }

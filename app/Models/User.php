@@ -71,11 +71,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function coachprogrames()
     {
-        return $this->belongsToMany(Program::class, 'programe_users', 'user_id');
+        return $this->belongsToMany(Program::class, 'programe_users', 'user_id')->withPivot('days','startDate');
     }
     public function playerprogrames()
     {
-        return $this->belongsToMany(Program::class, 'programe_users', 'player_id');
+        return $this->belongsToMany(Program::class, 'programe_users', 'player_id')->withPivot('days','startDate');
     }
     public function coachOrder()
     {

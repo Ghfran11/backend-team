@@ -38,12 +38,6 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-
-
-
-
-
-
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
     //exercise
     Route::post('storeExercise',[ExerciseController::class,'store']);
@@ -52,14 +46,22 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeExerciseImage',[ImageController::class,'storeExerciseImage']);
     //time
     Route::post('storeTime',[TimeController::class,'store']);
+    Route::post('storeCoachTime',[TimeController::class,'storeCoachTime']);
+    Route::post('storeUserTime',[TimeController::class,'storeUserTime']);
+    Route::post('endCounter',[TimeController::class,'endCounter']);
+    Route::get('showMyTime',[TimeController::class,'show']);
+
+
+
+
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
 //user
     Route::get('showCoach',[UserController::class,'showCoach']);
     Route::get('showPlayer',[UserController::class,'showPlayer']);
-    Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
+    Route::get('showCoachInfo/{id}',[UserController::class,'showCoachInfo']);
     Route::get('showDays',[DaysController::class,'index']);
-    Route::get('playerInfo',[UserController::class,'playerInfo']);
+    Route::get('playerInfo/{id}',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('updateUser/{user}',[UserController::class,'updateUser']);
     Route::post('rate/{user}',[UserController::class,'rateCoach']);
@@ -95,6 +97,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('setRate',[RatingController::class,'setRate']);
     Route::delete('deleteRate',[RatingController::class,'deleteRate']);
 
+
+
     //subscribe
   //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
@@ -112,6 +116,11 @@ Route::middleware('auth:api')->group(function () {
   Route::get('subscriptions',[UserController::class,'Subscription']);
   Route::post('updateSubscription/{user}',[UserController::class,'updateSubscription']);
 
+
+
+
+    //charts
+    Route::get('showPercentage',[UserController::class,'showPercentage']);
 
 
 

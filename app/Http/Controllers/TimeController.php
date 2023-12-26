@@ -7,6 +7,7 @@ use App\Models\Time;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,7 @@ class TimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+<<<<<<< HEAD
     public function store(StoretimeRequest $request)
     {
         $time=Time::query()->create(
@@ -37,29 +39,89 @@ class TimeController extends Controller
                 'status'=>$request->status
             ]
             );
+=======
+    public function storeUserTime(StoretimeRequest $request)
+    {
+        $time = Time::query()->create([
+            'userId' => Auth::id(),
+            'startTime' => now()->format('Y-m-d H:i:s'),
+            'isCoach' => '0',
+            'dayId'=>null
+        ]);
 
-        return ResponseHelper::success($time);
+        return ResponseHelper::success($time,null,'success',200);
+    }
+>>>>>>> 9f4de87ea81fac892fa8094389c4baccadc8f168
 
+
+    public function storeCoachTime(StoretimeRequest $request)
+    {
+        $time = Time::query()
+        ->create([
+            'userId' => Auth::id(),
+            'isCoach' => '1',
+            'dayId'=>$request->dayId,
+            'startTime'=>$request->startTime,
+            'endTime'=>$request->endTime
+        ]);
+
+        return ResponseHelper::success($time,null,'success',200);
+    }
+
+
+    public function endCounter(Request $request){
+        $result = Time::query()
+        ->where('userId', Auth::user()->id)
+        ->whereNotNull('startTime')
+        ->whereNull('endTime')
+        ->update(['endTime' => Carbon::now()
+        ->format('Y-m-d H:i:s')]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Time $time)
+    public function show()
     {
-        $result=$time->get();
+        $user = User::find(Auth::id());
+        $program = $user
+        ->playerprogrames()
+        ->get()
+        ->pluck('pivot.startDate');
+
+        $result = $user->time()
+            ->get()
+            ->filter(function ($item) use ($program) {
+                $startTime = Carbon::parse($item['startTime']);
+                $startDate = Carbon::parse($program[0]);
+                return $startTime->lessThan($startDate);
+            })
+            ->count();
+
         return ResponseHelper::success($result);
     }
 
 
-    public function showUserTime(Request $request,User $user)
+    public function showUserTime(User $user)
     {
+<<<<<<< HEAD
 
         $time=$user->time()->where('status',$request->status)
         ->with('days')
+=======
+        $time = $user->time()->where('isCoach','0')
+>>>>>>> 9f4de87ea81fac892fa8094389c4baccadc8f168
         ->get()
+        ->map(function ($item) {
+            $startTime = Carbon::parse($item['startTime'])
+            ->format('l');
+            $item['startTimeWithDate'] = $startTime;
+            return $item;
+        })
         ->toArray();
-        return ResponseHelper::success($time);
+
+    return ResponseHelper::success($time);
+
     }
 
 
@@ -87,6 +149,8 @@ class TimeController extends Controller
              );
 
     }
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends Model
 {
     use HasFactory;
-    protected $fillable = ['caht_id', 'content'];
+    protected $fillable = ['chat_id', 'content'];
 
 
     public function chat(): BelongsTo

@@ -63,7 +63,7 @@ class TimeController extends Controller
         return ResponseHelper::success($time);
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -99,4 +99,10 @@ class TimeController extends Controller
 
     }
 
+    public function end_time_counter()
+    {
+        $endtimes = Time::where('endTime',null)->count();
+        return ResponseHelper::success([$endtimes]);
+    }
 }
+    

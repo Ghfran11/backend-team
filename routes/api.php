@@ -36,12 +36,17 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeTime',[TimeController::class,'store']);
     Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
+    Route::get('onlineplayers',[TimeController::class,'end_time_counter']);
 
-//user
+    //Days
+    Route::post('storeday',[DaysController::class,'store']);
+    Route::get('showDays',[DaysController::class,'index']);
+    Route::delete('deleteday/{day}',[DaysController::class,'destroy']);
+
+    //user
     Route::get('showCoach',[UserController::class,'showCoach']);
     Route::get('showPlayer',[UserController::class,'showPlayer']);
     Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
-    Route::get('showDays',[DaysController::class,'index']);
     Route::get('playerInfo',[UserController::class,'playerInfo']);
     Route::delete('delete/{user}',[UserController::class,'deleteUser']);
     Route::post('update/{user}',[UserController::class,'updateUser']);

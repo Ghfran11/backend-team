@@ -26,7 +26,6 @@ class StoretimeRequest extends FormRequest
     {
         return [
             'startTime'=>['required'],
-            'endTime'=>['required'],
             'dayId'=>['required'],
         ];
     }

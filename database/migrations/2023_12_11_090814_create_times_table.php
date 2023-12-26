@@ -18,10 +18,6 @@ return new class extends Migration
             $table->date('endTime');
             $table->enum('status',[0,1]);
             $table->id();
-            $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('dayId')->nullable()->constrained('days')->cascadeOnDelete();
-            $table->string('startTime')->nullable();
-            $table->string('endTime')->nullable();
             $table->boolean('isCoach');
             $table->timestamps();
         });

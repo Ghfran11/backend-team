@@ -7,6 +7,7 @@ use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -152,27 +153,19 @@ class UserController extends Controller
 
     public function mvpCoach()
     {
-        $currentMonth = Carbon::now()->startOfMonth();
-        $coaches = User::where('role', 'coach')->get();
+        $result = Rating::select('coachId')
+            ->selectRaw('SUM(rate) as totalRate')
+            ->groupBy('coachId')
+            ->orderByDesc('totalRate')
+            ->first();
 
-        $coachRatings = [];
-
-        foreach ($coaches as $coach) {
-            $rating = Rating::where('coachId', $coach->id)
-                ->whereMonth('created_at', $currentMonth->month)
-                ->sum('rate');
-
-            $coachRatings[] = [
-                'coach' => $coach,
-                'rating' => $rating,
-            ];
+        if ($result) {
+            $coachId = $result->coachId;
+            $coach = User::find($coachId);
+            return ResponseHelper::success($coach);
+        } else {
+            return ResponseHelper::success([], null, 'No coaches found', 202);
         }
-
-        usort($coachRatings, function ($a, $b) {
-            return $b['rating'] - $a['rating'];
-        });
-
-        return $coachRatings;
     }
 
 }

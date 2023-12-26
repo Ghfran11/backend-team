@@ -107,6 +107,7 @@ Route::middleware('auth:api')->group(function () {
 
     //charts
     Route::get('showPercentage',[UserController::class,'showPercentage']);
+    Route::get('mvpCoach',[UserController::class,'mvpCoach']);
 
 
 

@@ -17,7 +17,7 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        $result= Exercise::query()->get();
+        $result = Exercise::query()->get();
         return ResponseHelper::success($result);
     }
 
@@ -26,16 +26,15 @@ class ExerciseController extends Controller
      */
     public function store(StoreexerciseRequest $request)
     {
-
-        $exercie=Exercise::query()->create(
+        $exercie = Exercise::query()->create(
             [
-                'name'=>$request->name,
-                'description'=>$request->description
+                'name' => $request->name,
+                'description' => $request->description
             ]
-            );
+        );
 
 
-            return ResponseHelper::success($exercie);
+        return ResponseHelper::success($exercie);
     }
 
     /**
@@ -43,14 +42,14 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-       $result['exercise']=$exercise;
-       $result['images']=$exercise->image();
+        $result['exercise'] = $exercise;
+        $result['images'] = $exercise->image();
 
-       //هاد الكود بيجيب كلشي اكسرسايز مو اللي نحنا بدنا ياه ةالميثود هي وظيفتا تفرجينا التفاصيل
+        //هاد الكود بيجيب كلشي اكسرسايز مو اللي نحنا بدنا ياه ةالميثود هي وظيفتا تفرجينا التفاصيل
 
         // $result= Exercise::query()
         // ->with('image')->get();
-       return ResponseHelper::success($result);
+        return ResponseHelper::success($result);
     }
 
     /**

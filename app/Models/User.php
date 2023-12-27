@@ -38,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token', 'email_verified_at'
     ];
-    protected $appends=['rate','is_paid'];
+    protected $appends = ['rate', 'is_paid'];
 
     /**
      * The attributes that should be cast.
@@ -97,13 +97,12 @@ class User extends Authenticatable implements JWTSubject
     }
     public function report()
     {
-        return $this->hasMany(Report::class,'userId');
+        return $this->hasMany(Report::class, 'userId');
     }
 
     public function rate()
     {
-        return $this->hasMany(Rating::class,'coachId');
-
+        return $this->hasMany(Rating::class, 'coachId');
     }
 
 
@@ -140,18 +139,14 @@ class User extends Authenticatable implements JWTSubject
 
 
     public function isPaid()
-{
-    $currentDate = now();
-    $expirationDate = $this->expiration;
-    if ($currentDate->lessThanOrEqualTo($expirationDate)) {
-        return 'paid';
-    } else {
-        return 'unpaid';
-    }
-}
-    public function chats(): HasMany
     {
-        return $this->hasMany(Chat::class);
+        $currentDate = now();
+        $expirationDate = $this->expiration;
+        if ($currentDate->lessThanOrEqualTo($expirationDate)) {
+            return 'paid';
+        } else {
+            return 'unpaid';
+        }
     }
 
     public function notifications(): HasMany

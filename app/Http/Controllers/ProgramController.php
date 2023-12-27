@@ -11,7 +11,7 @@ use App\Http\Requests\UpdateprogramRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Carbon\carbon;
+use Carbon\Carbon;
 
 class ProgramController extends Controller
 {
@@ -20,9 +20,8 @@ class ProgramController extends Controller
      */
     public function index(Category $category)
     {
-        $result=$category->program()->get()->toArray();
+        $result = $category->program()->get()->toArray();
         return ResponseHelper::success($result);
-
     }
 
     /**
@@ -32,17 +31,16 @@ class ProgramController extends Controller
     {
 
         $path = Files::saveFile($request);
-        $result=Program::query()->create(
+        $result = Program::query()->create(
             [
-                'name'=>$request->name,
-                'file'=>$path,
-                'type'=>$request->type,
-                'categoryId'=>$request->categoryId
-
+                'name' => $request->name,
+                'file' => $path,
+                'type' => $request->type,
+                'categoryId' => $request->categoryId
             ]
-            );
+        );
 
-            return ResponseHelper::success($result);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -50,9 +48,8 @@ class ProgramController extends Controller
      */
     public function show(Program $program)
     {
-        $result=$program->get();
+        $result = $program->get();
         return ResponseHelper::success($result);
-
     }
 
     /**
@@ -60,23 +57,19 @@ class ProgramController extends Controller
      */
     public function update(UpdateprogramRequest $request, Program $program)
     {
-        {
-                    Files::deleteFile($program->file);
-                    $path = Files::saveFile($request);
-                   $result= $program->update([
-                        'name'=>$request->name,
-                        'file' => $path,
-                        'categoryId'=>$request->categoryId,
-                    ]);
-                    return ResponseHelper::success(
-                        [
-                            'message'=>'program updated successfuly',
-                            'data'=>$result,
-                        ]
-                     );
-
-                }
-
+        Files::deleteFile($program->file);
+        $path = Files::saveFile($request);
+        $result = $program->update([
+            'name' => $request->name,
+            'file' => $path,
+            'categoryId' => $request->categoryId,
+        ]);
+        return ResponseHelper::success(
+            [
+                'message' => 'program updated successfuly',
+                'data' => $result,
+            ]
+        );
     }
 
     /**
@@ -84,36 +77,45 @@ class ProgramController extends Controller
      */
     public function destroy(program $program)
     {
-      Files::deleteFile($program);
-       $program->delete();
-       return ResponseHelper::success(
-        [
-            'message' => 'user deleted successfully'
-        ]
-    );
-
+        Files::deleteFile($program);
+        $program->delete();
+        return ResponseHelper::success(
+            [
+                'message' => 'user deleted successfully'
+            ]
+        );
     }
 
-    public function downloadFile(Request $request,Program $program)
+    public function downloadFile(Request $request, Program $program)
     {
-        $filepath=$program->path;
-        $filename=$program->name;
-        return response()->download($filepath,$filename);
+        $filepath = $program->path;
+        $filename = $program->name;
+        return response()->download($filepath, $filename);
     }
 
     public function showMyPrograme()
     {
-        $user=User::find(Auth::id());
-            $result=$user->playerprogrames()->get()->toArray();
+        $user = User::find(Auth::id());
+        $result = $user->playerprogrames()->get()->toArray();
         return ResponseHelper::success($result);
-
     }
-    public function assignProgram(Program $program,Request $request)
+    public function assignProgram(Program $program, Request $request)
     {
-        $attach=['user_id'=>Auth::id(),'player_id'=>$request->player_id, 'days'=>$request->days,'created_at'=>Carbon::now()];
-        $result=$program->coachs()->syncWithoutDetaching([$attach]);
-
-       return ResponseHelper::success($result);
+        $attach = [
+            'user_id' => Auth::id(), 'player_id' => $request->player_id,
+            'days' => $request->days, 'created_at' => Carbon::now()
+        ];
+        $result = $program->coachs()->syncWithoutDetaching([$attach]);
+        return ResponseHelper::success($result);
     }
 
+    public function search(Request $request)
+    {
+        $search = $request->input('search_text');
+        $programs = Program::query()
+            ->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('type', 'LIKE', "%{$search}%")
+            ->get();
+        return ResponseHelper::success($programs);
+    }
 }

@@ -20,7 +20,8 @@ class MessageController extends Controller
     {
         $list_chats = ModelsMessage::where('sender_id', Auth::id())
             ->orWhere('receiver_id', Auth::id())
-            ->latest()->first();
+            ->groupBy('sender_id', 'receiver_id')
+            ->first();
         //->get();
         return response($list_chats, Response::HTTP_OK);
     }

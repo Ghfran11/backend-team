@@ -14,8 +14,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $Order=Order::query()->get();
-        return response($Order,Response::HTTP_OK);
+        $Order = Order::query()->get();
+        return response($Order, Response::HTTP_OK);
     }
 
     /**
@@ -23,15 +23,13 @@ class OrderController extends Controller
      */
     public function store(StoreorderRequest $request)
     {
-        $Order=Order::query()->create(
+        $Order = Order::query()->create(
             [
-                'coachId'=>$request->coachId,
-                'playerId'=>$request->playerId
+                'coachId' => $request->coachId,
+                'playerId' => $request->playerId
             ]
-            );
-            return response($Order,Response::HTTP_CREATED);
-
-
+        );
+        return response($Order, Response::HTTP_CREATED);
     }
 
     /**
@@ -39,10 +37,8 @@ class OrderController extends Controller
      */
     public function show(order $order)
     {
-        $result=$order->get();
-        return response($result,Response::HTTP_OK);
-
-
+        $result = $order->get();
+        return response($result, Response::HTTP_OK);
     }
 
     /**
@@ -50,16 +46,14 @@ class OrderController extends Controller
      */
     public function update(UpdateorderRequest $request, order $order)
     {
-       if($order->status = 'waiting')
-       {
-        $order=Order::query()->update(
-            [
-                'coachId'=>$request->coachId,
-                'playerId'=>$request->coachId
-            ]
+        if ($order->status = 'waiting') {
+            $order = Order::query()->update(
+                [
+                    'coachId' => $request->coachId,
+                    'playerId' => $request->coachId
+                ]
             );
-
-       }
+        }
     }
 
     /**
@@ -67,13 +61,11 @@ class OrderController extends Controller
      */
     public function destroy(order $order)
     {
-        if($order->status = 'waiting')
-        {
+        if ($order->status = 'waiting') {
             $order->delete();
         }
     }
     public function getMyOrder()
     {
-        
     }
 }

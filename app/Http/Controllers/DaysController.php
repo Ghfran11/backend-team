@@ -6,7 +6,6 @@ use App\Helpers\ResponseHelper;
 use App\Models\Day;
 use App\Http\Requests\StoredaysRequest;
 use App\Http\Requests\UpdatedaysRequest;
-use Illuminate\Http\Response;
 
 
 
@@ -17,8 +16,7 @@ class DaysController extends Controller
      */
     public function index()
     {
-        $days=Day::query()->get();
-
+        $days = Day::query()->get();
         return ResponseHelper::success($days);
     }
 

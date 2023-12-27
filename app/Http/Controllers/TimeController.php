@@ -143,7 +143,24 @@ class TimeController extends Controller
                     ->whereNull('endTime')
                     ->count();
 
+<<<<<<< HEAD
         return ResponseHelper::success(['active players :' =>$activeplayers]);
+=======
+
+        $numofplayers = User::where('role', 'player')->pluck('expiration');
+        $now_date = Carbon::now();
+
+        foreach ($numofplayers as $expiration) {
+            $not_expired = $numofplayers->filter(function ($expiration) use ($now_date) {
+                $expirationDate = Carbon::parse($expiration);
+                return $expirationDate->diffInDays($now_date) < 30;
+            })->count();
+        }
+        return ResponseHelper::success([
+            'active_players'      => $endtimes,
+            'not_expired_players' => $not_expired
+        ]);
+>>>>>>> 549af65618835444f8eaf028b92af7db557c9f7a
     }
 
     public function activePlayers()
@@ -152,7 +169,5 @@ class TimeController extends Controller
                         ->with('user')
                         ->get()
                         ->toArray();
-
-        return ResponseHelper::success($activeplayers);
     }
 }

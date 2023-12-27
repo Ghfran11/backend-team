@@ -8,17 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['coachId','playerId'];
+    protected $fillable = ['coachId', 'playerId'];
 
     public function player()
     {
-        return $this->belongsTo(User::class,'playerId')->onDelete('cascade');;
+        return $this->belongsTo(User::class, 'playerId');
     }
     public function coach()
     {
-        return $this->belongsTo(User::class,'coachId')->onDelete('cascade');;
+        return $this->belongsTo(User::class, 'coachId');
     }
-
-
-
 }

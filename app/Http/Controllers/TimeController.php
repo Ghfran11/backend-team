@@ -20,8 +20,6 @@ class TimeController extends Controller
      */
     public function index()
     {
-
-
     }
 
     /**
@@ -108,22 +106,21 @@ class TimeController extends Controller
      */
     public function update(UpdatetimeRequest $request, Time $time)
     {
-        $result=$time->update(
+        $result = $time->update(
             [
-                'userId'=>$request->userId,
-                'startTime'=>$request->atartTime,
-                'endTime'=>$request->endTime,
-                'dayId'=>$request->dayId,
+                'userId' => $request->userId,
+                'startTime' => $request->atartTime,
+                'endTime' => $request->endTime,
+                'dayId' => $request->dayId,
 
             ]
-            );
-            return ResponseHelper::success(
-                [
-                    'message'=>'program updated successfuly',
-                    'data'=>$result,
-                ]
-             );
-
+        );
+        return ResponseHelper::success(
+            [
+                'message' => 'program updated successfuly',
+                'data' => $result,
+            ]
+        );
     }
 
 
@@ -133,10 +130,9 @@ class TimeController extends Controller
      */
     public function destroy(Time $time)
     {
-        if(Auth::user()->type='admin' || Auth::id()== $time->userId )
-        $time->delete();
-        return ResponseHelper::success(['message'=>'deleted successfuly']);
-
+        if (Auth::user()->type = 'admin' || Auth::id() == $time->userId)
+            $time->delete();
+        return ResponseHelper::success(['message' => 'deleted successfuly']);
     }
 
 

@@ -26,7 +26,7 @@ class OrderController extends Controller
      */
     public function store(StoreorderRequest $request)
     {
-        $Order=Order::query()->create(
+        $Order = Order::query()->create(
             [
                 'coachId'=>$request->coachId,
                 'playerId'=>Auth::id(),
@@ -76,8 +76,7 @@ class OrderController extends Controller
      */
     public function destroy(order $order)
     {
-        if($order->status = 'waiting')
-        {
+        if ($order->status = 'waiting') {
             $order->delete();
         }
 
@@ -87,7 +86,9 @@ class OrderController extends Controller
     {
 
 
+
         $user=User::find(Auth::id());
+        dd($user->role);
 
         if( $user->role == 'coach')
         {
@@ -106,7 +107,7 @@ class OrderController extends Controller
     }
     public function acceptOrder(Order $order)
     {
-        if($order->status= 'waiting')
+        if($order->status = 'waiting')
         {
        $result= $order->update(
             [
@@ -115,7 +116,7 @@ class OrderController extends Controller
             );
 
             $otherOrder=Order::query()->where('playerId',$order->playerId)->where('coachId','!=',Auth::id())->delete();;
-          
+
 
 
         }

@@ -9,11 +9,11 @@ class Program extends Model
 {
 
     use HasFactory;
-    protected $fillable = ['name','file','categoryId','type'];
+    protected $fillable = ['name', 'file', 'categoryId', 'type'];
 
     public function category()
     {
-        return $this->belongsTo(Category::class,'categpryId');
+        return $this->belongsTo(Category::class, 'categpryId');
     }
     public function coachs()
     {
@@ -22,9 +22,6 @@ class Program extends Model
 
     public function players()
     {
-        return $this->belongsToMany(User::class,'programe_users','program_id');
+        return $this->belongsToMany(User::class, 'programe_users', 'program_id');
     }
-
-
-
 }

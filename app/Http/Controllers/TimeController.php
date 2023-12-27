@@ -156,7 +156,7 @@ class TimeController extends Controller
         }
         return ResponseHelper::success([
             'active_players'      => $endtimes,
-            'not_expired_players' => $not_expired
+            'total_players' => $not_expired
         ]);
     }
 

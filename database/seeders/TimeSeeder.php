@@ -16,9 +16,7 @@ class TimeSeeder extends Seeder
         DB::table('times')->insert([
 
 
-            ['userId' => '2','dayId'=>'2','startTime'=>'2023-01-27','endTime'=>null,'isCoach'=>'0'],
 
-            ['userId' => '4','dayId'=>'2','startTime'=>'2023-01-27','endTime'=>null,'isCoach'=>'0'],
 
             ['userId' => '3','dayId'=>'1','startTime'=>'2023-01-27','endTime'=>null,'isCoach'=>'0'],
 

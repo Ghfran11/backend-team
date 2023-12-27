@@ -107,15 +107,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-<<<<<<< HEAD
     public function finance()
     {
         return $this->hasMany(Finance::class,'userId');
 
     }
 
-=======
->>>>>>> a6c1c44738eab8f52414a9a0c1616a604af70708
 
 
 

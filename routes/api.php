@@ -113,6 +113,8 @@ Route::post('updateSubscription/{user}',[UserController::class,'updateSubscripti
     //Search
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
+    Route::get('statistics',[UserController::class,'statistics']);
+
 });
 Route::post('addOrder',[OrderController::class,'store']);
 Route::post('updateOrrder/{order}',[OrderController::class,'update']);
@@ -120,7 +122,6 @@ Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
 Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
 Route::delete('deleteOrder',[OrderController::class,'destroy']);
 Route::post('showOrder/{order}',[OrderController::class,'show']);
-
 
 
 

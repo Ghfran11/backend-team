@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Models\Finance;
 use App\Models\Rating;
+use App\Models\Report;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\MonthService;
 
 class UserController extends Controller
 {
@@ -244,29 +246,25 @@ class UserController extends Controller
 
 
 
-    public function financeMonth(Request $request)
+    public function financeMonth(Request $request, MonthService $monthService)
     {
-        $currentDate = Carbon::now();
-        $fiveMonthsAgo = $currentDate->subMonths(5);
-
-        $results = Finance::select('monthName', DB::raw('SUM(finance) as totalFinance'))
-            ->whereBetween('created_at', [$fiveMonthsAgo, $currentDate])
-            ->groupBy('monthName')
-            ->get();
+        $previousMonths = $monthService->getPreviousMonths(5);
 
         $monthlyData = [];
 
-        foreach ($results as $result) {
-            $monthName = $result->monthName;
-            $totalFinance = $result->totalFinance;
+        foreach ($previousMonths as $month) {
+            $result = Finance::where('monthName', $month)
+                ->sum('finance');
+
             $monthlyData[] = [
-                'monthName' => $monthName,
-                'totalFinance' => $totalFinance,
+                'monthName' => $month,
+                'finance' => $result,
             ];
         }
 
         return ResponseHelper::success($monthlyData);
     }
+
 
     public function mvpCoach()
     {
@@ -305,4 +303,29 @@ class UserController extends Controller
             ->get();
         return ResponseHelper::success($users);
     }
+
+
+    public function statistics()
+    {
+        $numofplayers = User::where('role', 'player')->pluck('expiration');
+        $now_date = Carbon::now();
+
+        foreach ($numofplayers as $expiration) {
+            $not_expired = $numofplayers->filter(function ($expiration) use ($now_date) {
+                $expirationDate = Carbon::parse($expiration);
+                return $expirationDate->diffInDays($now_date) < 30;
+            })->count();
+        }
+
+        $numOfCoach=User::where('role', 'coach')->count();
+       $reports=Report::get();
+        $numOfReports=$reports->count();
+
+      return ResponseHelper::success([
+         'players'      =>$not_expired,
+         'coaches' =>  $numOfCoach,
+         'subscriptionFee'=>2000000,
+         'numOfReports'=>$numOfReports
+        ]);
+        }
 }

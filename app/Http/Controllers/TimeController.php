@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Models\Time;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
+use App\Models\Report;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -139,11 +140,9 @@ class TimeController extends Controller
     public function activePlayersCounter()
     {
         //select only the 'endTime' column , we don't want the other details of the records...
-        $activeplayers = Time::select('endTime')
+        $endtimes = Time::select('endTime')
                     ->whereNull('endTime')
                     ->count();
-
-
 
 
         $numofplayers = User::where('role', 'player')->pluck('expiration');
@@ -152,14 +151,13 @@ class TimeController extends Controller
         foreach ($numofplayers as $expiration) {
             $not_expired = $numofplayers->filter(function ($expiration) use ($now_date) {
                 $expirationDate = Carbon::parse($expiration);
-                return $expirationDate->diffInDays($now_date) < 30;
+                return $expirationDate->diffInDays($now_date) < 31;
             })->count();
         }
         return ResponseHelper::success([
-            'active_players'      => $activeplayers,
+            'active_players'      => $endtimes,
             'not_expired_players' => $not_expired
         ]);
-
     }
 
     public function activePlayers()
@@ -169,4 +167,9 @@ class TimeController extends Controller
                         ->get()
                         ->toArray();
     }
+
 }
+
+
+
+

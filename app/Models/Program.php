@@ -17,7 +17,7 @@ class Program extends Model
     }
     public function coachs()
     {
-        return $this->belongsToMany(User::class,'programe_users','program_id');
+        return $this->belongsToMany(User::class,'programe_users','program_id')->onDelete('cascade');;
     }
 
     public function players()

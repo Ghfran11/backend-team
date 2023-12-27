@@ -105,6 +105,8 @@ class UserController extends Controller
     public function deleteUser(User $user)
     {
         try {
+            $user->rate()->delete();
+
             $result = $user->delete();
 
             if ($result) {

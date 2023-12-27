@@ -12,11 +12,11 @@ class Order extends Model
 
     public function player()
     {
-        return $this->belongsTo(User::class,'playerId');
+        return $this->belongsTo(User::class,'playerId')->onDelete('cascade');;
     }
     public function coach()
     {
-        return $this->belongsTo(User::class,'coachId');
+        return $this->belongsTo(User::class,'coachId')->onDelete('cascade');;
     }
 
 

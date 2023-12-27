@@ -103,9 +103,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function rate()
     {
-        return $this->hasMany(Rating::class,'coachId');
+        return $this->hasMany(Rating::class,'coachId','playerId');
 
     }
+
+   
 
 
     public function getRateAttribute()

@@ -10,9 +10,9 @@ class Rating extends Model
     use HasFactory;
     protected $fillable = ['playerId','coachId','rate'];
 
-    public function players()
+    public function coach()
     {
-        return $this->belongsTo(User::class,'playerId','coachId');
+        return $this->belongsTo(User::class, 'coachId')->onDelete('cascade');
     }
 
 }

@@ -107,7 +107,13 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-   
+    public function finance()
+    {
+        return $this->hasMany(Finance::class,'userId');
+
+    }
+
+
 
 
     public function getRateAttribute()

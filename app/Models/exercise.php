@@ -11,7 +11,7 @@ class Exercise extends Model
     protected $fillable = ['name','description'];
     public function programme()
 {
-    return $this->hasMany(Programe::class,'exerciseId');
+    return $this->hasMany(Program::class,'exerciseId');
 
 }
 

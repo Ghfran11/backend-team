@@ -103,6 +103,18 @@ Route::get('activePlayers',[TimeController::class,'activePlayers']);
 Route::get('mvpCoach',[UserController::class,'mvpCoach']);
 Route::get('showPercentage',[UserController::class,'showPercentage']);
 
-
+//
+Route::get('subscription',[UserController::class,'subscription']);
+Route::post('updateSubscription/{user}',[UserController::class,'updateSubscription']);
 
 });
+Route::post('addOrder',[OrderController::class,'store']);
+Route::post('updateOrrder/{order}',[OrderController::class,'update']);
+Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
+Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
+Route::delete('deleteOrder',[OrderController::class,'destroy']);
+Route::post('showOrder/{order}',[OrderController::class,'show']);
+
+
+
+

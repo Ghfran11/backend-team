@@ -7,6 +7,7 @@ use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -190,5 +191,61 @@ class UserController extends Controller
 
 
 
+
+
+
+    public function showPercentage(User $user, Request $request)
+    {
+        $fiveMonthsAgo = Carbon::now()->subMonths(5);
+
+        $totalPlayers = $user->query()
+            ->where('role', 'player')
+            ->where('created_at', '>=', $fiveMonthsAgo)
+            ->count();
+
+        $monthlyCounts = $user->query()
+            ->where('role', 'player')
+            ->where('created_at', '>=', $fiveMonthsAgo)
+            ->groupBy(DB::raw('DATE_FORMAT(created_at, "%Y-%m")'))
+            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, count(*) as count')
+            ->get()
+            ->pluck('count', 'month');
+
+        $percentageData = [];
+        $totalPercentage = 0;
+
+        $monthCursor = Carbon::parse($fiveMonthsAgo)->startOfMonth();
+        while ($monthCursor <= Carbon::now()->startOfMonth()) {
+            $month = $monthCursor->format('Y-m');
+            $count = $monthlyCounts[$month] ?? 1;
+            $percentage = $totalPlayers > 0 ? ($count / $totalPlayers) * 100 : 0;
+            $totalPercentage += $percentage;
+            $percentageData[$monthCursor->format('F')] = round($percentage, 2);
+            $monthCursor->addMonth();
+        }
+
+        return ResponseHelper::success([
+            'percentage_data' => $percentageData,
+            'total_percentage' => round($totalPercentage, 2)
+        ]);
     }
 
+
+    public function mvpCoach()
+    {
+        $result = Rating::select('coachId')
+            ->selectRaw('SUM(rate) as totalRate')
+            ->groupBy('coachId')
+            ->orderByDesc('totalRate')
+            ->first();
+
+        if ($result) {
+            $coachId = $result->coachId;
+            $coach = User::find($coachId);
+            return ResponseHelper::success($coach);
+        } else {
+            return ResponseHelper::success([], null, 'No coaches found', 202);
+        }
+    }
+
+}

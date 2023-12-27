@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(ImageSeeder::class);
         $this->call(ReportSeeder::class);
+        $this->call(RatingSeeder::class);
+
 
 
         // \App\Models\User::factory(10)->create();

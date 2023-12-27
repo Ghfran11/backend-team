@@ -103,7 +103,9 @@ Route::post('updateSubscription/{user}',[UserController::class,'updateSubscripti
     Route::get('countActivePlayers', [TimeController::class, 'activePlayersCounter']);
     Route::get('activePlayers', [TimeController::class, 'activePlayers']);
     Route::get('mvpCoach', [UserController::class, 'mvpCoach']);
-    Route::get('showPercentage', [UserController::class, 'showPercentage']);
+    Route::get('showPercentage', [UserController::class, 'showCountPercentage']);
+    Route::get('financeMonth', [UserController::class, 'financeMonth']);
+
 
 
     //Search

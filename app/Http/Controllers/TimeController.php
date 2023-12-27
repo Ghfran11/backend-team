@@ -139,11 +139,11 @@ class TimeController extends Controller
     public function activePlayersCounter()
     {
         //select only the 'endTime' column , we don't want the other details of the records...
-        $endtimes = Time::select('endTime')
+        $activeplayers = Time::select('endTime')
                     ->whereNull('endTime')
                     ->count();
 
-        return ResponseHelper::success([$endtimes]);
+        return ResponseHelper::success(['active players :' =>$activeplayers]);
     }
 
     public function activePlayers()

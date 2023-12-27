@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             $table->foreignId('dayId')->constrained('days')->cascadeOnDelete();
             $table->date('startTime');
-            $table->date('endTime');
+            $table->date('endTime')->nullable();
             $table->enum('status',[0,1]);
             $table->id();
             $table->boolean('isCoach');

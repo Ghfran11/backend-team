@@ -204,7 +204,7 @@ class UserController extends Controller
 
 
 
-    public function showPercentage(User $user, Request $request)
+    public function showCountPercentage(User $user, Request $request)
     {
         $fiveMonthsAgo = Carbon::now()->subMonths(5);
 
@@ -240,6 +240,33 @@ class UserController extends Controller
         ]);
     }
 
+
+
+
+
+    public function financeMonth(Request $request)
+    {
+        $currentDate = Carbon::now();
+        $fiveMonthsAgo = $currentDate->subMonths(5);
+
+        $results = Finance::select('monthName', DB::raw('SUM(finance) as totalFinance'))
+            ->whereBetween('created_at', [$fiveMonthsAgo, $currentDate])
+            ->groupBy('monthName')
+            ->get();
+
+        $monthlyData = [];
+
+        foreach ($results as $result) {
+            $monthName = $result->monthName;
+            $totalFinance = $result->totalFinance;
+            $monthlyData[] = [
+                'monthName' => $monthName,
+                'totalFinance' => $totalFinance,
+            ];
+        }
+
+        return ResponseHelper::success($monthlyData);
+    }
 
     public function mvpCoach()
     {

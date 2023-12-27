@@ -62,7 +62,7 @@ class OrderController extends Controller
         $order=Order::query()->update(
             [
                 'coachId'=>$request->coachId,
-                'playerId'=>$request->coachId,
+                'playerId'=>$request->playerId,
 
             ]
             );
@@ -89,11 +89,14 @@ class OrderController extends Controller
 
         $user=User::find(Auth::id());
 
-        if( $user->role == 'coach')
+
+        if( $user->role = 'coach')
         {
+
         $result=$user->coachOrder()->get()->toArray();
+
         }
-        else if( $user->role == 'player')
+        else if( $user->role = 'player')
         {
 
             $result=$user->playerOrder()->get()->toArray();
@@ -115,11 +118,15 @@ class OrderController extends Controller
             );
 
             $otherOrder=Order::query()->where('playerId',$order->playerId)->where('coachId','!=',Auth::id())->delete();;
-          
 
+            return ResponseHelper::success([],null,'acceptd succesfully',200);
 
         }
-        return ResponseHelper::success($result);
+        else{
+            return ResponseHelper::success([],null,'cannot accept this ',200);
+
+        }
+
 
 
     }

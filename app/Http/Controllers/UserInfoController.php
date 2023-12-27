@@ -32,7 +32,7 @@ class UserInfoController extends Controller
                 'weight'=>$request->weight,
                 'waist Measurement'=>$request->waistMeasurement,
                 'neck'=>$request->neck,
-                'userId'=>$request->Auth::id(),
+                'userId'=>Auth::id(),
                 'height'=>$request->height
                 ]
             );
@@ -45,11 +45,17 @@ class UserInfoController extends Controller
      */
     public function show(User $user)
     {
-        $userInfo=$user->userInfo()->get()->toArray();
+
         $weight=$user->userInfo()->value('weight');
         $height=$user->userInfo()->value('height');
         $BFP=$this->calculateBFP($weight,$height);
-        $userInfo['BFP']=$BFP;
+        $userInfo=$user->userInfo()->update(
+            [
+                'BFP'=>$BFP,
+            ]);
+            $userInfo=$user->userInfo()->get()->toArray();
+
+
 
   return ResponseHelper::success($userInfo);
 

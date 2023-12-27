@@ -19,7 +19,7 @@ return new class extends Migration
             $table->double('waist Measurement');
             $table->double('neck');
             $table->double('height');
-            $table->double('BFP');
+            $table->double('BFP')->nullable();
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

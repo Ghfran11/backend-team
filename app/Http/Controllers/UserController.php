@@ -158,6 +158,7 @@ class UserController extends Controller
          $SubscriptionDate=$expiration->subMonth();
          $Paid=$user['is_paid'];
          $result=[
+
          'userNaname'=>$userName,
          'remainingTime'=> $remainingTime,
          'paidStatus'=>$Paid,
@@ -247,5 +248,8 @@ class UserController extends Controller
             return ResponseHelper::success([], null, 'No coaches found', 202);
         }
     }
+
+
+    
 
 }

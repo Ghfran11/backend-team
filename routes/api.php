@@ -105,4 +105,17 @@ Route::get('showPercentage',[UserController::class,'showPercentage']);
 
 
 
+
+//userInfo
+Route::post('addInfo',[UserInfoController::class,'store']);
+Route::post('updateInfo',[UserInfoController::class,'update']);
+Route::get('showInfo/{user}',[UserInfoController::class,'show']);
+
+
 });
+Route::post('addOrder',[OrderController::class,'store']);
+Route::post('updateOrrder/{order}',[OrderController::class,'update']);
+Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
+Route::post('acceptOrder/{order}',[OrderController::class,'acceptOrder']);
+Route::delete('deleteOrder',[OrderController::class,'destroy']);
+Route::post('showOrder/{order}',[OrderController::class,'show']);

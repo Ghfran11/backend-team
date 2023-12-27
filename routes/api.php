@@ -33,6 +33,8 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:api')->group(function () {
 
+
+
     Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
     //exercise
     Route::post('storeExercise',[ExerciseController::class,'store']);
@@ -97,6 +99,7 @@ Route::middleware('auth:api')->group(function () {
   //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
 //charts
+
 
 Route::get('countActivePlayers',[TimeController::class,'activePlayersCounter']);
 Route::get('activePlayers',[TimeController::class,'activePlayers']);

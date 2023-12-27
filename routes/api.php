@@ -11,10 +11,13 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\SubscriptionController;
-use App\Models\Program;
-use App\Models\User;
+use App\Http\Controllers\UserInfoController;
+use App\Models\Programe;
+use App\Models\UserInfo;
+
 
 Route::controller(AuthController::class)->group(function () {
 
@@ -28,29 +31,35 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
+
     Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
     //exercise
     Route::post('storeExercise', [ExerciseController::class, 'store']);
     Route::get('showExercise/{exercise}', [ExerciseController::class, 'show']);
     Route::get('indexExercise', [ExerciseController::class, 'index']);
     Route::post('storeExerciseImage', [ImageController::class, 'storeExerciseImage']);
+
     //time
     Route::post('storeTime', [TimeController::class, 'store']);
+    Route::post('storeCoachTime', [TimeController::class, 'storeCoachTime']);
+    Route::post('storeUserTime', [TimeController::class, 'storeUserTime']);
+    Route::post('endCounter', [TimeController::class, 'endCounter']);
+    Route::get('showMyTime', [TimeController::class, 'show']);
+
     Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
+
     //user
     Route::get('showCoach', [UserController::class, 'showCoach']);
     Route::get('showPlayer', [UserController::class, 'showPlayer']);
-    Route::get('showCoachInfo', [UserController::class, 'showCoachInfo']);
+    Route::get('showCoachInfo/{id}', [UserController::class, 'showCoachInfo']);
     Route::get('showDays', [DaysController::class, 'index']);
-    Route::get('playerInfo', [UserController::class, 'playerInfo']);
+    Route::get('playerInfo/{id}', [UserController::class, 'playerInfo']);
     Route::delete('delete/{user}', [UserController::class, 'deleteUser']);
-    Route::post('update/{user}', [UserController::class, 'updateUser']);
+    Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
     Route::post('rate/{user}', [UserController::class, 'rateCoach']);
-
-
     //program
-    Route::get('index/{category}', [ProgramController::class, 'index']);
+    Route::get('show/{category}', [ProgramController::class, 'index']);
     Route::get('myprogram', [ProgramController::class, 'showMyPrograme']);
     Route::post('store', [ProgramController::class, 'store']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
@@ -58,7 +67,7 @@ Route::middleware('auth:api')->group(function () {
 
     //chat
     Route::get('listChat', [MessageController::class, 'index']);
-    Route::get('showChat', [MessageController::class, 'show']);
+    Route::get('showChat/{user}', [MessageController::class, 'show']);
 
     //message
     Route::post('sendMessage', [MessageController::class, 'store']);
@@ -66,6 +75,7 @@ Route::middleware('auth:api')->group(function () {
 
     //notification
     Route::get('listNotification', [NotificationController::class, 'index']);
+
 
 
 
@@ -80,8 +90,18 @@ Route::middleware('auth:api')->group(function () {
     Route::post('setRate', [RatingController::class, 'setRate']);
     Route::delete('deleteRate', [RatingController::class, 'deleteRate']);
 
+
+
     //subscribe
-    Route::post('subscribe', [SubscriptionController::class, 'subscribe']);
+    //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
+
+    //charts
+
+    Route::get('countActivePlayers', [TimeController::class, 'activePlayersCounter']);
+    Route::get('activePlayers', [TimeController::class, 'activePlayers']);
+    Route::get('mvpCoach', [UserController::class, 'mvpCoach']);
+    Route::get('showPercentage', [UserController::class, 'showPercentage']);
+
 
     //Search
     Route::post('programSearch', [ProgramController::class, 'search']);

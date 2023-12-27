@@ -36,4 +36,14 @@ class RatingController extends Controller
             ->delete();
         return ResponseHelper::success('success');
     }
+
+
+    public function mvpCoach( ){
+
+
+
+    }
+
+
+
 }

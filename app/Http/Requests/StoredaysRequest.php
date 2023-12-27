@@ -11,7 +11,7 @@ class StoredaysRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoredaysRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required','string','min:6','max:9']//shortest day name has 6 letters , longest day name has 9 letters
         ];
     }
 }

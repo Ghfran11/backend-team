@@ -24,8 +24,11 @@ class DaysController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoredaysRequest $request)
-    {
-        //
+    {   //day already has been validated in the request
+        $day = Day::create([
+            'name' => $request->name,
+        ]);
+        return ResponseHelper::success(['message'=>'day stored successfuly']);
     }
 
     /**
@@ -49,6 +52,7 @@ class DaysController extends Controller
      */
     public function destroy(Day $Day)
     {
-        //
+        $Day->delete();
+        return ResponseHelper::success('Day deleted successfully');
     }
 }

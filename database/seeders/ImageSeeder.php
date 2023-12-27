@@ -14,11 +14,15 @@ class ImageSeeder extends Seeder
     public function run(): void
     { DB::table('images')->insert([
 
-        ['userId' => '2','exerciseId'=>null,'image'=>'694402835.jpg'],
-        ['userId' => '3','exerciseId'=>null,'image'=>'694402835.jpg'],
-        ['userId' => '4','exerciseId'=>null,'image'=>'694402835.jpg'],
-        ['userId' => '5','exerciseId'=>null,'image'=>'694402835.jpg'],
-        ['userId' => '3','exerciseId'=>null,'image'=>'694402835.jpg'],
+        ['userId' => '2','exerciseId'=>null,'image'=>'462778385.jpg'],
+        ['userId' => '3','exerciseId'=>null,'image'=>'462778385.jpg'],
+        ['userId' => '4','exerciseId'=>null,'image'=>'238432623.jpg'],
+        ['userId' => '5','exerciseId'=>null,'image'=>'238432623.jpg'],
+        ['userId' => '8','exerciseId'=>null,'image'=>'238432623.jpg'],
+        ['userId' => '6','exerciseId'=>null,'image'=>'238432623.jpg'],
+        ['userId' => '7','exerciseId'=>null,'image'=>'238432623.jpg'],
+
+
 
 
     ]);

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Enum\NotificationType;
 use App\Events\MessagesNotification;
-use App\Models\Notification;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\StoremessageRequest;
-use Illuminate\Http\Response;
+use App\Models\Message;
 use App\Models\Message as ModelsMessage;
+use App\Models\Notification;
+use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -18,12 +20,27 @@ class MessageController extends Controller
      */
     public function index() //TODO last message !!needs editing!!
     {
-        $list_chats = ModelsMessage::where('sender_id', Auth::id())
-            ->orWhere('receiver_id', Auth::id())
-            ->groupBy('sender_id', 'receiver_id')
-            ->first();
-        //->get();
-        return response($list_chats, Response::HTTP_OK);
+        $user = User::find(Auth::id());
+        $messages = Message::where('sender_id', $user->id)
+            ->orWhere('receiver_id', $user->id)
+            ->get();
+
+        $chats = $messages->groupBy(function ($message) use ($user) {
+            return $message->sender_id == $user->id ? $message->receiver_id : $message->sender_id;
+        });
+
+        $chatDetails = [];
+
+        foreach ($chats as $chatId => $messages) {
+            $sid2 = User::find($chatId);
+            $latestMessage = $messages->sortByDesc('created_at')->first();
+            $chatDetails[] = [
+                'sid2' => $sid2,
+                'latestMessage' => $latestMessage,
+            ];
+        }
+
+        return response($chatDetails, Response::HTTP_OK);
     }
     /**
      * Store a newly created resource in storage.
@@ -47,13 +64,16 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show() //show chat with messages!!!!
+    public function show(User $user) //show chat with messages!!!!
     {
-        $chat = ModelsMessage::where('sender_id', Auth::id())
-            ->orWhere('receiver_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->get();
-        //dd($chat->created_at`->format('Y-m-d H:i:s')`);
+
+        $chat = Message::query()->where([
+            ['sender_id', $user->id],
+            ['receiver_id', Auth::id()],
+        ])->orWhere([
+            ['sender_id', Auth::id()],
+            ['receiver_id', $user->id],
+        ])->get();
         return response($chat, Response::HTTP_OK);
     }
 
@@ -80,4 +100,5 @@ class MessageController extends Controller
             return ResponseHelper::error([], null, $e->getMessage(), Response::HTTP_NOT_FOUND);
         }
     }
+
 }

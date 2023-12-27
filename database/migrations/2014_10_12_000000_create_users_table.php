@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'player', 'coach']);
             $table->integer('rate')->default(0);
             $table->date('expiration')->default(now()->addMonth());
+            $table->double('finance')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -11,37 +11,35 @@ use Illuminate\Support\Facades\Auth;
 class RatingController extends Controller
 {
     public function setRate(Request $request)
-{
-    $validatedData = $request->validate([
-        'rate' => 'required|numeric|between:1,5',
-    ]);
-
-    $result = Rating::query()
-        ->updateOrCreate(
-            [
-                'playerId' => Auth::user()->id,
-                'coachId' => $request->coachId,
-            ],
-            [
-                'rate' => $validatedData['rate'],
-            ]
-        );
-
-    return ResponseHelper::success('Rate set successfully');
-}
-    public function deleteRate(Request $request){
-
+    {
+        $validatedData = $request->validate([
+            'rate' => 'required|numeric|between:1,5',
+        ]);
 
         $result = Rating::query()
-        ->where('id',$request->id)
-        ->delete();
-        return ResponseHelper::success('success');
+            ->updateOrCreate(
+                [
+                    'playerId' => Auth::user()->id,
+                    'coachId' => $request->coachId,
+                ],
+                [
+                    'rate' => $validatedData['rate'],
+                ]
+            );
 
+        return ResponseHelper::success('Rate set successfully');
+    }
+    public function deleteRate(Request $request)
+    {
+        $result = Rating::query()
+            ->where('id', $request->id)
+            ->delete();
+        return ResponseHelper::success('success');
     }
 
 
     public function mvpCoach( ){
-        
+
 
 
     }

@@ -265,4 +265,17 @@ class UserController extends Controller
     }
     }
 
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search_text');
+        $oppositeRole = Auth::user()->role == 'player' ? 'coach' : 'player';
+        $users = User::query()
+            ->when(in_array(Auth::user()->role, ['player', 'coach']), function ($query) use ($oppositeRole) {
+                return $query->where('role', $oppositeRole);
+            })
+            ->where('name', 'LIKE', "%{$search}%")
+            ->get();
+        return ResponseHelper::success($users);
+    }
 }

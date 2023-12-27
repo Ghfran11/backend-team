@@ -22,10 +22,12 @@ class ImageController extends Controller
     public function storeUserImage(Request $request)
     {
         $result = $this->imageService->storeImage($request, Auth::id(), null);
-        return ResponseHelper::success($result);    }
+        return ResponseHelper::success($result);
+    }
 
     public function storeExerciseImage(Request $request)
     {
         $result = $this->imageService->storeImage($request, null, $request->exerciseId);
-        return ResponseHelper::success($result);    }
+        return ResponseHelper::success($result);
+    }
 }

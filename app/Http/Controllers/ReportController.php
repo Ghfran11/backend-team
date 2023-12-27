@@ -16,12 +16,10 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $report=Report::query()
-        ->with('user.image')
-        ->get()->toArray();
-
+        $report = Report::query()
+            ->with('user.image')
+            ->get()->toArray();
         return ResponseHelper::success($report);
-
     }
 
     /**
@@ -29,16 +27,14 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request)
     {
-        $reports=Report::query()->create(
+        $reports = Report::query()->create(
             [
-                'userId'=>Auth::id(),
-                'text'=>$request->text,
-                'title'=>$request->title,
+                'userId' => Auth::id(),
+                'text' => $request->text,
+                'title' => $request->title,
             ]
-            );
-            return ResponseHelper::success($reports);
-
-
+        );
+        return ResponseHelper::success($reports);
     }
 
     /**
@@ -46,10 +42,8 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-       $reports =$report->get();
-       return ResponseHelper::success($reports);
-
-
+        $reports = $report->get();
+        return ResponseHelper::success($reports);
     }
 
     /**
@@ -57,7 +51,6 @@ class ReportController extends Controller
      */
     public function update(UpdateReportRequest $request, Report $report)
     {
-
     }
 
     /**
@@ -68,15 +61,14 @@ class ReportController extends Controller
         $report->delete();
         return ResponseHelper::success(
             [
-                'message'=>'deleted successfuly'
+                'message' => 'deleted successfuly'
             ]
         );
-
     }
     public function showMyReport()
     {
-        $user=User::find(Auth::id());
-        $result=$user->report()->get();
+        $user = User::find(Auth::id());
+        $result = $user->report()->get();
         return  ResponseHelper::success($result);
     }
 }

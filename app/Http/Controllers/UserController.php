@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Finance;
+use App\Models\Report;
+
 use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;

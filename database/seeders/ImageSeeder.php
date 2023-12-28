@@ -39,6 +39,10 @@ class ImageSeeder extends Seeder
 
 
 
+<<<<<<< HEAD
+=======
+     
+>>>>>>> 86723a9329d1ededebebc9b998da3d3ebbe6492b
 
 
 

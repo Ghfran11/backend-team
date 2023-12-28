@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateUserInfoRequest;
 use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Carbon\Carbon;
 
 class UserInfoController extends Controller
 {
@@ -28,7 +29,6 @@ class UserInfoController extends Controller
         $userInfo=UserInfo::query()->create(
             [
                 'gender'=>$request->gender,
-                'old'=>$request->old,
                 'weight'=>$request->weight,
                 'waist Measurement'=>$request->waistMeasurement,
                 'neck'=>$request->neck,
@@ -48,10 +48,14 @@ class UserInfoController extends Controller
 
         $weight=$user->userInfo()->value('weight');
         $height=$user->userInfo()->value('height');
+        $now = Carbon::now();
+        $age=Carbon::parse($user->birthDate)->age;
         $BFP=$this->calculateBFP($weight,$height);
+
         $userInfo=$user->userInfo()->update(
             [
                 'BFP'=>$BFP,
+                'age'=> $age
             ]);
             $userInfo=$user->userInfo()->get()->toArray();
 

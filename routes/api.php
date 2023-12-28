@@ -123,5 +123,7 @@ Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
 Route::delete('deleteOrder',[OrderController::class,'destroy']);
 Route::post('showOrder/{order}',[OrderController::class,'show']);
 
-
-
+//user info
+Route::post('addInfo', [UserInfoController::class, 'store']);
+Route::get('updateInfo', [UserInfoController::class, 'update']);
+Route::get('showInfo/{user}', [UserInfoController::class, 'show']);

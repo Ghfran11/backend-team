@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->enum('gender',['male','female']);
-            $table->integer('old');
+            $table->integer('age')->nullable();
             $table->double('weight');
             $table->double('waist Measurement');
             $table->double('neck');

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserInfo extends Model
 {
-    protected $fillable = ['gender','old','weight','waist Measurement','neck','height','userId'];
+    protected $fillable = ['gender','weight','waist Measurement','neck','height','userId','birthDate'];
     use HasFactory;
 }

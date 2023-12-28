@@ -33,7 +33,8 @@ class UserInfoController extends Controller
                 'waist Measurement'=>$request->waistMeasurement,
                 'neck'=>$request->neck,
                 'userId'=>Auth::id(),
-                'height'=>$request->height
+                'height'=>$request->height,
+                'birthDate'=>$request->birthDate
                 ]
             );
             return ResponseHelper::success($userInfo);
@@ -48,8 +49,9 @@ class UserInfoController extends Controller
 
         $weight=$user->userInfo()->value('weight');
         $height=$user->userInfo()->value('height');
+        $birthDate=$user->userInfo()->value('birthDate');
         $now = Carbon::now();
-        $age=Carbon::parse($user->birthDate)->age;
+        $age=Carbon::parse($birthDate)->age;
         $BFP=$this->calculateBFP($weight,$height);
 
         $userInfo=$user->userInfo()->update(
@@ -75,12 +77,12 @@ class UserInfoController extends Controller
         $userInfo=$user->userInfo()->update(
             [
                 'gender'=>$request->gender,
-                'old'=>$request->old,
                 'weight'=>$request->weight,
                 'waist Measurement'=>$request->waistMeasurement,
                 'neck'=>$request->neck,
                 'userId'=> Auth::id(),
-                'height'=>$request->height
+                'height'=>$request->height,
+                'birthDate'=>$request->birthDate
                 ]
             );
 

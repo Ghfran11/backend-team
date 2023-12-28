@@ -28,94 +28,107 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-
 });
 
 Route::middleware('auth:api')->group(function () {
 
-    Route::post('storeUserImage',[ImageController::class,'storeUserImage']);
+
+
+    Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
     //exercise
-    Route::post('storeExercise',[ExerciseController::class,'store']);
-    Route::get('showExercise/{exercise}',[ExerciseController::class,'show']);
-    Route::get('indexExercise',[ExerciseController::class,'index']);
-    Route::post('storeExerciseImage',[ImageController::class,'storeExerciseImage']);
+    Route::post('storeExercise', [ExerciseController::class, 'store']);
+    Route::get('showExercise/{exercise}', [ExerciseController::class, 'show']);
+    Route::get('indexExercise', [ExerciseController::class, 'index']);
+    Route::post('storeExerciseImage', [ImageController::class, 'storeExerciseImage']);
 
     //time
-    Route::post('storeTime',[TimeController::class,'store']);
-    Route::post('storeCoachTime',[TimeController::class,'storeCoachTime']);
-    Route::post('storeUserTime',[TimeController::class,'storeUserTime']);
-    Route::post('endCounter',[TimeController::class,'endCounter']);
-    Route::get('showMyTime',[TimeController::class,'show']);
+    Route::post('storeTime', [TimeController::class, 'store']);
+    Route::post('storeCoachTime', [TimeController::class, 'storeCoachTime']);
+    Route::post('storeUserTime', [TimeController::class, 'storeUserTime']);
+    Route::post('endCounter', [TimeController::class, 'endCounter']);
+    Route::get('showMyTime', [TimeController::class, 'show']);
 
-    Route::get('showUserTime/{user}',[TimeController::class,'showUserTime']);
+    Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
     //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
 
-//user
-    Route::get('showCoach',[UserController::class,'showCoach']);
-    Route::get('showPlayer',[UserController::class,'showPlayer']);
-    Route::get('showCoachInfo',[UserController::class,'showCoachInfo']);
-    Route::get('showDays',[DaysController::class,'index']);
-    Route::get('playerInfo',[UserController::class,'playerInfo']);
-    Route::delete('delete/{user}',[UserController::class,'deleteUser']);
-    Route::post('updateUser/{user}',[UserController::class,'updateUser']);
-    Route::post('rate/{user}',[UserController::class,'rateCoach']);
+    //user
+    Route::get('showCoach', [UserController::class, 'showCoach']);
+    Route::get('showPlayer', [UserController::class, 'showPlayer']);
+    Route::get('showCoachInfo/{id}', [UserController::class, 'showCoachInfo']);
+    Route::get('showDays', [DaysController::class, 'index']);
+    Route::get('playerInfo/{id}', [UserController::class, 'playerInfo']);
+    Route::delete('delete/{user}', [UserController::class, 'deleteUser']);
+    Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
+    Route::post('rate/{user}', [UserController::class, 'rateCoach']);
     //program
-    Route::get('show/{category}',[ProgramController::class,'index']);
-    Route::get('myprogram',[ProgramController::class,'showMyPrograme']);
-    Route::post('store',[ProgramController::class,'store']);
-    Route::post('updateprogram/{program}',[ProgramController::class,'update']);
-    Route::post('asignprogram/{program}',[ProgramController::class,'assignProgram']);
+    Route::get('show/{category}', [ProgramController::class, 'index']);
+    Route::get('myprogram', [ProgramController::class, 'showMyPrograme']);
+    Route::post('store', [ProgramController::class, 'store']);
+    Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
+    Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
 
     //chat
-    Route::get('listChat',[MessageController::class,'index']);
-    Route::get('showChat/{user}',[MessageController::class,'show']);
+    Route::get('listChat', [MessageController::class, 'index']);
+    Route::get('showChat/{user}', [MessageController::class, 'show']);
 
     //message
-    Route::post('sendMessage',[MessageController::class,'store']);
-    Route::delete('deleteMessage/{message}',[MessageController::class,'destroy']);
+    Route::post('sendMessage', [MessageController::class, 'store']);
+    Route::delete('deleteMessage/{message}', [MessageController::class, 'destroy']);
 
     //notification
-    Route::get('listNotification',[NotificationController::class,'index']);
+    Route::get('listNotification', [NotificationController::class, 'index']);
 
 
 
 
     //report
-    Route::get('/indexreport',[ReportController::class ,'index']);
-    Route::post('/report',[ReportController::class ,'store']);
-    Route::delete('/deletereport/{report}',[ReportController::class ,'destroy']);
-    Route::get('/myreport',[ReportController::class ,'showMyReport']);
+    Route::get('/indexreport', [ReportController::class, 'index']);
+    Route::post('/report', [ReportController::class, 'store']);
+    Route::delete('/deletereport/{report}', [ReportController::class, 'destroy']);
+    Route::get('/myreport', [ReportController::class, 'showMyReport']);
 
 
     //rate
-    Route::post('setRate',[RatingController::class,'setRate']);
-    Route::delete('deleteRate',[RatingController::class,'deleteRate']);
+    Route::post('setRate', [RatingController::class, 'setRate']);
+    Route::delete('deleteRate', [RatingController::class, 'deleteRate']);
 
 
 
     //subscribe
-  //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
+    //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
-//charts
+    //charts
 
-Route::get('countActivePlayers',[TimeController::class,'activePlayersCounter']);
-Route::get('activePlayers',[TimeController::class,'activePlayers']);
-Route::get('mvpCoach',[UserController::class,'mvpCoach']);
-Route::get('showPercentage',[UserController::class,'showPercentage']);
-
-
-
-
-//userInfo
-Route::post('addInfo',[UserInfoController::class,'store']);
-Route::post('updateInfo',[UserInfoController::class,'update']);
-Route::get('showInfo/{user}',[UserInfoController::class,'show']);
+//
+Route::get('subscription',[UserController::class,'subscription']);
+Route::post('updateSubscription/{user}',[UserController::class,'updateSubscription']);
+    Route::get('countActivePlayers', [TimeController::class, 'activePlayersCounter']);
+    Route::get('activePlayers', [TimeController::class, 'activePlayers']);
+    Route::get('mvpCoach', [UserController::class, 'mvpCoach']);
+    Route::get('showPercentage', [UserController::class, 'showPercentage']);
 
 
-});
-Route::post('addOrder',[OrderController::class,'store']);
+    //Search
+    Route::post('programSearch', [ProgramController::class, 'search']);
+    Route::post('userSearch', [UserController::class, 'search']);
+
+
+    //order
+
+    Route::post('addOrder',[OrderController::class,'store']);
 Route::post('updateOrrder/{order}',[OrderController::class,'update']);
 Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
-Route::post('acceptOrder/{order}',[OrderController::class,'acceptOrder']);
+Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
 Route::delete('deleteOrder',[OrderController::class,'destroy']);
 Route::post('showOrder/{order}',[OrderController::class,'show']);
+
+
+
+//statics
+Route::get('statistics',[UserController::class,'statistics']);
+});
+
+
+
+
+

@@ -10,9 +10,6 @@ use Illuminate\Support\Carbon;
 
 class SubscriptionController extends Controller
 {
-
-
-
     public function subscribe(Request $request)
     {
         $result = User::query()
@@ -24,5 +21,4 @@ class SubscriptionController extends Controller
             return ResponseHelper::success($result);
 
     }
-
 }

@@ -15,7 +15,7 @@ class NotificationController extends Controller
      */
     public function index() //list of 10 notifications
     {
-        $notifications = Notification::query()->where('receiver_id', Auth()->user()->id)
+        $notifications = Notification::query()->where('receiver_id', Auth::id())
             ->paginate(10);
         return response($notifications, Response::HTTP_CREATED);
     }

@@ -9,12 +9,11 @@ class Report extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['userId','text', 'title'];
+    protected $fillable = ['userId', 'text', 'title'];
 
 
     public function user()
     {
-        return $this->belongsTo(User::class,'userId');
+        return $this->belongsTo(User::class, 'userId');
     }
-
 }

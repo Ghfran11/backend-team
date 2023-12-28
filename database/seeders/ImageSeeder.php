@@ -28,8 +28,17 @@ class ImageSeeder extends Seeder
         ['userId' => '5','exerciseId'=>null,'image'=>'301136981.jpg'],
         ['userId' => '5','exerciseId'=>null,'image'=>'1903471181.jpg'],
 
+        ['userId' => '8','exerciseId'=>null,'image'=>'1202299738.jpg'],
+        ['userId' => '8','exerciseId'=>null,'image'=>'1311461512.jpg'],
 
-       
+        ['userId' => '9','exerciseId'=>null,'image'=>'1744293202.jpg'],
+        ['userId' => '9','exerciseId'=>null,'image'=>'540998245.jpg'],
+
+        ['userId' => '10','exerciseId'=>null,'image'=>'301136981.jpg'],
+        ['userId' => '10','exerciseId'=>null,'image'=>'1903471181.jpg'],
+
+
+
 
 
 

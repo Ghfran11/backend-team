@@ -329,8 +329,9 @@ class UserController extends Controller
 
         $result = Finance::whereYear('created_at', $lastYear)
             ->sum('finance');
+            $year = date('Y');
 
-        return responseHelper::success(['Annual_finance'=>$result]);
+        return responseHelper::success(['Annual_finance'=>$result, 'year'=>$year ]);
 
     }
 }

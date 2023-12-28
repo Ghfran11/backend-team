@@ -12,7 +12,11 @@ class ReportSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
+<<<<<<< HEAD
     { { DB::table('reports')->insert([
+=======
+    { DB::table('reports')->insert([
+>>>>>>> 40bd5a4cae99d5eef1221cf4d598eaef9c6fd250
         ['userId' => '3','title'=>'about coach','text'=>'coaches donnot come on the time','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
         ['userId' => '2','title'=>'about machin','text'=>'The machines are not clean','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 

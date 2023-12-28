@@ -27,7 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'birthDate',
         'role',
         'rate',
-        'expiration'
+        'expiration',
+        'finance'
     ];
 
     /**
@@ -79,7 +80,7 @@ class User extends Authenticatable implements JWTSubject
     }
     public function coachOrder()
     {
-        return $this->hasMany(Order::class, 'coachId');
+        return $this->hasMany(Order::class,'coachId');
     }
     public function playerOrder()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Finance;
+use App\Models\Report;
 use App\Models\Rating;
 use App\Models\Report;
 use App\Models\User;
@@ -17,7 +18,7 @@ class UserController extends Controller
 {
     public function showCoach()
     {
-        try {
+       try {
             $result = User::query()
                 ->where('role', 'coach')
                 ->with('image')
@@ -27,6 +28,8 @@ class UserController extends Controller
             if (empty($result)) {
                 return ResponseHelper::error([], null, 'No coaches found', 204);
             }
+
+
 
             return ResponseHelper::success($result, null, 'Show Coaches', 200);
         } catch (\Exception $e) {
@@ -300,7 +303,6 @@ class UserController extends Controller
             ->get();
         return ResponseHelper::success($users);
     }
-
 
     public function statistics()
     {

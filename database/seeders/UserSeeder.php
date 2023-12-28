@@ -30,4 +30,15 @@ class UserSeeder extends Seeder
             ['name' => 'Hussam', 'birthDate' => '2001-11-13', 'password' => '$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W', 'phoneNumber' => '0935622248', 'role' => 'player', 'finance' => 1000000],
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+
+
+
+
+
+
+
+
+>>>>>>> 06ca4c624c13f4b6794fbdc028e79d8bc226369f

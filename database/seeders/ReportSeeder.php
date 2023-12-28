@@ -12,7 +12,7 @@ class ReportSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    { DB::table('reports')->insert([
+    { { DB::table('reports')->insert([
         ['userId' => '3','title'=>'about coach','text'=>'coaches donnot come on the time','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
         ['userId' => '2','title'=>'about machin','text'=>'The machines are not clean','created_at'=> '2023-12-25 11:54:01','updated_at'=> '2023-12-25 11:54:01'],
 
@@ -22,4 +22,5 @@ class ReportSeeder extends Seeder
 
 
     ]); }
-}
+} }
+

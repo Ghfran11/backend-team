@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Finance;
-use App\Models\Report;
 use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,7 +16,7 @@ class UserController extends Controller
 {
     public function showCoach()
     {
-       try {
+        try {
             $result = User::query()
                 ->where('role', 'coach')
                 ->with('image')
@@ -27,8 +26,6 @@ class UserController extends Controller
             if (empty($result)) {
                 return ResponseHelper::error([], null, 'No coaches found', 204);
             }
-
-
 
             return ResponseHelper::success($result, null, 'Show Coaches', 200);
         } catch (\Exception $e) {
@@ -53,7 +50,6 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error([], null, $e->getMessage(), 500);
         }
-
     }
 
     public function showPlayer()
@@ -74,38 +70,38 @@ class UserController extends Controller
     }
 
     public function playerInfo($id)
-{
-    try {
-        $result = User::query()
-            ->where('id', $id)
-            ->where('role', 'player')
-            ->with('image')
-            ->get()
-            ->toArray();
-        if (empty($result)) {
-            return ResponseHelper::error([], null, 'User not found', 202);
+    {
+        try {
+            $result = User::query()
+                ->where('id', $id)
+                ->where('role', 'player')
+                ->with('image')
+                ->get()
+                ->toArray();
+            if (empty($result)) {
+                return ResponseHelper::error([], null, 'User not found', 202);
+            }
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error([], null, $e->getMessage(), 500);
         }
-        return ResponseHelper::success($result);
-    } catch (\Exception $e) {
-        return ResponseHelper::error([], null, $e->getMessage(), 500);
     }
-}
     public function updateUser(User $user, Request $request)
     {
         $user->update(
             [
                 'name' => $request->name,
-                'birthDate'=>$request->birthDate,
-                'phoneNumber'=>$request->phoneNumber,
-                'role'=>$request->role,
-                'finance'=>$request->finance
+                'birthDate' => $request->birthDate,
+                'phoneNumber' => $request->phoneNumber,
+                'role' => $request->role,
+                'finance' => $request->finance
 
 
             ]
 
-            );
+        );
 
-            return ResponseHelper::success(['updated successfuly']);
+        return ResponseHelper::success(['updated successfuly']);
     }
     public function deleteUser(User $user)
     {
@@ -122,58 +118,49 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error([], null, $e->getMessage(), 500);
         }
-
     }
 
 
     public function financial()
     {
-        $payments=User::query()->where('role','coach')->sum('finance');
-        $Imports=User::query()->where('role','player')->sum('finance');
+        $payments = User::query()->where('role', 'coach')->sum('finance');
+        $Imports = User::query()->where('role', 'player')->sum('finance');
         return ResponseHelper::success([
-            'payments'=>$payments,
-            'Imports'=>$Imports
+            'payments' => $payments,
+            'Imports' => $Imports
         ]);
-
-
-
     }
     public function subscription()
     {
-        $users=User::query()->where('role','player')->get()->toArray();
-        foreach($users as $user)
-        {
-        $userName=$user['name'];
-        $expiration = Carbon::parse($user['expiration']);
-         $now = Carbon::now();
-         $remainingTime = $now->diffInDays($expiration, false);
-         if($remainingTime < 0 )
-         {
-            $daysNotPaid=abs($remainingTime);
-         }
-         else{
-            $daysNotPaid=0;
-
-         }
-         $SubscriptionDate=$expiration->subMonth();
-         $Paid=$user['is_paid'];
-         $result=[
-            'id'=>$user['id'],
-         'userNaname'=>$userName,
-         'remainingTime'=> $remainingTime,
-         'paidStatus'=>$Paid,
-         'SubscriptionDate'=> $SubscriptionDate,
-         'daysNotPaid'=> $daysNotPaid,
-         ];
-         $results[] = $result;
+        $users = User::query()->where('role', 'player')->get()->toArray();
+        foreach ($users as $user) {
+            $userName = $user['name'];
+            $expiration = Carbon::parse($user['expiration']);
+            $now = Carbon::now();
+            $remainingTime = $now->diffInDays($expiration, false);
+            if ($remainingTime < 0) {
+                $daysNotPaid = abs($remainingTime);
+            } else {
+                $daysNotPaid = 0;
+            }
+            $SubscriptionDate = $expiration->subMonth();
+            $Paid = $user['is_paid'];
+            $result = [
+                'id' => $user['id'],
+                'userNaname' => $userName,
+                'remainingTime' => $remainingTime,
+                'paidStatus' => $Paid,
+                'SubscriptionDate' => $SubscriptionDate,
+                'daysNotPaid' => $daysNotPaid,
+            ];
+            $results[] = $result;
         }
-         return ResponseHelper::success($results);
-
-
+        return ResponseHelper::success($results);
     }
     public function updateSubscription(User $user, Request $request)
-    {  $subscriptionFee = $request->subscriptionFee;
-            $currentMonth = Carbon::now()
+    {
+        $subscriptionFee = $request->subscriptionFee;
+        $currentMonth = Carbon::now()
             ->format('F');
 
         if ($user->is_paid == 'unpaid') {
@@ -187,18 +174,15 @@ class UserController extends Controller
             ]);
 
 
-        $resule=Finance::query()->create([
+            $resule = Finance::query()->create([
                 'userId' => $user->id,
                 'finance' => $subscriptionFee,
                 'monthName' => $currentMonth
             ]);
             return ResponseHelper::updated('subscription added successfully');
-
+        } else {
+            return ResponseHelper::error([], null, 'this user was paid', 200);
         }
-        else{
-            return ResponseHelper::error([],null,'this user was paid',200);
-        }
-
     }
 
 
@@ -271,25 +255,25 @@ class UserController extends Controller
     public function mvpCoach()
     {
         $result = Rating::select('coachId')
-        ->selectRaw('SUM(rate) as totalRate')
-        ->groupBy('coachId')
-        ->orderByDesc('totalRate')
-        ->first();
+            ->selectRaw('SUM(rate) as totalRate')
+            ->groupBy('coachId')
+            ->orderByDesc('totalRate')
+            ->first();
 
-    if ($result) {
-        $coachId = $result->coachId;
-        $coach = User::with('image')->find($coachId);
+        if ($result) {
+            $coachId = $result->coachId;
+            $coach = User::with('image')->find($coachId);
 
-        if ($coach && $coach->image) {
-            $coachWithImage = $coach;
-            $coachWithImage->image;
-            return ResponseHelper::success($coachWithImage);
+            if ($coach && $coach->image) {
+                $coachWithImage = $coach;
+                $coachWithImage->image;
+                return ResponseHelper::success($coachWithImage);
+            } else {
+                return ResponseHelper::success([], null, 'No coaches found', 202);
+            }
         } else {
             return ResponseHelper::success([], null, 'No coaches found', 202);
         }
-    } else {
-        return ResponseHelper::success([], null, 'No coaches found', 202);
-    }
     }
 
 
@@ -306,6 +290,7 @@ class UserController extends Controller
         return ResponseHelper::success($users);
     }
 
+
     public function statistics()
     {
         $numofplayers = User::where('role', 'player')->pluck('expiration');
@@ -314,19 +299,33 @@ class UserController extends Controller
         foreach ($numofplayers as $expiration) {
             $not_expired = $numofplayers->filter(function ($expiration) use ($now_date) {
                 $expirationDate = Carbon::parse($expiration);
-                return $expirationDate->diffInDays($now_date) < 30;
+                return $expirationDate->diffInDays($now_date) < 31;
             })->count();
         }
 
-        $numOfCoach=User::where('role', 'coach')->count();
-       $reports=Report::get();
-        $numOfReports=$reports->count();
+        $numOfCoach = User::where('role', 'coach')->count();
+        $reports = Report::get();
+        $numOfReports = $reports->count();
 
-      return ResponseHelper::success([
-         'players'      =>$not_expired,
-         'coaches' =>  $numOfCoach,
-         'subscriptionFee'=>2000000,
-         'numOfReports'=>$numOfReports
+        return ResponseHelper::success([
+            'players'      => $not_expired,
+            'coaches' =>  $numOfCoach,
+            'subscriptionFee' => 2000000,
+            'numOfReports' => $numOfReports
         ]);
-        }
+    }
+
+
+
+    public function showAnnual(Request $request){
+
+
+        $lastYear = date('Y') ;
+
+        $result = Finance::whereYear('created_at', $lastYear)
+            ->sum('finance');
+
+        return responseHelper::success(['Annual finance :'=>$result]);
+
+    }
 }

@@ -30,6 +30,8 @@ class UserSeeder extends Seeder
 }
 
     }
+<<<<<<< HEAD
+=======
 
 
 
@@ -37,3 +39,4 @@ class UserSeeder extends Seeder
 
 
 
+>>>>>>> 130365ca0f1ad581dcf857b37bc22e3acf611559

@@ -111,12 +111,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get('statistics', [UserController::class, 'statistics']);
 
 });
-Route::post('addOrder', [OrderController::class, 'store']);
-Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
-Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);
-Route::post('acceptOrder', [OrderController::class, 'acceptOrder']);
-Route::delete('deleteOrder', [OrderController::class, 'destroy']);
-Route::post('showOrder/{order}', [OrderController::class, 'show']);
+Route::post('addOrder',[OrderController::class,'store']);
+Route::post('updateOrrder/{order}',[OrderController::class,'update']);
+Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
+Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
+Route::delete('deleteOrder',[OrderController::class,'destroy']);
+Route::post('showOrder/{order}',[OrderController::class,'show']);
+Route::get('showAnnual',[UserController::class,'showAnnual']);
 
-
-
+//user info
+Route::post('addInfo', [UserInfoController::class, 'store']);
+Route::get('updateInfo', [UserInfoController::class, 'update']);
+Route::get('showInfo/{user}', [UserInfoController::class, 'show']);

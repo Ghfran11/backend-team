@@ -258,10 +258,7 @@ class UserController extends Controller
             $result = Finance::where('monthName', $month)
                 ->sum('finance');
 
-            $monthlyData[] = [
-                'monthName' => $month,
-                'finance' => $result,
-            ];
+            $monthlyData[$month] = $result;
         }
 
         return ResponseHelper::success($monthlyData);

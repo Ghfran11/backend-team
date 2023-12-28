@@ -21,13 +21,19 @@ class UserSeeder extends Seeder
         ['name' => 'Raneem','birthDate'=>'2000-1-14','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622243','role'=>'coach','finance'=>000000],
         ['name' => 'Mazhar','birthDate'=>'2001-3-22','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622244','role'=>'coach','finance'=>2000000],
         ['name' => 'Thales','birthDate'=>'1998-10-23','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622245','role'=>'coach','finance'=>2000000],
-
-        ['name' => 'Elfat','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622246','role'=>'player','finance'=>10000],
-        ['name' => 'Hadi','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622247','role'=>'player','finance'=>1000000],
-        ['name' => 'Hussam','birthDate'=>'2023-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622248','role'=>'player','finance'=>1000000],
+        ['name' => 'Ismael','birthDate'=>'1997-10-23','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622255','role'=>'player','finance'=>2000000],
+        ['name' => 'Elfat','birthDate'=>'1999-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622246','role'=>'player','finance'=>10000],
+        ['name' => 'Hadi','birthDate'=>'2001-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622247','role'=>'player','finance'=>1000000],
+        ['name' => 'Hussam','birthDate'=>'2001-11-13','password'=>'$2y$12$tdFP5g.VOR5s1wsz8qqC1OG5bgyooFY1CXiiU037fCXfHMChuBi9W','phoneNumber'=>'0935622248','role'=>'player','finance'=>1000000],
     ]);
 
 }
 
     }
+
+
+
+
+
+
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserInfoController;
 use App\Models\Programe;
 use App\Models\UserInfo;
@@ -95,7 +96,7 @@ Route::middleware('auth:api')->group(function () {
 
     //charts
 
-//
+    //
     Route::get('subscription', [UserController::class, 'subscription']);
     Route::post('updateSubscription/{user}', [UserController::class, 'updateSubscription']);
     Route::get('countActivePlayers', [TimeController::class, 'activePlayersCounter']);
@@ -109,17 +110,21 @@ Route::middleware('auth:api')->group(function () {
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
     Route::get('statistics', [UserController::class, 'statistics']);
-
 });
-Route::post('addOrder',[OrderController::class,'store']);
-Route::post('updateOrrder/{order}',[OrderController::class,'update']);
-Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
-Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
-Route::delete('deleteOrder',[OrderController::class,'destroy']);
-Route::post('showOrder/{order}',[OrderController::class,'show']);
-Route::get('showAnnual',[UserController::class,'showAnnual']);
+Route::post('addOrder', [OrderController::class, 'store']);
+Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
+Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);
+Route::post('acceptOrder', [OrderController::class, 'acceptOrder']);
+Route::delete('deleteOrder', [OrderController::class, 'destroy']);
+Route::post('showOrder/{order}', [OrderController::class, 'show']);
+Route::get('showAnnual', [UserController::class, 'showAnnual']);
 
 //user info
 Route::post('addInfo', [UserInfoController::class, 'store']);
 Route::get('updateInfo', [UserInfoController::class, 'update']);
 Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
+
+
+
+//monthly Subscribtion Avg
+Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);

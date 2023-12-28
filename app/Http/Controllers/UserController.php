@@ -6,11 +6,13 @@ use App\Helpers\ResponseHelper;
 use App\Models\Finance;
 use App\Models\Report;
 use App\Models\Rating;
+use App\Models\Report;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\MonthService;
 
 class UserController extends Controller
 {
@@ -207,7 +209,7 @@ class UserController extends Controller
 
 
 
-    public function showPercentage(User $user, Request $request)
+    public function showCountPercentage(User $user, Request $request)
     {
         $fiveMonthsAgo = Carbon::now()->subMonths(5);
 
@@ -241,6 +243,29 @@ class UserController extends Controller
             'percentage_data' => $percentageData,
             'total_percentage' => round($totalPercentage, 2)
         ]);
+    }
+
+
+
+
+
+    public function financeMonth(Request $request, MonthService $monthService)
+    {
+        $previousMonths = $monthService->getPreviousMonths(5);
+
+        $monthlyData = [];
+
+        foreach ($previousMonths as $month) {
+            $result = Finance::where('monthName', $month)
+                ->sum('finance');
+
+            $monthlyData[] = [
+                'monthName' => $month,
+                'finance' => $result,
+            ];
+        }
+
+        return ResponseHelper::success($monthlyData);
     }
 
 

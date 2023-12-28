@@ -105,30 +105,23 @@ Route::post('updateSubscription/{user}',[UserController::class,'updateSubscripti
     Route::get('countActivePlayers', [TimeController::class, 'activePlayersCounter']);
     Route::get('activePlayers', [TimeController::class, 'activePlayers']);
     Route::get('mvpCoach', [UserController::class, 'mvpCoach']);
-    Route::get('showPercentage', [UserController::class, 'showPercentage']);
+    Route::get('showPercentage', [UserController::class, 'showCountPercentage']);
+    Route::get('financeMonth', [UserController::class, 'financeMonth']);
+
 
 
     //Search
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
+    Route::get('statistics',[UserController::class,'statistics']);
 
-
-    //order
-
-    Route::post('addOrder',[OrderController::class,'store']);
+});
+Route::post('addOrder',[OrderController::class,'store']);
 Route::post('updateOrrder/{order}',[OrderController::class,'update']);
 Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
 Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
 Route::delete('deleteOrder',[OrderController::class,'destroy']);
 Route::post('showOrder/{order}',[OrderController::class,'show']);
-
-
-
-//statics
-Route::get('statistics',[UserController::class,'statistics']);
-});
-
-
 
 
 

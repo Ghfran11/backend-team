@@ -122,6 +122,7 @@ Route::get('getMyOrder',[OrderController::class,'getMyOrder']);
 Route::post('acceptOrder',[OrderController::class,'acceptOrder']);
 Route::delete('deleteOrder',[OrderController::class,'destroy']);
 Route::post('showOrder/{order}',[OrderController::class,'show']);
+Route::get('showAnnual',[UserController::class,'showAnnual']);
 
 
 

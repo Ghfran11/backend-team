@@ -142,8 +142,11 @@ class UserController extends Controller
             $remainingTime = $now->diffInDays($expiration, false);
             if ($remainingTime < 0) {
                 $daysNotPaid = abs($remainingTime);
+                $remainingTime = 0;
+
             } else {
                 $daysNotPaid = 0;
+
             }
             $SubscriptionDate = $expiration->subMonth();
             $Paid = $user['is_paid'];

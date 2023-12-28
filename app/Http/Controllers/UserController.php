@@ -311,7 +311,7 @@ class UserController extends Controller
         foreach ($numofplayers as $expiration) {
             $not_expired = $numofplayers->filter(function ($expiration) use ($now_date) {
                 $expirationDate = Carbon::parse($expiration);
-                return $expirationDate->diffInDays($now_date) < 30;
+                return $expirationDate->diffInDays($now_date) < 31;
             })->count();
         }
 

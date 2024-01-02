@@ -27,12 +27,13 @@ class SubscriptionController extends Controller
     {
         $coach_id = Auth::id();
         $now = Carbon::now();
-        $sixMonthsAgo = $now->copy()->subMonths(6);
+        $fiveMonthsAgo = $now->copy()->subMonths(5);
         $orderCount = Order::where('coachId', $coach_id)
             ->where('status', 'accepted')
-            ->whereBetween('created_at', [$sixMonthsAgo, $now])
+            ->whereBetween('created_at', [$fiveMonthsAgo, $now])
             ->count();
-        $average = $orderCount / 6;
-        return ResponseHelper::success($average);
+        $average = number_format(($orderCount / 6) * 100, 1);
+        $avg=$average . "%";
+        return ResponseHelper::success($avg);
     }
 }

@@ -239,7 +239,7 @@ class UserController extends Controller
 
     public function financeMonth(Request $request, MonthService $monthService)
     {
-        $previousMonths = $monthService->getPreviousMonths(5);
+        $previousMonths = $monthService->getPreviousMonths(7);
 
         $monthlyData = [];
 

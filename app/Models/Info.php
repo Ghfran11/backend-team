@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserInfo extends Model
+class Info extends Model
 {
-    protected $fillable = ['gender','weight','waist Measurement','neck','height','userId','birthDate'];
+
+    protected $fillable = ['finance'];
     use HasFactory;
 }

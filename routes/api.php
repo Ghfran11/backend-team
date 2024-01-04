@@ -16,6 +16,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserInfoController;
+use App\Http\Controllers\InfoController;
 use App\Models\Programe;
 use App\Models\UserInfo;
 
@@ -128,3 +129,10 @@ Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
 
 //monthly Subscribtion Avg
 Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);
+
+
+//finance
+
+
+Route::post('updateFinance/{info}', [InfoController::class, 'update']);
+Route::post('showFinance/{info}', [InfoController::class, 'show']);

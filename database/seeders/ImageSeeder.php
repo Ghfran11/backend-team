@@ -39,7 +39,7 @@ class ImageSeeder extends Seeder
 
 
 
-     
+
 
 
 

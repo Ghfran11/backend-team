@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Models\Finance;
 use App\Models\Report;
-
+use App\Models\Info;
 use App\Models\Rating;
 use App\Models\User;
 use Carbon\Carbon;
@@ -165,6 +165,7 @@ class UserController extends Controller
     public function updateSubscription(User $user, Request $request)
     {
         $subscriptionFee = $request->subscriptionFee;
+        $finance=Info::query()->value('finance');
         $currentMonth = Carbon::now()
             ->format('F');
 
@@ -174,14 +175,14 @@ class UserController extends Controller
             $user->update([
 
                 'expiration' => now()->addMonth(),
-                'finance' => $subscriptionFee
+                'finance' => $finance
 
             ]);
 
 
             $resule = Finance::query()->create([
                 'userId' => $user->id,
-                'finance' => $subscriptionFee,
+                'finance' =>$finance,
                 'monthName' => $currentMonth
             ]);
             return ResponseHelper::updated('subscription added successfully');

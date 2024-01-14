@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
-use App\Http\Traits\Files;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreprogramRequest;
@@ -11,6 +10,7 @@ use App\Http\Requests\UpdateprogramRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Traits\Files;
 use Carbon\Carbon;
 
 class ProgramController extends Controller
@@ -104,18 +104,19 @@ class ProgramController extends Controller
         $startDate = Carbon::parse($request->startDate)
         ->addDays($request->days)
         ->toDateString();
+        $players=$request->player_id;
+        foreach($players as $item)
+        {
         $attach = [
-            'user_id' => Auth::id(),
-            'player_id' => $request->player_id,
+            'user_id' => 1,
             'startDate' => $startDate,
+            'player_id'=>$item,
             'days' => $request->days,
             'created_at' => Carbon::now()
         ];
 
-        $result = $program
-            ->coachs()
-            ->syncWithoutDetaching([$attach]);
-
+        $result = $program->coachs()->syncWithoutDetaching([$attach]);
+    }
 
        return ResponseHelper::success([],null,'success',200);
     }
@@ -128,5 +129,10 @@ class ProgramController extends Controller
             ->orWhere('type', 'LIKE', "%{$search}%")
             ->get();
         return ResponseHelper::success($programs);
+    }
+    public function getCategory()
+    {
+        $result=Category::query()->get();
+        return ResponseHelper::success($result);
     }
 }

@@ -335,4 +335,43 @@ class UserController extends Controller
         return responseHelper::success(['Annual_finance'=>$result, 'year'=>$year ]);
 
     }
+    public function info()
+    {
+        $user=User::find(Auth::id());
+        $userOrder[]=$user->playerOrder()->get();
+
+        if(!empty($userOrder) ){
+            $status=$user->playerOrder()->pluck('status');
+
+            if( $status = 'accepted')
+            {
+                $hasCoach='true';
+            }
+            else
+            {
+                $hasCoach='false';
+            }
+        }
+            $userProgram=$user->playerprogrames()->get()->toArray();
+
+            if(!empty($userProgram)){
+                $hasProgram='true';
+             $programType=$user->playerprogrames()->pluck('type');
+        }
+        else
+        {
+              $hasProgram='false';
+              $programType= null;
+
+        }
+
+        $result=[
+            'hasCoach'=>$hasCoach,
+            'hasProgram'=>$hasProgram,
+            'programType'=>$programType,
+        ];
+
+
+    return responseHelper::success([$result]);
+}
 }

@@ -18,9 +18,10 @@ class ProgramController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Category $category)
+    public function index(Request $request)
     {
-        $result = $category->program()->get()->toArray();
+        $category=Category::where('type',$request->type);
+        $result = $category->with('program')->get()->toArray();
         return ResponseHelper::success($result);
     }
 
@@ -93,10 +94,15 @@ class ProgramController extends Controller
         return response()->download($filepath, $filename);
     }
 
-    public function showMyPrograme()
+    public function showMyPrograme(Request $request)
     {
-        $user = User::find(Auth::id());
-        $result = $user->playerprogrames()->get()->toArray();
+        $categoryId=Category::where('type',$request->type)->value('id');
+      //  $result = $category->with('program')->where('categoryId', $categoryId)->get()->toArray();
+        $user = User::find(2);
+        $result = $user->playerprogrames()->get()->where('categoryId',  $categoryId)->toArray()
+        ;
+
+
         return ResponseHelper::success($result);
     }
     public function assignProgram(Program $program, Request $request)

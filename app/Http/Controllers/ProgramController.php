@@ -98,9 +98,8 @@ class ProgramController extends Controller
     {
         $categoryId=Category::where('type',$request->type)->value('id');
       //  $result = $category->with('program')->where('categoryId', $categoryId)->get()->toArray();
-        $user = User::find(2);
-        $result = $user->playerprogrames()->get()->where('categoryId',  $categoryId)->toArray()
-        ;
+        $user = User::find(Auth::id());
+        $result = $user->playerprogrames()->get()->where('categoryId',  $categoryId)->toArray();
 
 
         return ResponseHelper::success($result);
@@ -114,7 +113,7 @@ class ProgramController extends Controller
         foreach($players as $item)
         {
         $attach = [
-            'user_id' => 1,
+            'user_id' => Auth::id(),
             'startDate' => $startDate,
             'player_id'=>$item,
             'days' => $request->days,

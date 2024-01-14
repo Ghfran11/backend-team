@@ -62,9 +62,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
     Route::post('rate/{user}', [UserController::class, 'rateCoach']);
     //program
-    Route::get('show/{category}', [ProgramController::class, 'index']);
+    Route::get('show', [ProgramController::class, 'index']);
     Route::get('myprogram', [ProgramController::class, 'showMyPrograme']);
     Route::post('store', [ProgramController::class, 'store']);
+    Route::get('getCategory', [ProgramController::class, 'getCategory']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
 
@@ -111,7 +112,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
     Route::get('statistics', [UserController::class, 'statistics']);
-});
+ });
 Route::post('addOrder', [OrderController::class, 'store']);
 Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
 Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);
@@ -119,6 +120,7 @@ Route::post('acceptOrder', [OrderController::class, 'acceptOrder']);
 Route::delete('deleteOrder', [OrderController::class, 'destroy']);
 Route::post('showOrder/{order}', [OrderController::class, 'show']);
 Route::get('showAnnual', [UserController::class, 'showAnnual']);
+Route::get('status', [UserController::class, 'info']);
 
 //user info
 Route::post('addInfo', [UserInfoController::class, 'store']);

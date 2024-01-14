@@ -32,7 +32,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 
-// Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')->group(function () {
 
 
     Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
@@ -112,7 +112,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
     Route::get('statistics', [UserController::class, 'statistics']);
-// });
+ });
 Route::post('addOrder', [OrderController::class, 'store']);
 Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
 Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);

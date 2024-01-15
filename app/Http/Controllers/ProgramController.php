@@ -21,8 +21,9 @@ class ProgramController extends Controller
     public function index(Request $request)
     {
         $category=Category::where('type',$request->type);
-        $result = $category->with('program')->get()->toArray();
-        return ResponseHelper::success($result);
+        $program=Program::with('category')->get()->where('category.type',$request->type)->toArray();
+       // $result = $category->with('program')->get()->toArray();
+        return ResponseHelper::success($program);
     }
 
     /**
@@ -32,10 +33,12 @@ class ProgramController extends Controller
     {
 
         $path = Files::saveFile($request);
+        $image=Files::saveImage($request);
         $result = Program::query()->create(
             [
                 'name' => $request->name,
                 'file' => $path,
+                'imageUrl'=> $image,
                 'type' => $request->type,
                 'categoryId' => $request->categoryId
             ]
@@ -97,9 +100,10 @@ class ProgramController extends Controller
     public function showMyPrograme(Request $request)
     {
         $categoryId=Category::where('type',$request->type)->value('id');
+
       //  $result = $category->with('program')->where('categoryId', $categoryId)->get()->toArray();
         $user = User::find(Auth::id());
-        $result = $user->playerprogrames()->get()->where('categoryId',  $categoryId)->toArray();
+        $result = $user->playerprogrames()->get()->where('category.type',$request->type)->toArray();
 
 
         return ResponseHelper::success($result);
@@ -137,7 +141,7 @@ class ProgramController extends Controller
     }
     public function getCategory()
     {
-        $result=Category::query()->get();
+        $result=Category::query()->get()->toArray();
         return ResponseHelper::success($result);
     }
 }

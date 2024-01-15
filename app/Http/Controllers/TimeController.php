@@ -167,6 +167,30 @@ class TimeController extends Controller
                         ->get()
                         ->toArray();
     }
+    public function monthlyProgress()
+    {
+        $startDate = Carbon::now()->startOfMonth();
+           $endDate = Carbon::now()->endOfMonth();
+           $user=User::find(Auth::id());
+          $result= $user->time()->whereBetween('startTime', [$startDate, $endDate])->pluck('startTime');
+          return ResponseHelper::success($result);
+
+    }
+    public function weeklyProgress()
+    {
+        $startDate = Carbon::now()->startOfWeek();
+           $endDate = Carbon::now()->endOfWeek();
+           $user=User::find(Auth::id());
+          $result= $user->time()->whereBetween('startTime', [$startDate, $endDate])->get();
+          $daysOfWeek = [];
+foreach ($result as $result) {
+ $day = Carbon::parse($result->startTime)->startOfDay();
+ $daysOfWeek[] = $day->format('l'); // Eg "Monday"
+
+}
+          return ResponseHelper::success($daysOfWeek);
+
+    }
 
 }
 

@@ -16,19 +16,23 @@ class CategorySeeder extends Seeder
         DB::table('categories')->insert([
             'name' => 'Strength Training',
             'description' => 'Programs that focus on building and maintaining muscle mass.',
-            'type'=>'sport'
+            'type'=>'sport',
+            'imageUrl'=>'Screenshot 2023-12-17 114105.png'
         ]);
 
         DB::table('categories')->insert([
             'name' => 'Cardiovascular Training',
             'description' => 'Programs that focus on improving cardiovascular health.',
-            'type'=>'sport'
+            'type'=>'sport',
+            'imageUrl'=>'Screenshot 2023-12-17 114105.png'
+
         ]);
 
         DB::table('categories')->insert([
             'name' => 'Flexibility Training',
             'description' => 'Programs that focus on improving flexibility and range of motion.',
-            'type'=>'food'
+            'type'=>'food',
+            'imageUrl'=>'Screenshot 2023-12-17 114105.png'
         ]);
 
 

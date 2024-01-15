@@ -9,11 +9,11 @@ class Program extends Model
 {
 
     use HasFactory;
-    protected $fillable = ['name', 'file', 'categoryId', 'type'];
+    protected $fillable = ['name', 'file', 'categoryId', 'type','imageUrl'];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'categpryId');
+        return $this->belongsTo(Category::class, 'categoryId');
     }
     public function coachs()
     {

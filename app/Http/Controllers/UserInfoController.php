@@ -85,8 +85,9 @@ class UserInfoController extends Controller
                 'birthDate'=>$request->birthDate
                 ]
             );
+            $result=$user->userInfo()->get()->toArray();
 
-            return ResponseHelper::success($userInfo);
+            return ResponseHelper::success($result);
     }
 
     /**

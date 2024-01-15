@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('categoryId')->constrained('categories')->cascadeOnDelete();
             $table->string('name');
             $table->string('file');
+            $table->string('imageUrl')->nullable();
             $table->enum('type', ['general', 'private']);
             $table->timestamps();
         });

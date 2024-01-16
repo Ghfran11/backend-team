@@ -20,6 +20,6 @@ class Day extends Model
     }
     public function time()
     {
-        return $this->hasMany(Day::class, 'dayId');
+        return $this->hasMany(Time::class, 'dayId');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Time;
+use App\Models\Day;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
 use App\Models\Report;
@@ -52,6 +53,17 @@ class TimeController extends Controller
 
         return ResponseHelper::success($time,null,'success',200);
     }
+
+
+    public function showCoachTime(User $user)
+    {
+
+           $result= $user->time()->get(['startTime','endTime','dayId']);
+
+        return ResponseHelper::success($result,null,'success',200);
+        }
+
+
 
 
     public function endCounter(Request $request){
@@ -191,6 +203,7 @@ foreach ($result as $result) {
           return ResponseHelper::success($daysOfWeek);
 
     }
+
 
 }
 

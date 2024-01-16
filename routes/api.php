@@ -53,7 +53,7 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
-    //Route::get('showPlayerTime',[TimeController::class,'showPlayerTime']);
+    Route::get('showCoachTime/{user}',[TimeController::class,'showCoachTime']);
 
     //user
     Route::get('showCoach', [UserController::class, 'showCoach']);

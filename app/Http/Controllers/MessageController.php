@@ -67,14 +67,42 @@ class MessageController extends Controller
     public function show(User $user) //show chat with messages!!!!
     {
 
-        $chat = Message::query()->where([
+        $message = Message::query()->where([
             ['sender_id', $user->id],
             ['receiver_id', Auth::id()],
         ])->orWhere([
             ['sender_id', Auth::id()],
             ['receiver_id', $user->id],
         ])->get();
-        return response($chat, Response::HTTP_OK);
+
+        foreach($message as $item)
+        {
+
+
+        if($item->sender_id == Auth::id())
+        {
+            $is_sender=true;
+        }
+        else
+        {
+            $is_sender=false;
+
+        }
+
+           $results[]= $result=
+            [
+                'id'=> $item->id,
+                'sender_id'=> $item->sender_id,
+                'receiver_id' =>$item->receiver_id,
+                'content'=>$item->content,
+                'is_sender'=>$is_sender,
+                'created_at'=>$item->created_at
+
+            ];
+
+
+        }
+        return response($results, Response::HTTP_OK);
     }
 
     /**

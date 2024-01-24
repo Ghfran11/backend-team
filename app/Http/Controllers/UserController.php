@@ -45,6 +45,8 @@ class UserController extends Controller
                 ->with('image')
                 ->get()
                 ->toArray();
+
+
             if (empty($result)) {
                 return ResponseHelper::error([], null, 'Coach not found', 202);
             }

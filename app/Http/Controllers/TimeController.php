@@ -58,7 +58,7 @@ class TimeController extends Controller
     public function showCoachTime(User $user)
     {
 
-           $result= $user->time()->get(['startTime','endTime','dayId']);
+           $result= $user->time()->get(['startTime','endTime','dayId'])->toArray();
 
         return ResponseHelper::success($result,null,'success',200);
         }

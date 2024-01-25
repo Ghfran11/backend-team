@@ -340,6 +340,7 @@ class UserController extends Controller
     public function info()
     {
         $user=User::find(Auth::id());
+
         $userOrder[]=$user->playerOrder()->get();
 
         if(!empty($userOrder) ){
@@ -358,7 +359,7 @@ class UserController extends Controller
 
             if(!empty($userProgram)){
                 $hasProgram='true';
-             $programType=$user->playerprogrames()->pluck('type');
+             $programType=$user->playerprogrames()->get();
         }
         else
         {

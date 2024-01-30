@@ -11,6 +11,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
@@ -145,6 +146,6 @@ Route::post('showFinance/{info}', [InfoController::class, 'show']);
 
 //category
 
-Route::get('getCategories', [InfoController::class, 'index']);
+Route::get('getCategories', [CategoryController::class, 'index']);
 
 

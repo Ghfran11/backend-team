@@ -20,8 +20,11 @@ class ProgramController extends Controller
      */
     public function index(Request $request)
     {
-        $category=Category::where('type',$request->type);
-        $program=Program::with('category')->get()->where('category.type',$request->type)->toArray();
+        $category=Category::where('type',$request->type)
+        ->where('categoryId',$request->categoryId);
+        $program=Program::with('category')
+        ->get()
+        ->where('category.type',$request->type)->toArray();
        // $result = $category->with('program')->get()->toArray();
         return ResponseHelper::success($program);
     }

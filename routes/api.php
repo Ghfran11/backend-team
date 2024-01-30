@@ -43,7 +43,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeExerciseImage', [ImageController::class, 'storeExerciseImage']);
 
     //time
-    Route::post('storeTime', [TimeController::class, 'store']);
+    Route::post('storeTime', [TimeController::class, 'storeCoachTime']);
     Route::post('storeCoachTime', [TimeController::class, 'storeCoachTime']);
     Route::post('storeUserTime', [TimeController::class, 'storeUserTime']);
     Route::post('endCounter', [TimeController::class, 'endCounter']);
@@ -119,7 +119,7 @@ Route::middleware('auth:api')->group(function () {
 Route::post('addOrder', [OrderController::class, 'store']);
 Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
 Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);
-Route::post('acceptOrder', [OrderController::class, 'acceptOrder']);
+Route::post('acceptOrder/{order}', [OrderController::class, 'acceptOrder']);
 Route::delete('deleteOrder', [OrderController::class, 'destroy']);
 Route::post('showOrder/{order}', [OrderController::class, 'show']);
 Route::get('showAnnual', [UserController::class, 'showAnnual']);

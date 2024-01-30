@@ -58,7 +58,7 @@ class TimeController extends Controller
     public function showCoachTime(User $user)
     {
 
-           $result= $user->time()->get(['startTime','endTime','dayId']);
+           $result= $user->time()->get(['startTime','endTime','dayId'])->toArray();
 
         return ResponseHelper::success($result,null,'success',200);
         }
@@ -157,6 +157,7 @@ class TimeController extends Controller
                     ->count();
 
 
+
         $numofplayers = User::where('role', 'player')->pluck('expiration');
         $now_date = Carbon::now();
 
@@ -178,6 +179,22 @@ class TimeController extends Controller
                         ->with('user')
                         ->get()
                         ->toArray();
+                        if( $activeplayers > 5)
+                        {
+                            $isTraffic=true;
+
+                        }
+                        else
+                        {
+                            $isTraffic=false;
+
+                        }
+
+$result=[
+    'activePlayer'=>$activeplayers,
+    'isTraffic'=> $isTraffic
+];
+return ResponseHelper::success($result);
     }
     public function monthlyProgress()
     {

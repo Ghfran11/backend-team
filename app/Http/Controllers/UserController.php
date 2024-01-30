@@ -45,6 +45,8 @@ class UserController extends Controller
                 ->with('image')
                 ->get()
                 ->toArray();
+
+
             if (empty($result)) {
                 return ResponseHelper::error([], null, 'Coach not found', 202);
             }
@@ -338,6 +340,7 @@ class UserController extends Controller
     public function info()
     {
         $user=User::find(Auth::id());
+
         $userOrder[]=$user->playerOrder()->get();
 
         if(!empty($userOrder) ){
@@ -356,7 +359,7 @@ class UserController extends Controller
 
             if(!empty($userProgram)){
                 $hasProgram='true';
-             $programType=$user->playerprogrames()->pluck('type');
+             $programType=$user->playerprogrames()->get();
         }
         else
         {

@@ -9,6 +9,9 @@ use App\Http\Requests\StoreorderRequest;
 use App\Http\Requests\UpdateorderRequest;
 use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\Request;
+use App\Models\Program;
+
 
 class OrderController extends Controller
 {
@@ -30,6 +33,7 @@ class OrderController extends Controller
             [
                 'coachId'=>$request->coachId,
                 'playerId'=>Auth::id(),
+                'type'=>'join'
 
 
             ]
@@ -88,7 +92,6 @@ class OrderController extends Controller
 
 
         $user=User::find(Auth::id());
-        dd($user->role);
 
 
         if( $user->role = 'coach')
@@ -110,25 +113,55 @@ class OrderController extends Controller
     }
     public function acceptOrder(Order $order)
     {
-        if($order->status = 'waiting')
+        if($order->status == 'waiting' && $order->type == 'join')
         {
+
        $result= $order->update(
             [
                 'status'=>'accepted',
             ]
             );
 
-            $otherOrder=Order::query()->where('playerId',$order->playerId)->where('coachId','!=',Auth::id())->delete();;
+            $otherOrder=Order::query()->where('playerId',$order->playerId)->where('id','!=',$order->id)->where('coachId','!=',Auth::id())->where('type','join')->where('status','waiting')->delete();
 
             return ResponseHelper::success([],null,'acceptd succesfully',200);
 
         }
+        if($order->status == 'waiting' && $order->type == 'program')
+        {
+           
+            $result= $order->update(
+                [
+                    'status'=>'accepted',
+                ]
+                );
+                return ResponseHelper::success([],null,'acceptd succesfully',200);
+        }
+
         else{
             return ResponseHelper::success([],null,'cannot accept this ',200);
 
         }
 
-
-
     }
+    public function requestPrograme(Request $request)
+    {
+        $Order = Order::query()->create(
+            [
+                'coachId'=>$request->coachId,
+                'playerId'=>Auth::id(),
+                'type'=>'program'
+
+
+            ]
+            );
+            return ResponseHelper::success($Order);
+    }
+    public function getPremum()
+        {
+            $user=User::find(Auth::id());
+          $program=$user->playerprogrames()->where('type','private')->get()->toArray();
+        return ResponseHelper::success($program);
+
+}
 }

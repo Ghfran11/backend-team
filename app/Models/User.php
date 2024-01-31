@@ -174,4 +174,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Notification::class);
     }
+
+    public function favorites()
+{
+    return $this->belongsToMany(Article::class, 'article_user', 'user_id', 'article_id')->withPivot('isFavourite');
+}
+public function coachArticle()
+{
+    return $this->belongsToMany(Article::class, 'article_user', 'coach_id', 'article_id')->withPivot('isFavourite');
+}
 }

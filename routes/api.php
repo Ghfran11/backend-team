@@ -11,12 +11,14 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\InfoController;
+use App\Models\Category;
 use App\Models\Programe;
 use App\Models\UserInfo;
 
@@ -116,6 +118,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('userSearch', [UserController::class, 'search']);
     Route::get('statistics', [UserController::class, 'statistics']);
  });
+
+
 Route::post('addOrder', [OrderController::class, 'store']);
 Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
 Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);
@@ -124,6 +128,8 @@ Route::delete('deleteOrder', [OrderController::class, 'destroy']);
 Route::post('showOrder/{order}', [OrderController::class, 'show']);
 Route::get('showAnnual', [UserController::class, 'showAnnual']);
 Route::get('status', [UserController::class, 'info']);
+Route::post('requestPrograme', [OrderController::class, 'requestPrograme']);
+Route::get('Premum', [OrderController::class, 'getPremum']);
 
 //user info
 Route::post('addInfo', [UserInfoController::class, 'store']);
@@ -141,3 +147,10 @@ Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg
 
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
 Route::post('showFinance/{info}', [InfoController::class, 'show']);
+Route::get('category',[Category::class,'index']);
+
+//Article
+Route::post('addArticle',[ArticleController::class,'store']);
+Route::get('allArticle',[ArticleController::class,'index']);
+Route::get('coachArticle/{user}',[ArticleController::class,'getCoachArticle']);
+Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite']);

@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('coachId')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('playerId')->constrained('users')->cascadeOnDelete();
-            $table->enum('type',['join','program']);
-            $table->enum('status',['waiting','accepted','rejected']);
+            $table->string('title');
+            $table->longText('content');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('articles');
     }
 };

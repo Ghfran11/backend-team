@@ -36,6 +36,7 @@ class ProgramController extends Controller
         $image=Files::saveImage($request);
         $result = Program::query()->create(
             [
+                'user_id'=>Auth::id(),
                 'name' => $request->name,
                 'file' => $path,
                 'imageUrl'=> $image,

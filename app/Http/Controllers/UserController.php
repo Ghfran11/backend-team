@@ -346,13 +346,18 @@ class UserController extends Controller
         if(!empty($userOrder) ){
             $status=$user->playerOrder()->pluck('status');
 
+
+
             if( $status = 'accepted')
             {
                 $hasCoach='true';
+                $mycoach=$user->playerOrder()->get();
+
             }
             else
             {
                 $hasCoach='false';
+                $mycoach=null;
             }
         }
             $userProgram=$user->playerprogrames()->get()->toArray();
@@ -372,6 +377,7 @@ class UserController extends Controller
             'hasCoach'=>$hasCoach,
             'hasProgram'=>$hasProgram,
             'programType'=>$programType,
+            'myCoach'=> $mycoach
         ];
 
 

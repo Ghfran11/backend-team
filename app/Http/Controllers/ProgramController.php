@@ -20,8 +20,11 @@ class ProgramController extends Controller
      */
     public function index(Request $request)
     {
-        $category=Category::where('type',$request->type);
-        $program=Program::with('category')->get()->where('category.type',$request->type)->toArray();
+        $category=Category::where('type',$request->type)
+        ->where('categoryId',$request->categoryId);
+        $program=Program::with('category')
+        ->get()
+        ->where('category.type',$request->type)->toArray();
        // $result = $category->with('program')->get()->toArray();
         return ResponseHelper::success($program);
     }
@@ -104,7 +107,9 @@ class ProgramController extends Controller
 
       //  $result = $category->with('program')->where('categoryId', $categoryId)->get()->toArray();
         $user = User::find(Auth::id());
-        $result = $user->playerprogrames()->get()->where('category.type',$request->type)->toArray();
+        $result = $user->playerprogrames()->get()
+        ->where('category.type',$request->type)
+        ->toArray();
 
 
         return ResponseHelper::success($result);

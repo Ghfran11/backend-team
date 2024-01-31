@@ -6,16 +6,13 @@ use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TimeController;
+                        use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
-<<<<<<< HEAD
-use App\Http\Controllers\ArticleController;
-=======
 use App\Http\Controllers\CategoryController;
->>>>>>> d0c65ce0451fe78ea9725359381e72d852e3b06b
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
@@ -151,7 +148,6 @@ Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg
 
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
 Route::post('showFinance/{info}', [InfoController::class, 'show']);
-<<<<<<< HEAD
 Route::get('category',[Category::class,'index']);
 
 //Article
@@ -159,7 +155,6 @@ Route::post('addArticle',[ArticleController::class,'store']);
 Route::get('allArticle',[ArticleController::class,'index']);
 Route::get('coachArticle/{user}',[ArticleController::class,'getCoachArticle']);
 Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite']);
-=======
 
 
 //category
@@ -167,4 +162,3 @@ Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite'
 Route::get('getCategories', [CategoryController::class, 'index']);
 
 
->>>>>>> d0c65ce0451fe78ea9725359381e72d852e3b06b

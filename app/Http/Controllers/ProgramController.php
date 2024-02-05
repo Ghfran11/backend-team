@@ -153,12 +153,14 @@ class ProgramController extends Controller
 
     public function getPrograms(Request $request)
     {
-        $result=Category::query()
-        ->where('type',$request->type)
-        ->with('program')
-        ->get()
-        ->toArray();
+        $result = Category::query()
+            ->where('type', $request->type)
+            ->with(['program' => function ($query) {
+                $query->where('type', 'private');
+            }])
+            ->get()
+            ->toArray();
+
         return ResponseHelper::success($result);
     }
-
 }

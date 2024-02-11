@@ -14,7 +14,7 @@ trait Files
         if ($request->hasFile('file')) {
             $theFilePath = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('Filepath'), $theFilePath);
-            $theFilePath = 'Filepath/' . $theFilePath;
+            $theFilePath =  $theFilePath;
         }
 
         return $theFilePath;
@@ -35,7 +35,7 @@ trait Files
         if ($request->hasFile('imageUrl')) {
             $theFilePath = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('Imagepath'), $theFilePath);
-            $theFilePath = 'Imagepath/' . $theFilePath;
+            $theFilePath = $theFilePath;
         }
 
         return $theFilePath;

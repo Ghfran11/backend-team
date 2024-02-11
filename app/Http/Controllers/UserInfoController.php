@@ -10,9 +10,18 @@ use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use Carbon\Carbon;
+use App\Services\ImageService;
 
 class UserInfoController extends Controller
 {
+
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+
+        $this->imageService = $imageService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -74,7 +83,7 @@ class UserInfoController extends Controller
     {
         $user=User::find(Auth::id());
 
-        $userInfo=$user->userInfo()->update(
+        $userInfo=$user->userInfo()->updateOrcreate(
             [
                 'gender'=>$request->gender,
                 'weight'=>$request->weight,
@@ -85,9 +94,13 @@ class UserInfoController extends Controller
                 'birthDate'=>$request->birthDate
                 ]
             );
-            $result=$user->userInfo()->get()->toArray();
+            if($request->has('image')){
+          
+            $this->imageService->storeImage($request, Auth::id(), null,'profile');
+            }
 
-            return ResponseHelper::success($result);
+
+            return ResponseHelper::success($userInfo);
     }
 
     /**

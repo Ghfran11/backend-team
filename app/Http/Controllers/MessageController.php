@@ -37,6 +37,7 @@ class MessageController extends Controller
             $chatDetails[] = [
                 'sid2' => $sid2,
                 'latestMessage' => $latestMessage,
+                'image'=>$sid2->image()
             ];
         }
 

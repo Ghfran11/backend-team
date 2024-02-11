@@ -8,11 +8,12 @@ use App\Models\Image;
 
 class ImageService
 {
-    public function storeImage($request, $userId = null, $exerciseId = null)
+    public function storeImage($request, $userId = null, $exerciseId = null, $type=null)
     {
 
         $images= $request->file('image');
         $result = [];
+
         foreach ($images as $image) {
 
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
@@ -22,7 +23,8 @@ class ImageService
             $result[] = Image::query()->create([
                 'userId' => $exerciseId ? null : ($userId ?? Auth::user()->id),
                 'exerciseId' => $exerciseId,
-                'image' => $new_name
+                'image' => $new_name,
+                'type'=>$type
             ]);
 
         }
@@ -30,4 +32,8 @@ class ImageService
         return $result;
 
     }
+
+
+
+
 }

@@ -24,7 +24,7 @@ class ArticleController extends Controller
         $articles=Article::query()->get();
         foreach($articles as $article)
         {
-         
+
      if($user->favorites->contains('id', $article->id))
 {
          $isFavourite=true;
@@ -89,11 +89,22 @@ else
     }
     public function makeFavourite(Article $article)
     {
+        $favorite=DB::table('article_user')->where('article_id',$article->id)->value('isFavourite');
+
+        if($favorite == true)
+        {
+            $result=DB::table('article_user')->where('article_id',$article->id)->update(['user_id'=>Auth::id(),'isFavourite'=>false]);
+        }
+        else
+if($favorite == false)
+{
 
       $result=DB::table('article_user')->where('article_id',$article->id)->update(['user_id'=>Auth::id(),'isFavourite'=>true]);
 
+
       return ResponseHelper::success($result);
     }
+}
 
     public function getCoachArticle(User $user)
     {
@@ -101,5 +112,15 @@ else
         return ResponseHelper::success($result);
 
     }
+    public function getMyArticle()
+
+    {
+        $user=User::find(Auth::id());
+        
+       $result= $user->coachArticle()->get()->toArray();
+        return ResponseHelper::success($result);
+
+    }
+
 
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TimeController;
-                        use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\NotificationController;
@@ -74,6 +74,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getCategory', [ProgramController::class, 'getCategory']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
+    Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
+    Route::post('delete/{program}', [ProgramController::class, 'destroy']);
 
     //chat
     Route::get('listChat', [MessageController::class, 'index']);
@@ -118,6 +120,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
     Route::get('statistics', [UserController::class, 'statistics']);
+
+
+
+    Route::get('status', [UserController::class, 'info']);
  });
 
 
@@ -128,9 +134,13 @@ Route::post('acceptOrder/{order}', [OrderController::class, 'acceptOrder']);
 Route::delete('deleteOrder', [OrderController::class, 'destroy']);
 Route::post('showOrder/{order}', [OrderController::class, 'show']);
 Route::get('showAnnual', [UserController::class, 'showAnnual']);
-Route::get('status', [UserController::class, 'info']);
+
 Route::post('requestPrograme', [OrderController::class, 'requestPrograme']);
 Route::get('Premum', [OrderController::class, 'getPremum']);
+Route::get('myPlayer', [OrderController::class,'showMyPlayer']);
+Route::post('cancle/{order}', [OrderController::class,'cancleOrder']);
+Route::post('unAssign/{order}', [OrderController::class,'unAssign']);
+Route::post('myPlayer', [OrderController::class,'showMyPlayer']);
 
 //user info
 Route::post('addInfo', [UserInfoController::class, 'store']);
@@ -153,12 +163,15 @@ Route::get('category',[Category::class,'index']);
 //Article
 Route::post('addArticle',[ArticleController::class,'store']);
 Route::get('allArticle',[ArticleController::class,'index']);
+Route::get('myArticle',[ArticleController::class,'getMyArticle']);
 Route::get('coachArticle/{user}',[ArticleController::class,'getCoachArticle']);
 Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite']);
+
 
 
 //category
 
 Route::get('getCategories', [CategoryController::class, 'index']);
+Route::get('getimage/{user}', [ImageController::class, 'getImages']);
 
 

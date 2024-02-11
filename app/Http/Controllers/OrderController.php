@@ -129,7 +129,7 @@ class OrderController extends Controller
         }
         if($order->status == 'waiting' && $order->type == 'program')
         {
-           
+
             $result= $order->update(
                 [
                     'status'=>'accepted',
@@ -163,5 +163,30 @@ class OrderController extends Controller
           $program=$user->playerprogrames()->where('type','private')->get()->toArray();
         return ResponseHelper::success($program);
 
+}
+public function cancleOrder(Order $order)
+{
+    if($order->status  == 'waiting')
+    {
+        $result=$order->delete();
+        return ResponseHelper::success($result,'canceled successfully');
+    }
+
+}
+public function UnAssign(Order $order)
+{
+    if($order->status  == 'accepted')
+    {
+        $result=$order->delete();
+        return ResponseHelper::success($result,'canceled successfully');
+    }
+
+}
+public function showMyPlayer()
+{
+    $user=User::find(Auth::id());
+
+   $result= $user->coachOrder()->where('status','accepted')->get()->toArray();
+    return ResponseHelper::success($result,'your player successfully');
 }
 }

@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->enum('gender',['male','female']);
-            $table->date('birthDate');
+            $table->date('birthDate')->nullable();
             $table->integer('age')->nullable();
-            $table->double('weight');
-            $table->double('waist Measurement');
-            $table->double('neck');
-            $table->double('height');
+            $table->double('weight')->nullable();
+            $table->double('waist Measurement')->nullable();
+            $table->double('neck')->nullable();
+            $table->double('height')->nullable();
             $table->double('BFP')->nullable();
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
             $table->timestamps();

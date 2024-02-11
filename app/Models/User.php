@@ -183,4 +183,9 @@ public function coachArticle()
 {
     return $this->belongsToMany(Article::class, 'article_user', 'coach_id', 'article_id')->withPivot('isFavourite');
 }
+public function prgrame()
+{
+    return $this->hasMany(Program::class,'user_id');
 }
+}
+

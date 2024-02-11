@@ -98,7 +98,8 @@ class UserController extends Controller
                 'birthDate' => $request->birthDate,
                 'phoneNumber' => $request->phoneNumber,
                 'role' => $request->role,
-                'finance' => $request->finance
+                'finance' => $request->finance,
+                
 
 
             ]

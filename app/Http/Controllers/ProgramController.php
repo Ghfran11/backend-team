@@ -107,12 +107,29 @@ class ProgramController extends Controller
 
       //  $result = $category->with('program')->where('categoryId', $categoryId)->get()->toArray();
         $user = User::find(Auth::id());
+
+        if( $user->role == 'player')
+        {
+
         $result = $user->playerprogrames()->get()
         ->where('category.type',$request->type)
         ->toArray();
 
 
         return ResponseHelper::success($result);
+        }
+        else
+        {
+            if( $user->role == 'coach')
+        {
+        $result = $user->prgrame()->get()
+        ->where('category.type',$request->type)
+        ->toArray();
+
+
+        return ResponseHelper::success($result);
+        }
+        }
     }
     public function assignProgram(Program $program, Request $request)
     {
@@ -149,5 +166,22 @@ class ProgramController extends Controller
     {
         $result=Category::query()->get()->toArray();
         return ResponseHelper::success($result);
+    }
+    public function programCommitment()
+    {
+        $user=User::find(Auth::id());
+
+       $numberOfDays= $user->playerprogrames()->value('days');
+       $startDate= $user->playerprogrames()->value('startDate');
+
+       $carbonStartDate = Carbon::createFromFormat('Y-m-d', $startDate);
+       $endDate = $carbonStartDate->addDays($numberOfDays);
+
+       $userRange = $user->time()->whereBetween('startTime', [$startDate, $endDate])->count();
+
+       $result= ($userRange/ $numberOfDays)*100;
+       return ResponseHelper::success($result);
+
+
     }
 }

@@ -157,10 +157,11 @@ class OrderController extends Controller
             );
             return ResponseHelper::success($Order);
     }
-    public function getPremum()
+    public function getPremum(Request $request)
         {
             $user=User::find(Auth::id());
-          $program=$user->playerprogrames()->where('type','private')->get()->toArray();
+          $program=$user->playerprogrames()
+          ->where('type',$request->type)->get()->toArray();
         return ResponseHelper::success($program);
 
 }

@@ -74,8 +74,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getCategory', [ProgramController::class, 'getCategory']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
-    Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
-    Route::post('delete/{program}', [ProgramController::class, 'destroy']);
 
     //chat
     Route::get('listChat', [MessageController::class, 'index']);

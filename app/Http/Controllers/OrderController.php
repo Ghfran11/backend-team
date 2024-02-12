@@ -84,7 +84,7 @@ class OrderController extends Controller
             $order->delete();
         }
 
-        return ResponseHelper::success(['deleted succesfully']);
+        return ResponseHelper::success(['deleted successfully']);
     }
     public function getMyOrder()
     {
@@ -135,11 +135,11 @@ class OrderController extends Controller
                     'status'=>'accepted',
                 ]
                 );
-                return ResponseHelper::success([],null,'acceptd succesfully',200);
+                return ResponseHelper::success([],null,'accepted succesfully',200);
         }
 
         else{
-            return ResponseHelper::success([],null,'cannot accept this ',200);
+            return ResponseHelper::success([],null,'cannot accepted this ',200);
 
         }
 
@@ -185,9 +185,19 @@ public function UnAssign(Order $order)
 }
 public function showMyPlayer()
 {
-    $user=User::find(Auth::id());
+    $order=Order::query()->where('coachId',12);
+    $result= $order->with('player')->with('player.image', function ($query)  {
+        $query->where('type', null); })->get()->toArray();
 
-   $result= $user->coachOrder()->where('status','accepted')->get()->toArray();
-    return ResponseHelper::success($result,'your player successfully');
+    return ResponseHelper::success($result,'your player');
+}
+public function MyActivePlayer()
+{
+    $order=Order::query()->where('coachId',12);
+    $result= $order->with('player')->with('player.image', function ($query)  {
+        $query->where('type', null); })->with('player.time', function ($query)  {
+            $query->where('endTime', null); })->get()->toArray();
+
+    return ResponseHelper::success($result,'your  active player');
 }
 }

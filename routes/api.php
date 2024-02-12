@@ -136,6 +136,7 @@ Route::get('showAnnual', [UserController::class, 'showAnnual']);
 Route::post('requestPrograme', [OrderController::class, 'requestPrograme']);
 Route::get('Premum', [OrderController::class, 'getPremum']);
 Route::get('myPlayer', [OrderController::class,'showMyPlayer']);
+Route::get('myActivePlayer', [OrderController::class,'MyActivePlayer']);
 Route::post('cancle/{order}', [OrderController::class,'cancleOrder']);
 Route::post('unAssign/{order}', [OrderController::class,'unAssign']);
 Route::post('myPlayer', [OrderController::class,'showMyPlayer']);
@@ -173,4 +174,4 @@ Route::get('getCategories', [CategoryController::class, 'index']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);
 
 
-Route::post('storeTime', [TimeController::class, 'storeCoachTime']);
+

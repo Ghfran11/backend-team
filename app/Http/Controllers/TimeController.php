@@ -27,7 +27,7 @@ class TimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeUserTime()
+    public function storeUserTime( )
     {
         $time = Time::query()->updateOrCreate([
             'userId' => Auth::id(),

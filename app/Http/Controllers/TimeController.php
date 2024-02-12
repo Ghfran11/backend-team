@@ -29,7 +29,7 @@ class TimeController extends Controller
      */
     public function storeUserTime()
     {
-        $time = Time::query()->create([
+        $time = Time::query()->updateOrCreate([
             'userId' => Auth::id(),
             'startTime' => now()->format('Y-m-d H:i:s'),
             'isCoach' => '0',

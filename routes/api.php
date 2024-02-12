@@ -173,3 +173,4 @@ Route::get('getCategories', [CategoryController::class, 'index']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);
 
 
+Route::post('storeTime', [TimeController::class, 'storeCoachTime']);

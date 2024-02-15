@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Enum\NotificationType;
+
 use App\Events\SubscrbtionExpiration;
 use App\Events\WelcomeMessage;
 use App\Helpers\ResponseHelper;
@@ -40,6 +41,7 @@ class AuthController extends Controller
 
             return ResponseHelper::error('phonenumber or password are not correct', null, 'error', 401);
         }
+      
         $user = Auth::user();
         $user->image;
         $response = [

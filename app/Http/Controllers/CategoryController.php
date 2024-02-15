@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $result = Category::query()
         ->where('type', $request->type)
 
-        ->get();
+        ->get()->toArray();
 
         return ResponseHelper::success($result);
     }

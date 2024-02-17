@@ -56,7 +56,7 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
-    Route::get('showCoachTime/{user}',[TimeController::class,'showCoachTime']);
+    Route::get('showCoachTime/{user}', [TimeController::class, 'showCoachTime']);
 
     //user
     Route::get('showCoach', [UserController::class, 'showCoach']);
@@ -125,7 +125,7 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('status', [UserController::class, 'info']);
- });
+});
 
 
 Route::post('addOrder', [OrderController::class, 'store']);
@@ -138,11 +138,11 @@ Route::get('showAnnual', [UserController::class, 'showAnnual']);
 
 Route::post('requestPrograme', [OrderController::class, 'requestPrograme']);
 Route::get('Premum', [OrderController::class, 'getPremum']);
-Route::get('myPlayer', [OrderController::class,'showMyPlayer']);
-Route::get('myActivePlayer', [OrderController::class,'MyActivePlayer']);
-Route::post('cancle/{order}', [OrderController::class,'cancleOrder']);
-Route::post('unAssign/{order}', [OrderController::class,'unAssign']);
-Route::post('myPlayer', [OrderController::class,'showMyPlayer']);
+Route::get('myPlayer', [OrderController::class, 'showMyPlayer']);
+Route::get('myActivePlayer', [OrderController::class, 'MyActivePlayer']);
+Route::post('cancle/{order}', [OrderController::class, 'cancleOrder']);
+Route::post('unAssign/{order}', [OrderController::class, 'unAssign']);
+Route::post('myPlayer', [OrderController::class, 'showMyPlayer']);
 
 //user info
 Route::post('addInfo', [UserInfoController::class, 'store']);
@@ -160,14 +160,14 @@ Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg
 
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
 Route::post('showFinance/{info}', [InfoController::class, 'show']);
-Route::get('category',[Category::class,'index']);
+Route::get('category', [Category::class, 'index']);
 
 //Article
-Route::post('addArticle',[ArticleController::class,'store']);
-Route::get('allArticle',[ArticleController::class,'index']);
-Route::get('myArticle',[ArticleController::class,'getMyArticle']);
-Route::get('coachArticle/{user}',[ArticleController::class,'getCoachArticle']);
-Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite']);
+Route::post('addArticle', [ArticleController::class, 'store']);
+Route::get('allArticle', [ArticleController::class, 'index']);
+Route::get('myArticle', [ArticleController::class, 'getMyArticle']);
+Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle']);
+Route::post('makeFavouritre/{article}', [ArticleController::class, 'makeFavourite']);
 
 
 
@@ -175,6 +175,3 @@ Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite'
 
 Route::get('getCategories', [CategoryController::class, 'index']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);
-
-
-

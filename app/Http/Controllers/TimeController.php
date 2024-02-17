@@ -27,52 +27,59 @@ class TimeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeUserTime( )
+    public function storeUserTime()
     {
+        $today = Carbon::today()->toDateString();
+        $existingRecord = Time::where('userId', Auth::id())
+            ->whereDate('startTime', $today)
+            ->first();
+        if ($existingRecord) {
+            return ResponseHelper::error('You are already scanned the QR.', 400);
+        }
         $time = Time::query()->updateOrCreate([
             'userId' => Auth::id(),
             'startTime' => now()->format('Y-m-d H:i:s'),
             'isCoach' => '0',
-            'dayId'=>null
+            'dayId' => null
         ]);
-
-        return ResponseHelper::success($time,null,'success',200);
+        return ResponseHelper::success($time, null, 'success', 200);
     }
 
 
     public function storeCoachTime(StoretimeRequest $request)
     {
         $time = Time::query()
-        ->create([
-            'userId' => Auth::id(),
-            'isCoach' => '1',
-            'dayId'=>$request->dayId,
-            'startTime'=>$request->startTime,
-            'endTime'=>$request->endTime
-        ]);
+            ->create([
+                'userId' => Auth::id(),
+                'isCoach' => '1',
+                'dayId' => $request->dayId,
+                'startTime' => $request->startTime,
+                'endTime' => $request->endTime
+            ]);
 
-        return ResponseHelper::success($time,null,'success',200);
+        return ResponseHelper::success($time, null, 'success', 200);
     }
 
 
     public function showCoachTime(User $user)
     {
 
-           $result= $user->time()->get(['startTime','endTime','dayId'])->toArray();
+        $result = $user->time()->get(['startTime', 'endTime', 'dayId'])->toArray();
 
-        return ResponseHelper::success($result,null,'success',200);
-        }
-
-
+        return ResponseHelper::success($result, null, 'success', 200);
+    }
 
 
-    public function endCounter(Request $request){
+
+
+    public function endCounter(Request $request)
+    {
         $result = Time::query()
-        ->where('userId', Auth::user()->id)
-        ->whereNotNull('startTime')
-        ->whereNull('endTime')
-        ->update(['endTime' => Carbon::now()
-        ->format('Y-m-d H:i:s')]);
+            ->where('userId', Auth::user()->id)
+            ->whereNotNull('startTime')
+            ->whereNull('endTime')
+            ->update(['endTime' => Carbon::now()
+                ->format('Y-m-d H:i:s')]);
     }
 
     /**
@@ -98,18 +105,17 @@ class TimeController extends Controller
 
     public function showUserTime(User $user)
     {
-        $time = $user->time()->where('isCoach','0')
-        ->get()
-        ->map(function ($item) {
-            $startTime = Carbon::parse($item['startTime'])
-            ->format('l');
-            $item['startTimeWithDate'] = $startTime;
-            return $item;
-        })
-        ->toArray();
+        $time = $user->time()->where('isCoach', '0')
+            ->get()
+            ->map(function ($item) {
+                $startTime = Carbon::parse($item['startTime'])
+                    ->format('l');
+                $item['startTimeWithDate'] = $startTime;
+                return $item;
+            })
+            ->toArray();
 
-    return ResponseHelper::success($time);
-
+        return ResponseHelper::success($time);
     }
 
 
@@ -153,8 +159,8 @@ class TimeController extends Controller
     {
         //select only the 'endTime' column , we don't want the other details of the records...
         $endtimes = Time::select('endTime')
-                    ->whereNull('endTime')
-                    ->count();
+            ->whereNull('endTime')
+            ->count();
 
 
 
@@ -176,54 +182,41 @@ class TimeController extends Controller
     public function activePlayers()
     {
         $activeplayers = Time::whereNull('endTime')
-                        ->with('user')
-                        ->get()
-                        ->toArray();
-                        if( $activeplayers > 5)
-                        {
-                            $isTraffic=true;
+            ->with('user')
+            ->get()
+            ->toArray();
+        if ($activeplayers > 5) {
+            $isTraffic = true;
+        } else {
+            $isTraffic = false;
+        }
 
-                        }
-                        else
-                        {
-                            $isTraffic=false;
-
-                        }
-
-$result=[
-    'activePlayer'=>$activeplayers,
-    'isTraffic'=> $isTraffic
-];
-return ResponseHelper::success($result);
+        $result = [
+            'activePlayer' => $activeplayers,
+            'isTraffic' => $isTraffic
+        ];
+        return ResponseHelper::success($result);
     }
     public function monthlyProgress()
     {
         $startDate = Carbon::now()->startOfMonth();
-           $endDate = Carbon::now()->endOfMonth();
-           $user=User::find(Auth::id());
-          $result= $user->time()->whereBetween('startTime', [$startDate, $endDate])->pluck('startTime');
-          return ResponseHelper::success($result);
-
+        $endDate = Carbon::now()->endOfMonth();
+        $user = User::find(Auth::id());
+        $result = $user->time()->whereBetween('startTime', [$startDate, $endDate])->pluck('startTime');
+        return ResponseHelper::success($result);
     }
     public function weeklyProgress()
     {
         $startDate = Carbon::now()->startOfWeek();
-           $endDate = Carbon::now()->endOfWeek();
-           $user=User::find(Auth::id());
-          $result= $user->time()->whereBetween('startTime', [$startDate, $endDate])->get();
-          $daysOfWeek = [];
-foreach ($result as $result) {
- $day = Carbon::parse($result->startTime)->startOfDay();
- $daysOfWeek[] = $day->format('l'); // Eg "Monday"
+        $endDate = Carbon::now()->endOfWeek();
+        $user = User::find(Auth::id());
+        $result = $user->time()->whereBetween('startTime', [$startDate, $endDate])->get();
+        $daysOfWeek = [];
+        foreach ($result as $result) {
+            $day = Carbon::parse($result->startTime)->startOfDay();
+            $daysOfWeek[] = $day->format('l'); // Eg "Monday"
 
-}
-          return ResponseHelper::success($daysOfWeek);
-
+        }
+        return ResponseHelper::success($daysOfWeek);
     }
-
-
 }
-
-
-
-

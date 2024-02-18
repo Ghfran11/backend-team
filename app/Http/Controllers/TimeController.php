@@ -32,6 +32,7 @@ class TimeController extends Controller
         $today = Carbon::today()->toDateString();
         $existingRecord = Time::where('userId', Auth::id())
             ->whereDate('startTime', $today)
+            ->whereNull('endTime')
             ->first();
         if ($existingRecord) {
             return ResponseHelper::error('You are already scanned the QR.', 400);
@@ -59,27 +60,30 @@ class TimeController extends Controller
 
         return ResponseHelper::success($time, null, 'success', 200);
     }
-
-
     public function showCoachTime(User $user)
     {
-
         $result = $user->time()->get(['startTime', 'endTime', 'dayId'])->toArray();
-
         return ResponseHelper::success($result, null, 'success', 200);
     }
-
-
-
-
     public function endCounter(Request $request)
     {
-        $result = Time::query()
-            ->where('userId', Auth::user()->id)
-            ->whereNotNull('startTime')
-            ->whereNull('endTime')
-            ->update(['endTime' => Carbon::now()
-                ->format('Y-m-d H:i:s')]);
+        try {
+            $today = Carbon::today()->toDateString();
+            $result = Time::where('userId', Auth::id())
+                ->whereDate('startTime', $today)
+                ->whereNull('endTime')
+                ->latest()->first();
+            if ($result) {
+                $result->update([
+                    'endTime' => Carbon::now()
+                        ->format('Y-m-d H:i:s')
+                ]);
+                return ResponseHelper::success('Done', 'success', 200);
+            }
+            return ResponseHelper::error('You have alredy closed the counter Or You havent started yet.');
+        } catch (\Exception $e) {
+            return ResponseHelper::error([], null, $e->getMessage(), 500);
+        }
     }
 
     /**
@@ -174,7 +178,7 @@ class TimeController extends Controller
             })->count();
         }
         return ResponseHelper::success([
-            'active_players'      => $endtimes,
+            'active_players' => $endtimes,
             'total_players' => $not_expired
         ]);
     }

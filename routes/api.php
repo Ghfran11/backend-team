@@ -46,7 +46,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeExerciseImage', [ImageController::class, 'storeExerciseImage']);
 
     //time
-    Route::post('storeTime', [TimeController::class, 'storeCoachTime']);
+    Route::post('storeTime', [TimeController::class, 'storeCoachTime']);//coach
     Route::post('storeCoachTime', [TimeController::class, 'storeCoachTime']);
     Route::post('storeUserTime', [TimeController::class, 'storeUserTime']);
     Route::post('endCounter', [TimeController::class, 'endCounter']);

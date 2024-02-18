@@ -16,6 +16,7 @@
         "laravel-echo": "^1.15.3",
         "pusher-js": "^8.4.0-rc2",
         "save": "^2.9.0",
-        "socket.io": "^4.7.2"
+        "socket.io": "^4.7.2",
+        "socket.io-client": "^4.7.4"
     }
 }

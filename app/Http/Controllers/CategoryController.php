@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
+use App\Http\Traits\Files;
 
 class CategoryController extends Controller
 {
@@ -28,11 +29,17 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $image=Files::saveImage($request);
+        $result = Category::query()->create([
+            'name'=> $request->name,
+            'description'=>$request->description,
+            'type'=>$request->type,
+            'imageUrl'=>$image,
+        ]);
+        return ResponseHelper::success($result);
     }
 
-    /**
-     * Display the specified resource.
+    /**) the specified resource.
      */
     public function show(Category $category)
     {

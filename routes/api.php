@@ -174,6 +174,7 @@ Route::post('makeFavouritre/{article}',[ArticleController::class,'makeFavourite'
 //category
 
 Route::get('getCategories', [CategoryController::class, 'index']);
+Route::post('AddCategory', [CategoryController::class, 'store']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);
 
 

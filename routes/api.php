@@ -13,15 +13,12 @@ use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\InfoController;
 use App\Models\Category;
-use App\Models\Programe;
-use App\Models\UserInfo;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -36,8 +33,6 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-
-
     Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
     //exercise
     Route::post('storeExercise', [ExerciseController::class, 'store']);
@@ -53,8 +48,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('showMyTime', [TimeController::class, 'show']);
     Route::get('monthly', [TimeController::class, 'monthlyProgress']);
     Route::get('weekly', [TimeController::class, 'weeklyProgress']);
-
-
     Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
     Route::get('showCoachTime/{user}', [TimeController::class, 'showCoachTime']);
 
@@ -74,29 +67,20 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getCategory', [ProgramController::class, 'getCategory']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
-
     Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
-
-
     //chat
     Route::get('listChat', [MessageController::class, 'index']);
     Route::get('showChat/{user}', [MessageController::class, 'show']);
-
     //message
     Route::post('sendMessage', [MessageController::class, 'store']);
     Route::delete('deleteMessage/{message}', [MessageController::class, 'destroy']);
-
     //notification
     Route::get('listNotification', [NotificationController::class, 'index']);
-
-
     //report
     Route::get('/indexreport', [ReportController::class, 'index']);
     Route::post('/report', [ReportController::class, 'store']);
     Route::delete('/deletereport/{report}', [ReportController::class, 'destroy']);
     Route::get('/myreport', [ReportController::class, 'showMyReport']);
-
-
     //rate
     Route::post('setRate', [RatingController::class, 'setRate']);
     Route::delete('deleteRate', [RatingController::class, 'deleteRate']);
@@ -121,7 +105,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('programSearch', [ProgramController::class, 'search']);
     Route::post('userSearch', [UserController::class, 'search']);
     Route::get('statistics', [UserController::class, 'statistics']);
-
 
 
     Route::get('status', [UserController::class, 'info']);
@@ -150,7 +133,6 @@ Route::post('updateInfo', [UserInfoController::class, 'update']);
 Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
 
 
-
 //monthly Subscribtion Avg
 Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);
 
@@ -168,7 +150,6 @@ Route::get('allArticle', [ArticleController::class, 'index']);
 Route::get('myArticle', [ArticleController::class, 'getMyArticle']);
 Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle']);
 Route::post('makeFavouritre/{article}', [ArticleController::class, 'makeFavourite']);
-
 
 
 //category

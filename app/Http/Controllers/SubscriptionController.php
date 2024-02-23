@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
@@ -23,17 +23,26 @@ class SubscriptionController extends Controller
         return ResponseHelper::success($result);
     }
 
-    public function monthlySubscriptionAvg(Request $request)
+    public function monthlySubscriptionAvg()
     {
         $coach_id = Auth::id();
-        $now = Carbon::now();
-        $fiveMonthsAgo = $now->copy()->subMonths(5);
-        $orderCount = Order::where('coachId', $coach_id)
+        $totalOrderCount = Order::whereYear('created_at', date('Y'))->count();
+        $dailyOrderCounts = Order::select(DB::raw('DATE(created_at) as date'),
+            DB::raw('count(*) as count'))
             ->where('status', 'accepted')
-            ->whereBetween('created_at', [$fiveMonthsAgo, $now])
-            ->count();
-        $average = number_format(($orderCount / 6) * 100, 1);
-        $avg=$average . "%";
-        return ResponseHelper::success($avg);
+            ->where('coachId', $coach_id)
+            ->whereYear('created_at', date('Y'))
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->get();
+        $monthlyOrderPercentages = $dailyOrderCounts
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->date)->format('Y-m');
+            })
+            ->map(function ($data) use ($totalOrderCount) {
+                $percentage = ($data->sum('count') / $totalOrderCount) * 100;
+                return number_format($percentage, 1) . '%';
+            });
+        return ResponseHelper::success($monthlyOrderPercentages);
     }
+
 }

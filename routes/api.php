@@ -140,7 +140,6 @@ Route::post('storeFinance', [InfoController::class, 'store']);
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
 Route::get('showFinance/{info}', [InfoController::class, 'show']);
 Route::get('subscriptions', [SubscriptionController::class, 'index']);
-Route::get('category', [Category::class, 'index']);
 
 //Article
 Route::post('addArticle', [ArticleController::class, 'store']);
@@ -151,7 +150,6 @@ Route::post('makeFavouritre/{article}', [ArticleController::class, 'makeFavourit
 
 
 //category
-
 Route::get('getCategories', [CategoryController::class, 'index']);
 Route::post('AddCategory', [CategoryController::class, 'store']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);

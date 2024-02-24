@@ -21,10 +21,6 @@ class CategoryController extends Controller
                 ->where('type', $request->type)
                 ->get()->toArray();
             return ResponseHelper::success($result);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -44,36 +40,9 @@ class CategoryController extends Controller
                 'imageUrl' => $image,
             ]);
             return ResponseHelper::success($result);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
 
-    }
-
-    /**) the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
     }
 }

@@ -106,6 +106,10 @@ class TimeController extends Controller
                     return $startTime->lessThan($startDate);
                 })
                 ->count();
+            if (empty($result)) {
+                $result = [];
+                return ResponseHelper::success($result);
+            }
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

@@ -132,16 +132,12 @@ Route::post('addInfo', [UserInfoController::class, 'store']);
 Route::post('updateInfo', [UserInfoController::class, 'update']);
 Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
 
-
 //monthly Subscribtion Avg
 Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);
 
-
 //finance
-
-
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
-Route::post('showFinance/{info}', [InfoController::class, 'show']);
+Route::get('showFinance/{info}', [InfoController::class, 'show']);
 Route::get('category', [Category::class, 'index']);
 
 //Article

@@ -124,7 +124,7 @@ Route::get('Premum', [OrderController::class, 'getPremum']);
 Route::get('myPlayer', [OrderController::class, 'showMyPlayer']);
 Route::get('myActivePlayer', [OrderController::class, 'MyActivePlayer']);
 Route::post('cancle/{order}', [OrderController::class, 'cancleOrder']);
-Route::post('unAssign/{order}', [OrderController::class, 'unAssign']);
+Route::get('unAssign/{order}', [OrderController::class, 'unAssign']);
 Route::post('myPlayer', [OrderController::class, 'showMyPlayer']);
 
 //user info

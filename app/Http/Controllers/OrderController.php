@@ -172,6 +172,8 @@ class OrderController extends Controller
             if ($order->status == 'waiting') {
                 $result = $order->delete();
                 return ResponseHelper::success($result, 'canceled successfully');
+            } else if ($order->status == 'accepted') {
+                return ResponseHelper::success('alredy accepted');
             }
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

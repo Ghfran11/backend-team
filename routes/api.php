@@ -139,6 +139,7 @@ Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg
 Route::post('storeFinance', [InfoController::class, 'store']);
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
 Route::get('showFinance/{info}', [InfoController::class, 'show']);
+Route::get('subscriptions', [SubscriptionController::class, 'index']);
 Route::get('category', [Category::class, 'index']);
 
 //Article

@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
+    public function index()
+    {
+        $subscriptions = Order::where('type', 'accepted')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return ResponseHelper::success($subscriptions);
+    }
     public function subscribe(Request $request)
     {
         try {
@@ -49,7 +56,6 @@ class SubscriptionController extends Controller
                     return number_format($percentage, 1) . '%';
                 });
             return ResponseHelper::success($monthlyOrderPercentages);
-
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

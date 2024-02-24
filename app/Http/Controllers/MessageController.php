@@ -116,7 +116,7 @@ class MessageController extends Controller
     {
         try {
             if ($message->sender_id != Auth::id()) {
-                return response(Response::HTTP_UNAUTHORIZED);
+                return ResponseHelper::error('unauthorized');
             }
             $message->delete();
             return ResponseHelper::success('Message deleted successfully');

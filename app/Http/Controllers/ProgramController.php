@@ -23,11 +23,15 @@ class ProgramController extends Controller
         try {
             $lowerCaseType = strtolower($request->type);
             $program = Program::with('category')
-                ->whereHas('category', function ($query) use ($lowerCaseType ) {
-                    $query->where('type', $lowerCaseType);
+                ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
+                    $query->where('type', $lowerCaseType)
+                        ->where('id', $request->category_id);
                 })
                 ->get()
                 ->toArray();
+            if (empty($program)) {
+                return ResponseHelper::error('Empty');
+            }
             return ResponseHelper::success($program);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

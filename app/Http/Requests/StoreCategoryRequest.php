@@ -25,7 +25,7 @@ class StoreCategoryRequest extends FormRequest
             'name' => ['required'],
             'description' => ['required'],
             'type' => ['required'],
-            'imageUrl' => ['image', 'required'],
+            'imageUrl' => ['required'],
         ];
     }
 }

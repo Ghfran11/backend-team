@@ -18,7 +18,7 @@ class NotificationController extends Controller
     {
         try {
             $notifications = Notification::query()->where('receiver_id', Auth::id())
-                ->paginate(10);
+                ->orderBy('created_at', 'desc')->get();
             return response($notifications, Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

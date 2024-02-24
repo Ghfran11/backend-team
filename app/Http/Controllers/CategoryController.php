@@ -32,7 +32,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         try {
-            $image = Files::saveImage($request->image);
+            $image = Files::saveImage($request);
             $result = Category::query()->create([
                 'name' => $request->name,
                 'description' => $request->description,

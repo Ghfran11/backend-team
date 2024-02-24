@@ -46,7 +46,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeUserTime', [TimeController::class, 'storeUserTime']);
     Route::post('endCounter', [TimeController::class, 'endCounter']);
     Route::get('showMyTime', [TimeController::class, 'show']);
-    Route::get('showCoachTime', [TimeController::class,'showCoachTime']);
     Route::get('monthly', [TimeController::class, 'monthlyProgress']);
     Route::get('weekly', [TimeController::class, 'weeklyProgress']);
     Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);

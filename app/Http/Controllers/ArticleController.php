@@ -54,7 +54,7 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         try {
-            $user = Auth::user();
+            $user = User::findOrFail(Auth::id());
             $article = $user->coachArticle()->create(
                 [
                     'title' => $request->title,

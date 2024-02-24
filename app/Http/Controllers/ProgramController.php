@@ -88,12 +88,7 @@ class ProgramController extends Controller
                 'file' => $path,
                 'categoryId' => $request->categoryId,
             ]);
-            return ResponseHelper::success(
-                [
-                    'message' => 'program updated successfuly',
-                    'data' => $result,
-                ]
-            );
+            return ResponseHelper::success('program updated successfuly');
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

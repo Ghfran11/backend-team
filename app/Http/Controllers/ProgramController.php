@@ -123,16 +123,19 @@ class ProgramController extends Controller
     public function showMyPrograme(Request $request)
     {
         try {
+            $lowerCaseType = strtolower($request->type);
             $user = User::find(Auth::id());
             if ($user->role == 'player') {
                 $result = $user->playerprogrames()->get()
-                    ->where('category.type', $request->type)
+                    ->where('category.type', $lowerCaseType)
+                    ->where('category.id', $request->category_id)
                     ->toArray();
                 return ResponseHelper::success($result);
             } else {
                 if ($user->role == 'coach') {
                     $result = $user->prgrame()->get()
-                        ->where('category.type', $request->type)
+                        ->where('category.type', $lowerCaseType)
+                        ->where('category.id', $request->category_id)
                         ->toArray();
                     return ResponseHelper::success($result);
                 }

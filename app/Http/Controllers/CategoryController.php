@@ -16,12 +16,18 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $result = Category::query()
-        ->where('type', $request->type)
-
-        ->get()->toArray();
-
-        return ResponseHelper::success($result);
+        try {
+            $result = Category::query()
+                ->where('type', $request->type)
+                ->get()->toArray();
+            return ResponseHelper::success($result);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ResponseHelper::error($e->validator->errors()->first(), 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseHelper::error('Query Exception', 400);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -29,14 +35,23 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $image=Files::saveImage($request);
-        $result = Category::query()->create([
-            'name'=> $request->name,
-            'description'=>$request->description,
-            'type'=>$request->type,
-            'imageUrl'=>$image,
-        ]);
-        return ResponseHelper::success($result);
+        try {
+            $image = Files::saveImage($request);
+            $result = Category::query()->create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => $request->type,
+                'imageUrl' => $image,
+            ]);
+            return ResponseHelper::success($result);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ResponseHelper::error($e->validator->errors()->first(), 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseHelper::error('Query Exception', 400);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+
     }
 
     /**) the specified resource.

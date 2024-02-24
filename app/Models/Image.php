@@ -17,10 +17,10 @@ class Image extends Model
         return $this->belongsTo(Exercise::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class)->onDelete('cascade');
+        ;
 
-public function user()
-{
-    return $this->belongsTo(User::class)->onDelete('cascade');;
-
-}
+    }
 }

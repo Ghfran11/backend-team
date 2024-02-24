@@ -16,19 +16,36 @@ class DaysController extends Controller
      */
     public function index()
     {
-        $days = Day::query()->get();
-        return ResponseHelper::success($days);
+        try {
+            $days = Day::query()->get();
+            return ResponseHelper::success($days);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ResponseHelper::error($e->validator->errors()->first(), 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseHelper::error('Query Exception', 400);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoredaysRequest $request)
-    {   //day already has been validated in the request
-        $day = Day::create([
-            'name' => $request->name,
-        ]);
-        return ResponseHelper::success(['message'=>'day stored successfuly']);
+    {
+        try {
+            Day::create([
+                'name' => $request->name,
+            ]);
+            return ResponseHelper::success(['message' => 'day stored successfuly']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ResponseHelper::error($e->validator->errors()->first(), 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseHelper::error('Query Exception', 400);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -52,7 +69,16 @@ class DaysController extends Controller
      */
     public function destroy(Day $Day)
     {
-        $Day->delete();
-        return ResponseHelper::success('Day deleted successfully');
+        try {
+            $Day->delete();
+            return ResponseHelper::success('Day deleted successfully');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ResponseHelper::error($e->validator->errors()->first(), 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseHelper::error('Query Exception', 400);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+
     }
 }

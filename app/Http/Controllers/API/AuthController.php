@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Enum\NotificationType;
 
 use App\Events\SubscrbtionExpiration;
-use App\Events\WelcomeMessage;
 use App\Helpers\ResponseHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+
 
 
 use Carbon\Carbon;
@@ -32,16 +31,13 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('phoneNumber', 'password');
-
         $token = Auth::attempt($credentials, [
-            'exp' => Carbon::now()->addDays(7)->timestamp]);
+            'exp' => Carbon::now()->addDays(20)->timestamp
+        ]);
         // $token = Auth::attempt($credentials);
-
         if (!$token) {
-
             return ResponseHelper::error('phonenumber or password are not correct', null, 'error', 401);
         }
-      
         $user = Auth::user();
         $user->image;
         $response = [
@@ -75,10 +71,9 @@ class AuthController extends Controller
             'birthDate' => $request->birthDate,
             'phoneNumber' => $request->phoneNumber,
             'role' => $request->role,
-            'finance'=>$request->finance
+            'finance' => $request->finance
 
         ]);
-
         if ($user->role != 'admin') {
             //event(new WelcomeMessage($user));
             //store the notification in DB

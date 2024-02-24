@@ -29,14 +29,18 @@ class OrderController extends Controller
      */
     public function store(StoreorderRequest $request)
     {
-        $Order = Order::query()->create(
-            [
-                'coachId' => $request->coachId,
-                'playerId' => Auth::id(),
-                'type' => 'join'
-            ]
-        );
-        return ResponseHelper::success($Order);
+        try {
+            $Order = Order::query()->create(
+                [
+                    'coachId' => $request->coachId,
+                    'playerId' => Auth::id(),
+                    'type' => 'join'
+                ]
+            );
+            return ResponseHelper::success($Order);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -44,10 +48,12 @@ class OrderController extends Controller
      */
     public function show(order $order)
     {
-        $result = $order->get()->toArray();
-        return ResponseHelper::success($result);
-
-
+        try {
+            $result = $order->get()->toArray();
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -55,16 +61,19 @@ class OrderController extends Controller
      */
     public function update(UpdateorderRequest $request, order $order)
     {
-        if ($order->status = 'waiting') {
-            $order = Order::query()->update(
-                [
-                    'coachId' => $request->coachId,
-                    'playerId' => $request->playerId,
+        try {
+            if ($order->status = 'waiting') {
+                $order = Order::query()->update(
+                    [
+                        'coachId' => $request->coachId,
+                        'playerId' => $request->playerId,
 
-                ]
-            );
-            return ResponseHelper::success($order);
-
+                    ]
+                );
+                return ResponseHelper::success($order);
+            }
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
 
@@ -73,120 +82,139 @@ class OrderController extends Controller
      */
     public function destroy(order $order)
     {
-        if ($order->status = 'waiting') {
-            $order->delete();
+        try {
+            if ($order->status = 'waiting') {
+                $order->delete();
+            }
+            return ResponseHelper::success(['deleted successfully']);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
-        return ResponseHelper::success(['deleted successfully']);
     }
 
     public function getMyOrder()
     {
-
-
-        $user = User::find(Auth::id());
-
-
-        if ($user->role = 'coach') {
-
-            $result = $user->coachOrder()->get()->toArray();
-
-        } else if ($user->role = 'player') {
-
-            $result = $user->playerOrder()->get()->toArray();
-
+        try {
+            $user = User::find(Auth::id());
+            if ($user->role = 'coach') {
+                $result = $user->coachOrder()->get()->toArray();
+            } else if ($user->role = 'player') {
+                $result = $user->playerOrder()->get()->toArray();
+            }
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
-        return ResponseHelper::success($result);
-
-
     }
 
     public function acceptOrder(Order $order)
     {
-        if ($order->status == 'waiting' && $order->type == 'join') {
-            $result = $order->update(
-                [
-                    'status' => 'accepted',
-                ]
-            );
-            $otherOrder = Order::query()->where('playerId', $order->playerId)
-                ->where('id', '!=', $order->id)
-                ->where('coachId', '!=', Auth::id())
-                ->where('type', 'join')
-                ->where('status', 'waiting')->delete();
-            return ResponseHelper::success([], null, 'acceptd succesfully', 200);
-        }
-        if ($order->status == 'waiting' && $order->type == 'program') {
-            $result = $order->update(
-                [
-                    'status' => 'accepted',
-                ]
-            );
-            return ResponseHelper::success([], null, 'accepted succesfully', 200);
-        } else {
-            return ResponseHelper::success([], null, 'cannot accepted this ', 200);
+        try {
+            if ($order->status == 'waiting' && $order->type == 'join') {
+                $result = $order->update(
+                    [
+                        'status' => 'accepted',
+                    ]
+                );
+                $otherOrder = Order::query()->where('playerId', $order->playerId)
+                    ->where('id', '!=', $order->id)
+                    ->where('coachId', '!=', Auth::id())
+                    ->where('type', 'join')
+                    ->where('status', 'waiting')->delete();
+                return ResponseHelper::success([], null, 'acceptd succesfully', 200);
+            }
+            if ($order->status == 'waiting' && $order->type == 'program') {
+                $result = $order->update(
+                    [
+                        'status' => 'accepted',
+                    ]
+                );
+                return ResponseHelper::success([], null, 'accepted succesfully', 200);
+            } else {
+                return ResponseHelper::success([], null, 'cannot accepted this ', 200);
+            }
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
 
     public function requestPrograme(Request $request)
     {
-        $Order = Order::query()->create(
-            [
-                'coachId' => $request->coachId,
-                'playerId' => Auth::id(),
-                'type' => 'program'
-            ]
-        );
-        return ResponseHelper::success($Order);
+        try {
+            $Order = Order::query()->create(
+                [
+                    'coachId' => $request->coachId,
+                    'playerId' => Auth::id(),
+                    'type' => 'program'
+                ]
+            );
+            return ResponseHelper::success($Order);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     public function getPremum(Request $request)
     {
-        $user = User::find(Auth::id());
-        $program = $user->playerprogrames()
-            ->where('type', $request->type)->get()->toArray();
-        return ResponseHelper::success($program);
-
+        try {
+            $user = User::find(Auth::id());
+            $program = $user->playerprogrames()
+                ->where('type', $request->type)->get()->toArray();
+            return ResponseHelper::success($program);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     public function cancleOrder(Order $order)
     {
-        if ($order->status == 'waiting') {
-            $result = $order->delete();
-            return ResponseHelper::success($result, 'canceled successfully');
+        try {
+            if ($order->status == 'waiting') {
+                $result = $order->delete();
+                return ResponseHelper::success($result, 'canceled successfully');
+            }
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
 
     public function UnAssign(Order $order)
     {
-        if ($order->status == 'accepted') {
-            $result = $order->delete();
-            return ResponseHelper::success($result, 'canceled successfully');
+        try {
+            if ($order->status == 'accepted') {
+                $result = $order->delete();
+                return ResponseHelper::success($result, 'canceled successfully');
+            }
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
 
     public function showMyPlayer()
     {
-        $order = Order::query()->where('coachId', 12);
-        $result = $order->with('player')->with('player.image', function ($query) {
-            $query->where('type', null);
-        })->get()->toArray();
-
-        return ResponseHelper::success($result, 'your player');
+        try {
+            $order = Order::query()->where('coachId', 12);
+            $result = $order->with('player')->with('player.image', function ($query) {
+                $query->where('type', null);
+            })->get()->toArray();
+            return ResponseHelper::success($result, 'your player');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     public function MyActivePlayer()
     {
-        $order = Order::query()->where('coachId', 12);
-        $result = $order->with('player')->with('player.image', function ($query) {
-            $query->where('type', null);
-        })->with('player.time', function ($query) {
-            $query->where('endTime', null);
-        })->get()->toArray();
-
-        return ResponseHelper::success($result, 'your  active player');
+        try {
+            $order = Order::query()->where('coachId', 12);
+            $result = $order->with('player')->with('player.image', function ($query) {
+                $query->where('type', null);
+            })->with('player.time', function ($query) {
+                $query->where('endTime', null);
+            })->get()->toArray();
+            return ResponseHelper::success($result, 'your  active player');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 }

@@ -7,16 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Finance extends Model
 {
-    protected $guarded=[];
-
-
-
-
-    public function user(){
-
+    use HasFactory;
+    protected $guarded = [];
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-
-    use HasFactory;
 }

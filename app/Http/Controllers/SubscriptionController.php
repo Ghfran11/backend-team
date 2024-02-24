@@ -14,9 +14,9 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        $subscriptions = Order::where('type', 'accepted')
+        $subscriptions = Order::where('status', 'accepted')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()->toArray();
         return ResponseHelper::success($subscriptions);
     }
     public function subscribe(Request $request)

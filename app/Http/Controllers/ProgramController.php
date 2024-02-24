@@ -29,9 +29,6 @@ class ProgramController extends Controller
                 })
                 ->get()
                 ->toArray();
-            if (empty($program)) {
-                return ResponseHelper::error('Empty');
-            }
             return ResponseHelper::success($program);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -126,8 +123,6 @@ class ProgramController extends Controller
     public function showMyPrograme(Request $request)
     {
         try {
-            Category::where('type', $request->type)->value('id');
-            //  $result = $category->with('program')->where('categoryId', $categoryId)->get()->toArray();
             $user = User::find(Auth::id());
             if ($user->role == 'player') {
                 $result = $user->playerprogrames()->get()

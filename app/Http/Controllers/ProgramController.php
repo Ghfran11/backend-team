@@ -25,7 +25,7 @@ class ProgramController extends Controller
             $program = Program::with('category')
                 ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                     $query->where('type', $lowerCaseType)
-                        ->where('id', $request->category_id);
+                        ->where('id', $request->categoryId);
                 })
                 ->get()
                 ->toArray();
@@ -129,7 +129,7 @@ class ProgramController extends Controller
                 $result = $user->playerprogrames()
                     ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                         $query->where('type', $lowerCaseType)
-                            ->where('id', $request->category_id);
+                            ->where('id', $request->categoryId);
                     })
                     ->get()
                     ->toArray();
@@ -139,7 +139,7 @@ class ProgramController extends Controller
                     $result = $user->prgrame()
                         ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                             $query->where('type', $lowerCaseType)
-                                ->where('id', $request->category_id);
+                                ->where('id', $request->categoryId);
                         })
                         ->get()
                         ->toArray();

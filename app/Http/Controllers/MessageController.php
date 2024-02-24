@@ -38,7 +38,7 @@ class MessageController extends Controller
                     'image' => $sid2->image()
                 ];
             }
-            return response($chatDetails, Response::HTTP_OK);
+            return ResponseHelper::success($chatDetails);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -61,7 +61,7 @@ class MessageController extends Controller
                 'message_id' => $message->id,
             ]);
             event(new MessagesNotification($message, $sender_name));
-            return response($message, Response::HTTP_CREATED);
+            return ResponseHelper::success($message);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -95,7 +95,7 @@ class MessageController extends Controller
                         'created_at' => $item->created_at
                     ];
             }
-            return response($results, Response::HTTP_OK);
+            return ResponseHelper::success($results);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

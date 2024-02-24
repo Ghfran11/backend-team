@@ -126,16 +126,22 @@ class ProgramController extends Controller
             $lowerCaseType = strtolower($request->type);
             $user = User::find(Auth::id());
             if ($user->role == 'player') {
-                $result = $user->playerprogrames()->get()
-                    ->where('category.type', $lowerCaseType)
-                    ->where('category.id', $request->category_id)
+                $result = $user->playerprogrames()
+                    ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
+                        $query->where('type', $lowerCaseType)
+                            ->where('id', $request->category_id);
+                    })
+                    ->get()
                     ->toArray();
                 return ResponseHelper::success($result);
             } else {
                 if ($user->role == 'coach') {
-                    $result = $user->prgrame()->get()
-                        ->where('category.type', $lowerCaseType)
-                        ->where('category.id', $request->category_id)
+                    $result = $user->prgrame()
+                        ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
+                            $query->where('type', $lowerCaseType)
+                                ->where('id', $request->category_id);
+                        })
+                        ->get()
                         ->toArray();
                     return ResponseHelper::success($result);
                 }

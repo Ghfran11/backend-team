@@ -359,4 +359,6 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
+    
 }

@@ -85,6 +85,7 @@ class UserController extends Controller
             return ResponseHelper::error([], null, $e->getMessage(), 500);
         }
     }
+
     public function updateUser(User $user, Request $request)
     {
         try {
@@ -102,6 +103,7 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function deleteUser(User $user)
     {
         try {
@@ -131,6 +133,7 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function subscription()
     {
         try {
@@ -163,6 +166,7 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function updateSubscription(User $user)
     {
         try {
@@ -187,6 +191,7 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function showCountPercentage(User $user)
     {
         try {
@@ -221,6 +226,7 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function financeMonth(MonthService $monthService)
     {
         try {
@@ -312,7 +318,6 @@ class UserController extends Controller
     }
 
 
-
     public function showAnnual(Request $request)
     {
         try {
@@ -325,6 +330,7 @@ class UserController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function info()
     {
         try {
@@ -360,5 +366,4 @@ class UserController extends Controller
         }
     }
 
-    
 }

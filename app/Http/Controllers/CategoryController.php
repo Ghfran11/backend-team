@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
 use App\Helpers\ResponseHelper;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
-use App\Http\Traits\Files;
 
 class CategoryController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +39,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         try {
-            $image = Files::saveImage($request);
+            $image = $this->imageService->storeImage($request);
             $result = Category::query()->create([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -43,6 +50,5 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
 }

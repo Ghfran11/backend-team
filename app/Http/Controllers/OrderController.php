@@ -7,23 +7,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreorderRequest;
 use App\Http\Requests\UpdateorderRequest;
-use Illuminate\Http\Response;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
-use App\Models\Program;
 
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-
-
-    }
-
     /**
      * Store a newly created resource in storage.
      */

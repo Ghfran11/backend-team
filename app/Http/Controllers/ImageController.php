@@ -26,7 +26,6 @@ class ImageController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
 
     public function storeExerciseImage(Request $request)
@@ -37,8 +36,8 @@ class ImageController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
+
     public function deleteUserImage(Request $request)
     {
         try {
@@ -47,8 +46,8 @@ class ImageController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
+
     public function getImages(User $user)
     {
         try {
@@ -57,6 +56,5 @@ class ImageController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
 }

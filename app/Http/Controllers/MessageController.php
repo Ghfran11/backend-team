@@ -10,7 +10,6 @@ use App\Models\Message;
 use App\Models\Message as ModelsMessage;
 use App\Models\Notification;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller

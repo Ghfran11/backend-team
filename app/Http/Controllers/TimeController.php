@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Time;
-use App\Models\Day;
 use App\Http\Requests\StoretimeRequest;
 use App\Http\Requests\UpdatetimeRequest;
-use App\Models\Report;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use PHPOpenSourceSaver\JWTAuth\Providers\Auth\Illuminate;
 
 class TimeController extends Controller
 {
@@ -241,7 +237,6 @@ class TimeController extends Controller
             foreach ($result as $result) {
                 $day = Carbon::parse($result->startTime)->startOfDay();
                 $daysOfWeek[] = $day->format('l'); // Eg "Monday"
-
             }
             return ResponseHelper::success($daysOfWeek);
         } catch (\Exception $e) {

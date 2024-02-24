@@ -18,7 +18,6 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\InfoController;
-use App\Models\Category;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -34,6 +33,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
+    Route::post('deleteUserImage', [ImageController::class, 'deleteUserImage']);
     //exercise
     Route::post('storeExercise', [ExerciseController::class, 'store']);
     Route::get('showExercise/{exercise}', [ExerciseController::class, 'show']);
@@ -68,6 +68,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
     Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
+    Route::get('downloadFile/{id}', [ProgramController::class, 'downloadFile']);
+    Route::get('getPrograms', [ProgramController::class, 'getPrograms']);
     //chat
     Route::get('contactList', [MessageController::class, 'contactList']);//for chat
     Route::get('listChat', [MessageController::class, 'index']);

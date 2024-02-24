@@ -6,7 +6,6 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreArticleRequest;
-use App\Http\Requests\UpdateArticleRequest;
 use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +44,6 @@ class ArticleController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
 
     /**
@@ -116,6 +114,5 @@ class ArticleController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-
 
 }

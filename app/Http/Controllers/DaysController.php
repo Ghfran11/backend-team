@@ -6,9 +6,6 @@ use App\Helpers\ResponseHelper;
 use App\Models\Day;
 use App\Http\Requests\StoredaysRequest;
 use App\Http\Requests\UpdatedaysRequest;
-
-
-
 class DaysController extends Controller
 {
     /**

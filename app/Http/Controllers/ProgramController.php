@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Program;
 use App\Helpers\ResponseHelper;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreprogramRequest;
 use App\Http\Requests\UpdateprogramRequest;
@@ -15,6 +16,13 @@ use Carbon\Carbon;
 
 class ProgramController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -42,7 +50,7 @@ class ProgramController extends Controller
     {
         try {
             $path = Files::saveFile($request);
-            $image = Files::saveImage($request);
+            $image = $this->imageService->storeImage($request);
             $result = Program::query()->create(
                 [
                     'user_id' => Auth::id(),
@@ -80,7 +88,7 @@ class ProgramController extends Controller
         try {
             Files::deleteFile($program->file);
             $path = Files::saveFile($request);
-            $result = $program->update([
+            $program->update([
                 'name' => $request->name,
                 'file' => $path,
                 'categoryId' => $request->categoryId,
@@ -109,7 +117,7 @@ class ProgramController extends Controller
         }
     }
 
-    public function downloadFile(Request $request, Program $program)
+    public function downloadFile(Program $program)
     {
         try {
             $filepath = $program->path;
@@ -150,6 +158,7 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function assignProgram(Program $program, Request $request)
     {
         try {
@@ -185,8 +194,8 @@ class ProgramController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-
     }
+
     public function getCategory()
     {
         try {
@@ -196,6 +205,7 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function programCommitment()
     {
         try {

@@ -60,19 +60,4 @@ class ExerciseController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateexerciseRequest $request, exercise $exercise)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(exercise $exercise)
-    {
-        //
-    }
 }

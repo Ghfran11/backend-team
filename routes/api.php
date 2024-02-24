@@ -77,10 +77,10 @@ Route::middleware('auth:api')->group(function () {
     //notification
     Route::get('listNotification', [NotificationController::class, 'index']);
     //report
-    Route::get('/indexreport', [ReportController::class, 'index']);
-    Route::post('/report', [ReportController::class, 'store']);
-    Route::delete('/deletereport/{report}', [ReportController::class, 'destroy']);
-    Route::get('/myreport', [ReportController::class, 'showMyReport']);
+    Route::get('indexreport', [ReportController::class, 'index']);
+    Route::post('report', [ReportController::class, 'store']);
+    Route::delete('deletereport/{report}', [ReportController::class, 'destroy']);
+    Route::get('myreport', [ReportController::class, 'showMyReport']);
     //rate
     Route::post('setRate', [RatingController::class, 'setRate']);
     Route::delete('deleteRate', [RatingController::class, 'deleteRate']);

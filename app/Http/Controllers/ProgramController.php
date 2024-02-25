@@ -242,12 +242,12 @@ class ProgramController extends Controller
     public function getPrograms(Request $request)
     {
         try {
-            $lowerCaseType = strtolower($request->programType);
             $result = Category::query()
                 ->where('id', $request->categoryId)
+                ->where('type', $request->type)
                 ->with([
-                    'program' => function ($query) use ($lowerCaseType) {
-                        $query->where('type', $lowerCaseType);
+                    'program' => function ($query) use ($request) {
+                        $query->where('type', $request->programType);
                     }
                 ])
                 ->get()

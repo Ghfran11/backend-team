@@ -21,7 +21,6 @@ class OrderController extends Controller
         try {
             $existOrder = Order::where('playerId', Auth::id())
                 ->where('coachId', $request->coachId)->exists();
-
             if ($existOrder) {
                 return ResponseHelper::error('You already sent an order to this coach !');
             }
@@ -111,12 +110,16 @@ class OrderController extends Controller
                         'status' => 'accepted',
                     ]
                 );
-                $otherOrder = Order::query()->where('playerId', $order->playerId)
-                    ->where('id', '!=', $order->id)
-                    ->where('coachId', '!=', Auth::id())
-                    ->where('type', 'join')
-                    ->where('status', 'waiting')->delete();
-                return ResponseHelper::success([], null, 'acceptd succesfully', 200);
+                if ($result) {
+                    $otherOrder = Order::query()->where('playerId', $order->playerId)
+                        ->where('id', '!=', $order->id)
+                        ->where('coachId', '!=', Auth::id())
+                        ->where('type', 'join')
+                        ->where('status', 'waiting')->delete();
+                    if ($otherOrder) {
+                        return ResponseHelper::success([], null, 'accepted successfully', 200);
+                    }
+                }
             }
             if ($order->status == 'waiting' && $order->type == 'program') {
                 $result = $order->update(
@@ -124,16 +127,18 @@ class OrderController extends Controller
                         'status' => 'accepted',
                     ]
                 );
-                return ResponseHelper::success([], null, 'accepted succesfully', 200);
+                if ($result) {
+                    return ResponseHelper::success([], null, 'accepted successfully', 200);
+                }
             } else {
-                return ResponseHelper::success([], null, 'cannot accepted this ', 200);
+                return ResponseHelper::success([], null, 'Not accepted', 200);
             }
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
 
-    public function requestPrograme(Request $request)
+    public function requestProgram(Request $request)
     {
         try {
             $Order = Order::query()->create(
@@ -149,7 +154,7 @@ class OrderController extends Controller
         }
     }
 
-    public function getPremum(Request $request)
+    public function getPremium(Request $request)
     {
         try {
             $user = User::find(Auth::id());
@@ -161,7 +166,7 @@ class OrderController extends Controller
         }
     }
 
-    public function cancleOrder(Order $order)
+    public function cancelOrder(Order $order)
     {
         try {
             if ($order->status == 'waiting') {
@@ -173,7 +178,7 @@ class OrderController extends Controller
         }
     }
 
-    public function UnAssign(Order $order)
+    public function unAssign(Order $order)
     {
         try {
             if ($order->status == 'accepted') {
@@ -198,7 +203,7 @@ class OrderController extends Controller
         }
     }
 
-    public function MyActivePlayer()
+    public function myActivePlayer()
     {
         try {
             $order = Order::query()->where('coachId', 12);

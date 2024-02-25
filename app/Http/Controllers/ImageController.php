@@ -23,8 +23,7 @@ class ImageController extends Controller
         try {
             $result = $this->imageService->storeImage($request, Auth::id(), null, $request->type);
             return ResponseHelper::success($result);
-        }
-         catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
@@ -34,8 +33,7 @@ class ImageController extends Controller
         try {
             $result = $this->imageService->storeImage($request, null, $request->exerciseId);
             return ResponseHelper::success($result);
-        }
-         catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }

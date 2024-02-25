@@ -42,29 +42,12 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    // public function indexByType(Request $request) //general or private or recommended
-    // {
-    //     try {
-    //         $lowerCaseType = strtolower($request->type);
-    //         $program = Program::where('type', $lowerCaseType)
-    //             ->with('category')
-    //             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
-    //                 $query->where('type', $lowerCaseType)
-    //                     ->where('id', $request->categoryId);
-    //             })
-    //             ->get()
-    //             ->toArray();
-    //         return ResponseHelper::success($program);
-    //     } catch (\Exception $e) {
-    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
-    //     }
-    // }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreprogramRequest $request)
     {
+        try {
             $path = Files::saveFile($request);
             $image = Files::saveImage($request);
             $result = Program::query()->create(
@@ -72,7 +55,7 @@ class ProgramController extends Controller
                     'user_id' => Auth::id(),
                     'name' => $request->name,
                     'file' => $path,
-                    'image' => $image,
+                    'imageUrl' => $image,
                     'type' => $request->type,
                     'categoryId' => $request->categoryId
                 ]
@@ -144,7 +127,7 @@ class ProgramController extends Controller
         }
     }
 
-    public function showMyPrograme(Request $request)
+    public function showMyPrograms(Request $request)
     {
         try {
             $user = User::find(Auth::id());
@@ -226,7 +209,7 @@ class ProgramController extends Controller
         try {
             $user = User::find(Auth::id());
             $numberOfDays = $user->playerPrograms()->value('days');
-           
+
             $startDate = $user->playerPrograms()->value('startDate');
             $carbonStartDate = Carbon::createFromFormat('Y-m-d', $startDate);
             $endDate = $carbonStartDate->addDays($numberOfDays);

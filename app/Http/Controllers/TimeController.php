@@ -93,7 +93,7 @@ class TimeController extends Controller
     {
         try {
             $user = User::find(Auth::id());
-            $program = $user->playerprogrames()->get()->pluck('pivot.startDate');
+            $program = $user->playerPrograms()->get()->pluck('pivot.startDate');
             if ($program->isEmpty()) {
                 return ResponseHelper::success('empty');
             }

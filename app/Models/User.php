@@ -71,11 +71,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    public function coachprogrames()
+    public function coachPrograms()
     {
         return $this->belongsToMany(Program::class, 'programe_users', 'user_id')->withPivot('days', 'startDate');
     }
-    public function playerprogrames()
+    public function playerPrograms()
     {
         return $this->belongsToMany(Program::class, 'programe_users', 'player_id')->withPivot('days', 'startDate');
     }
@@ -134,11 +134,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(UserInfo::class, 'userId');
     }
 
-    public function sendedmessages(): HasMany
+    public function sentMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'sennder_id');
     }
-    public function receivedmessages(): HasMany
+    public function receivedMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'receiver_id');
     }
@@ -171,7 +171,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Article::class, 'article_user', 'coach_id', 'article_id')->withPivot('isFavourite');
     }
-    public function prgrame()
+    public function program()
     {
         return $this->hasMany(Program::class, 'user_id');
     }

@@ -147,7 +147,7 @@ class OrderController extends Controller
     {
         try {
             $user = User::find(Auth::id());
-            $program = $user->playerprogrames()
+            $program = $user->playerPrograms()
                 ->where('type', $request->type)->get()->toArray();
             return ResponseHelper::success($program);
         } catch (\Exception $e) {

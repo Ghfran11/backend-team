@@ -346,10 +346,10 @@ class UserController extends Controller
                     $mycoach = null;
                 }
             }
-            $userProgram = $user->playerprogrames()->get()->toArray();
+            $userProgram = $user->playerPrograms()->get()->toArray();
             if (!empty($userProgram)) {
                 $hasProgram = 'true';
-                $programType = $user->playerprogrames()->get();
+                $programType = $user->playerPrograms()->get();
             } else {
                 $hasProgram = 'false';
                 $programType = null;

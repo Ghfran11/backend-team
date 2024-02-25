@@ -62,6 +62,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('rate/{user}', [UserController::class, 'rateCoach']);
     //program
     Route::get('showProgram', [ProgramController::class, 'index']);
+    Route::get('allProgramByType', [ProgramController::class,'indexByType']);
     Route::get('myprogram', [ProgramController::class, 'showMyPrograme']);
     Route::post('store', [ProgramController::class, 'store']);//Program
     Route::get('getCategory', [ProgramController::class, 'getCategory']);

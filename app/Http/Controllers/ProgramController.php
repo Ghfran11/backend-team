@@ -42,24 +42,6 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    // public function indexByType(Request $request) //general or private or recommended
-    // {
-    //     try {
-    //         $lowerCaseType = strtolower($request->type);
-    //         $program = Program::where('type', $lowerCaseType)
-    //             ->with('category')
-    //             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
-    //                 $query->where('type', $lowerCaseType)
-    //                     ->where('id', $request->categoryId);
-    //             })
-    //             ->get()
-    //             ->toArray();
-    //         return ResponseHelper::success($program);
-    //     } catch (\Exception $e) {
-    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
-    //     }
-    // }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -145,7 +127,7 @@ class ProgramController extends Controller
         }
     }
 
-    public function showMyPrograme(Request $request)
+    public function showMyPrograms(Request $request)
     {
         try {
             $user = User::find(Auth::id());

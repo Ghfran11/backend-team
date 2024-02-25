@@ -63,7 +63,7 @@ Route::middleware('auth:api')->group(function () {
     //program
     Route::get('showProgram', [ProgramController::class, 'index']);
     Route::get('allProgramByType', [ProgramController::class,'indexByType']);
-    Route::get('myprogram', [ProgramController::class, 'showMyPrograme']);
+    Route::get('myprogram', [ProgramController::class, 'showMyPrograms']);
     Route::post('store', [ProgramController::class, 'store']);//Program
     Route::get('getCategory', [ProgramController::class, 'getCategory']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
@@ -123,11 +123,11 @@ Route::delete('deleteOrder', [OrderController::class, 'destroy']);
 Route::post('showOrder/{order}', [OrderController::class, 'show']);
 Route::get('showAnnual', [UserController::class, 'showAnnual']);
 
-Route::post('requestPrograme', [OrderController::class, 'requestPrograme']);
-Route::get('Premum', [OrderController::class, 'getPremum']);
+Route::post('requestPrograme', [OrderController::class, 'requestProgram']);
+Route::get('Premum', [OrderController::class, 'getPremium']);
 Route::get('myPlayer', [OrderController::class, 'showMyPlayer']);
-Route::get('myActivePlayer', [OrderController::class, 'MyActivePlayer']);
-Route::post('cancle/{order}', [OrderController::class, 'cancleOrder']);
+Route::get('myActivePlayer', [OrderController::class, 'myActivePlayer']);
+Route::post('cancle/{order}', [OrderController::class, 'cancelOrder']);
 Route::get('unAssign/{order}', [OrderController::class, 'unAssign']);
 Route::post('myPlayer', [OrderController::class, 'showMyPlayer']);
 

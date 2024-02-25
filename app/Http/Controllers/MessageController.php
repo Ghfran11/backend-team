@@ -42,6 +42,7 @@ class MessageController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -65,6 +66,7 @@ class MessageController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     /**
      * Display the specified resource.
      */
@@ -75,9 +77,9 @@ class MessageController extends Controller
                 ['sender_id', $user->id],
                 ['receiver_id', Auth::id()],
             ])->orWhere([
-                        ['sender_id', Auth::id()],
-                        ['receiver_id', $user->id],
-                    ])->get();
+                ['sender_id', Auth::id()],
+                ['receiver_id', $user->id],
+            ])->get();
             foreach ($message as $item) {
                 if ($item->sender_id == Auth::id()) {
                     $is_sender = true;
@@ -109,10 +111,7 @@ class MessageController extends Controller
                 return ResponseHelper::success($coaches);
             } else {
                 if ($user->role == 'coach') {
-                    $result = $user->coachOrder()
-                        //->whereHas('coachOrder', function ($query) use ($user) {
-                         //   $query->where('coachId', $user->id);
-                        //})
+                    $result = $user->coachOrder()->where('status', 'accepted')
                         ->get()
                         ->toArray();
                     return ResponseHelper::success($result);

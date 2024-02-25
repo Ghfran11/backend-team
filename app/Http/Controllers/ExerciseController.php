@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Models\Exercise;
 use App\Http\Requests\StoreexerciseRequest;
-use App\Http\Requests\UpdateexerciseRequest;
 
 
 class ExerciseController extends Controller

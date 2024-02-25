@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Models\Day;
 use App\Http\Requests\StoredaysRequest;
 use App\Http\Requests\UpdatedaysRequest;
+
 class DaysController extends Controller
 {
     /**
@@ -45,25 +46,6 @@ class DaysController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Day $day)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatedaysRequest $request, Day $day)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Day $Day)
     {
         try {

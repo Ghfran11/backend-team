@@ -19,6 +19,11 @@ class OrderController extends Controller
     public function store(StoreorderRequest $request)
     {
         try {
+            $existOrder = Order::where('playerId', Auth::id())
+                ->where('coachId', $request->coachId);
+            if ($existOrder) {
+                return ResponseHelper::error('You already sent an order to this coach !');
+            }
             $Order = Order::query()->create(
                 [
                     'coachId' => $request->coachId,

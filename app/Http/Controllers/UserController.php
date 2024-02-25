@@ -278,13 +278,23 @@ class UserController extends Controller
     {
         try {
             $search = $request->input('search_text');
-            $oppositeRole = Auth::user()->role == 'player' ? 'coach' : 'player';
-            $users = User::query()
-                ->when(in_array(Auth::user()->role, ['player', 'coach']), function ($query) use ($oppositeRole) {
-                    return $query->where('role', $oppositeRole);
-                })
-                ->where('name', 'LIKE', "%{$search}%")
-                ->get();
+            $user = User::find(Auth::id());
+            if ($user->role == 'player') {
+                $users = User::query()->where('role', 'coach')
+                    ->where('name', 'LIKE', "%{$search}%")
+                    ->get()
+                    ->toArray();
+                return ResponseHelper::success($users);
+            } elseif ($user->role == 'coach') {
+                $result = $user->where('name', 'LIKE', "%{$search}%")
+                    ->whereHas('coachOrder', function ($query) use ($request) {
+                        $query->where('status', 'accepted');
+                    })
+                    ->get()
+                    ->toArray();
+                return ResponseHelper::success($result);
+            }
+            $users = User::all();
             return ResponseHelper::success($users);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

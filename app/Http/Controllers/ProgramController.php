@@ -42,6 +42,23 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+    // public function indexByType(Request $request) //general or private or recommended
+    // {
+    //     try {
+    //         $lowerCaseType = strtolower($request->type);
+    //         $program = Program::where('type', $lowerCaseType)
+    //             ->with('category')
+    //             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
+    //                 $query->where('type', $lowerCaseType)
+    //                     ->where('id', $request->categoryId);
+    //             })
+    //             ->get()
+    //             ->toArray();
+    //         return ResponseHelper::success($program);
+    //     } catch (\Exception $e) {
+    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
+    //     }
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -49,7 +66,7 @@ class ProgramController extends Controller
     public function store(StoreprogramRequest $request)
     {
             $path = Files::saveFile($request);
-            $image = $this->imageService->storeImage($request);
+            $image = Files::saveImage($request);
             $result = Program::query()->create(
                 [
                     'user_id' => Auth::id(),
@@ -133,7 +150,7 @@ class ProgramController extends Controller
             $lowerCaseType = strtolower($request->type);
             $user = User::find(Auth::id());
             if ($user->role == 'player') {
-                $result = $user->playerprogrames()
+                $result = $user->playerPrograms()
                     ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                         $query->where('type', $lowerCaseType)
                             ->where('id', $request->categoryId);
@@ -143,7 +160,7 @@ class ProgramController extends Controller
                 return ResponseHelper::success($result);
             } else {
                 if ($user->role == 'coach') {
-                    $result = $user->prgrame()
+                    $result = $user->program()
                         ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                             $query->where('type', $lowerCaseType)
                                 ->where('id', $request->categoryId);
@@ -209,8 +226,8 @@ class ProgramController extends Controller
     {
         try {
             $user = User::find(Auth::id());
-            $numberOfDays = $user->playerprogrames()->value('days');
-            $startDate = $user->playerprogrames()->value('startDate');
+            $numberOfDays = $user->playerPrograms()->value('days');
+            $startDate = $user->playerPrograms()->value('startDate');
             $carbonStartDate = Carbon::createFromFormat('Y-m-d', $startDate);
             $endDate = $carbonStartDate->addDays($numberOfDays);
             $userRange = $user->time()->whereBetween('startTime', [$startDate, $endDate])->count();
@@ -224,11 +241,12 @@ class ProgramController extends Controller
     public function getPrograms(Request $request)
     {
         try {
+            $lowerCaseType = strtolower($request->programType);
             $result = Category::query()
-                ->where('type', $request->type)
+                ->where('id', $request->categoryId)
                 ->with([
-                    'program' => function ($query) {
-                        $query->where('type', 'private');
+                    'program' => function ($query) use ($lowerCaseType) {
+                        $query->where('type', $lowerCaseType);
                     }
                 ])
                 ->get()

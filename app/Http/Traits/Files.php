@@ -24,7 +24,7 @@ trait Files
         Storage::delete($file);
     }
 
-    public static function saveImage(Request $request, $type)
+    public static function saveImage(Request $request)
     {
         $file = $request->file('imageUrl');
         $theFilePath = null;

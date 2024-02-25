@@ -42,23 +42,23 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    public function indexByType(Request $request) //general or private or recommended
-    {
-        try {
-            $lowerCaseType = strtolower($request->type);
-            $program = Program::where('type', $lowerCaseType)
-                ->with('category')
-                ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
-                    $query->where('type', $lowerCaseType)
-                        ->where('id', $request->categoryId);
-                })
-                ->get()
-                ->toArray();
-            return ResponseHelper::success($program);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-    }
+    // public function indexByType(Request $request) //general or private or recommended
+    // {
+    //     try {
+    //         $lowerCaseType = strtolower($request->type);
+    //         $program = Program::where('type', $lowerCaseType)
+    //             ->with('category')
+    //             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
+    //                 $query->where('type', $lowerCaseType)
+    //                     ->where('id', $request->categoryId);
+    //             })
+    //             ->get()
+    //             ->toArray();
+    //         return ResponseHelper::success($program);
+    //     } catch (\Exception $e) {
+    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
+    //     }
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -67,7 +67,7 @@ class ProgramController extends Controller
     {
         try {
             $path = Files::saveFile($request);
-            $image = $this->imageService->storeImage($request);
+            $image = Files::saveImage($request);
             $result = Program::query()->create(
                 [
                     'user_id' => Auth::id(),
@@ -242,11 +242,12 @@ class ProgramController extends Controller
     public function getPrograms(Request $request)
     {
         try {
+            $lowerCaseType = strtolower($request->programType);
             $result = Category::query()
-                ->where('type', $request->type)
+                ->where('id', $request->categoryId)
                 ->with([
-                    'program' => function ($query) {
-                        $query->where('type', 'private');
+                    'program' => function ($query) use ($lowerCaseType) {
+                        $query->where('type', $lowerCaseType);
                     }
                 ])
                 ->get()

@@ -20,7 +20,8 @@ class OrderController extends Controller
     {
         try {
             $existOrder = Order::where('playerId', Auth::id())
-                ->where('coachId', $request->coachId);
+                ->where('coachId', $request->coachId)->exists();
+
             if ($existOrder) {
                 return ResponseHelper::error('You already sent an order to this coach !');
             }

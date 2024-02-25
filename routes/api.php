@@ -150,7 +150,7 @@ Route::post('addArticle', [ArticleController::class, 'store']);
 Route::get('allArticle', [ArticleController::class, 'index']);
 Route::get('myArticle', [ArticleController::class, 'getMyArticle']);
 Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle']);
-Route::post('makeFavouritre/{article}', [ArticleController::class, 'makeFavourite']);
+Route::post('makeFavourite/{article}', [ArticleController::class, 'makeFavourite']);
 
 
 //category

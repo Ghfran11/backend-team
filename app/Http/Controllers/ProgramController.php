@@ -81,7 +81,7 @@ class ProgramController extends Controller
 
 
         }
-    
+
 
     /**
      * Display the specified resource.
@@ -226,13 +226,14 @@ class ProgramController extends Controller
         try {
             $user = User::find(Auth::id());
             $numberOfDays = $user->playerPrograms()->value('days');
+           
             $startDate = $user->playerPrograms()->value('startDate');
             $carbonStartDate = Carbon::createFromFormat('Y-m-d', $startDate);
             $endDate = $carbonStartDate->addDays($numberOfDays);
             $userRange = $user->time()->whereBetween('startTime', [$startDate, $endDate])->count();
             $result = ($userRange / $numberOfDays) * 100;
             return ResponseHelper::success($result);
-        } catch (\Exception $e) {
+       } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }

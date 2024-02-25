@@ -16,10 +16,14 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $report = Report::query()
-            ->with('user.image')
-            ->get()->toArray();
-        return ResponseHelper::success($report);
+        try {
+            $report = Report::query()
+                ->with('user.image')
+                ->get()->toArray();
+            return ResponseHelper::success($report);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -27,14 +31,18 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request)
     {
-        $reports = Report::query()->create(
-            [
-                'userId' => Auth::id(),
-                'text' => $request->text,
-                'title' => $request->title,
-            ]
-        );
-        return ResponseHelper::success($reports);
+        try {
+            $reports = Report::query()->create(
+                [
+                    'userId' => Auth::id(),
+                    'text' => $request->text,
+                    'title' => $request->title,
+                ]
+            );
+            return ResponseHelper::success($reports);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -42,15 +50,12 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-        $reports = $report->get();
-        return ResponseHelper::success($reports);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReportRequest $request, Report $report)
-    {
+        try {
+            $reports = $report->get();
+            return ResponseHelper::success($reports);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -58,17 +63,25 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        $report->delete();
-        return ResponseHelper::success(
-            [
-                'message' => 'deleted successfuly'
-            ]
-        );
+        try {
+            $report->delete();
+            return ResponseHelper::success(
+                [
+                    'message' => 'deleted successfuly'
+                ]
+            );
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
     public function showMyReport()
     {
-        $user = User::find(Auth::id());
-        $result = $user->report()->get();
-        return  ResponseHelper::success($result);
+        try {
+            $user = User::find(Auth::id());
+            $result = $user->report()->get();
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 }

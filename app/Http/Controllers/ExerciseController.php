@@ -6,9 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Models\Exercise;
 use App\Http\Requests\StoreexerciseRequest;
 use App\Http\Requests\UpdateexerciseRequest;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Exercise as ModelsExercise;
+
 
 class ExerciseController extends Controller
 {
@@ -17,8 +15,17 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        $result = Exercise::query()->get();
-        return ResponseHelper::success($result);
+        try {
+            $result = Exercise::query()->get();
+            return ResponseHelper::success($result);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ResponseHelper::error($e->validator->errors()->first(), 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseHelper::error('Query Exception', 400);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+
     }
 
     /**
@@ -26,15 +33,17 @@ class ExerciseController extends Controller
      */
     public function store(StoreexerciseRequest $request)
     {
-        $exercie = Exercise::query()->create(
-            [
-                'name' => $request->name,
-                'description' => $request->description
-            ]
-        );
-
-
-        return ResponseHelper::success($exercie);
+        try {
+            $exercie = Exercise::query()->create(
+                [
+                    'name' => $request->name,
+                    'description' => $request->description
+                ]
+            );
+            return ResponseHelper::success($exercie);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -42,29 +51,13 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-        $result['exercise'] = $exercise;
-        $result['images'] = $exercise->image();
-
-        //هاد الكود بيجيب كلشي اكسرسايز مو اللي نحنا بدنا ياه ةالميثود هي وظيفتا تفرجينا التفاصيل
-
-        // $result= Exercise::query()
-        // ->with('image')->get();
-        return ResponseHelper::success($result);
+        try {
+            $result['exercise'] = $exercise;
+            $result['images'] = $exercise->image();
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateexerciseRequest $request, exercise $exercise)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(exercise $exercise)
-    {
-        //
-    }
 }

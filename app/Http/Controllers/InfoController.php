@@ -22,12 +22,16 @@ class InfoController extends Controller
      */
     public function store(StoreInfoRequest $request)
     {
-        $result=Info::query()->create(
-            [
-                'finance'=> $request->finance
-                         ]
+        try {
+            $result = Info::query()->create(
+                [
+                    'finance' => $request->finance
+                ]
             );
             return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -35,9 +39,12 @@ class InfoController extends Controller
      */
     public function show(Info $info)
     {
-        $result=$info->get()->toArray();
-
-        return ResponseHelper::success($result);
+        try {
+            $result = $info->get()->toArray();
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -45,13 +52,16 @@ class InfoController extends Controller
      */
     public function update(UpdateInfoRequest $request, Info $info)
     {
-        $result= $info->update([
-            'finance'=>$request->finance
-        ]
-
-        );
-        return ResponseHelper::success('updated succesfully');
-
+        try {
+             $info->update(
+                [
+                    'finance' => $request->finance
+                ]
+            );
+            return ResponseHelper::success('updated succesfully');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**

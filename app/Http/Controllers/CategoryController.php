@@ -2,26 +2,35 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
 use App\Helpers\ResponseHelper;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
-use App\Http\Traits\Files;
 
 class CategoryController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $result = Category::query()
-        ->where('type', $request->type)
-
-        ->get()->toArray();
-
-        return ResponseHelper::success($result);
+        try {
+            $result = Category::query()
+                ->where('type', $request->type)
+                ->get()->toArray();
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -29,36 +38,17 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $image=Files::saveImage($request);
-        $result = Category::query()->create([
-            'name'=> $request->name,
-            'description'=>$request->description,
-            'type'=>$request->type,
-            'imageUrl'=>$image,
-        ]);
-        return ResponseHelper::success($result);
-    }
-
-    /**) the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
+        try {
+            $image = $this->imageService->storeImage($request);
+            $result = Category::query()->create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => $request->type,
+                'imageUrl' => $image,
+            ]);
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 }

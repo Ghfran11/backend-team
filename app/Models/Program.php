@@ -9,7 +9,7 @@ class Program extends Model
 {
 
     use HasFactory;
-    protected $fillable = ['name', 'file', 'categoryId', 'type','imageUrl', 'user_id'];
+    protected $fillable = ['name', 'file', 'categoryId', 'type', 'imageUrl', 'user_id'];
 
     public function category()
     {
@@ -17,7 +17,7 @@ class Program extends Model
     }
     public function coachs()
     {
-        return $this->belongsToMany(User::class,'programe_users','program_id');
+        return $this->belongsToMany(User::class, 'programe_users', 'program_id');
     }
 
     public function players()

@@ -13,15 +13,11 @@ use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\InfoController;
-use App\Models\Category;
-use App\Models\Programe;
-use App\Models\UserInfo;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -36,9 +32,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-
-
     Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
+    Route::post('deleteUserImage', [ImageController::class, 'deleteUserImage']);
     //exercise
     Route::post('storeExercise', [ExerciseController::class, 'store']);
     Route::get('showExercise/{exercise}', [ExerciseController::class, 'show']);
@@ -53,8 +48,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('showMyTime', [TimeController::class, 'show']);
     Route::get('monthly', [TimeController::class, 'monthlyProgress']);
     Route::get('weekly', [TimeController::class, 'weeklyProgress']);
-
-
     Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
     Route::get('showCoachTime/{user}', [TimeController::class, 'showCoachTime']);
 
@@ -68,35 +61,29 @@ Route::middleware('auth:api')->group(function () {
     Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
     Route::post('rate/{user}', [UserController::class, 'rateCoach']);
     //program
-    Route::get('show', [ProgramController::class, 'index']);
+    Route::get('showProgram', [ProgramController::class, 'index']);
     Route::get('myprogram', [ProgramController::class, 'showMyPrograme']);
-    Route::post('store', [ProgramController::class, 'store']);
+    Route::post('store', [ProgramController::class, 'store']);//Program
     Route::get('getCategory', [ProgramController::class, 'getCategory']);
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
-
     Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
-
-
+    Route::get('downloadFile/{id}', [ProgramController::class, 'downloadFile']);
+    Route::get('getPrograms', [ProgramController::class, 'getPrograms']);
     //chat
+    Route::get('contactList', [MessageController::class, 'contactList']);//for chat
     Route::get('listChat', [MessageController::class, 'index']);
     Route::get('showChat/{user}', [MessageController::class, 'show']);
-
     //message
     Route::post('sendMessage', [MessageController::class, 'store']);
     Route::delete('deleteMessage/{message}', [MessageController::class, 'destroy']);
-
     //notification
     Route::get('listNotification', [NotificationController::class, 'index']);
-
-
     //report
-    Route::get('/indexreport', [ReportController::class, 'index']);
-    Route::post('/report', [ReportController::class, 'store']);
-    Route::delete('/deletereport/{report}', [ReportController::class, 'destroy']);
-    Route::get('/myreport', [ReportController::class, 'showMyReport']);
-
-
+    Route::get('indexreport', [ReportController::class, 'index']);
+    Route::post('report', [ReportController::class, 'store']);
+    Route::delete('deletereport/{report}', [ReportController::class, 'destroy']);
+    Route::get('myreport', [ReportController::class, 'showMyReport']);
     //rate
     Route::post('setRate', [RatingController::class, 'setRate']);
     Route::delete('deleteRate', [RatingController::class, 'deleteRate']);
@@ -123,7 +110,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('statistics', [UserController::class, 'statistics']);
 
 
-
     Route::get('status', [UserController::class, 'info']);
 });
 
@@ -141,7 +127,7 @@ Route::get('Premum', [OrderController::class, 'getPremum']);
 Route::get('myPlayer', [OrderController::class, 'showMyPlayer']);
 Route::get('myActivePlayer', [OrderController::class, 'MyActivePlayer']);
 Route::post('cancle/{order}', [OrderController::class, 'cancleOrder']);
-Route::post('unAssign/{order}', [OrderController::class, 'unAssign']);
+Route::get('unAssign/{order}', [OrderController::class, 'unAssign']);
 Route::post('myPlayer', [OrderController::class, 'showMyPlayer']);
 
 //user info
@@ -149,18 +135,14 @@ Route::post('addInfo', [UserInfoController::class, 'store']);
 Route::post('updateInfo', [UserInfoController::class, 'update']);
 Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
 
-
-
 //monthly Subscribtion Avg
 Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);
 
-
 //finance
-
-
+Route::post('storeFinance', [InfoController::class, 'store']);
 Route::post('updateFinance/{info}', [InfoController::class, 'update']);
-Route::post('showFinance/{info}', [InfoController::class, 'show']);
-Route::get('category', [Category::class, 'index']);
+Route::get('showFinance/{info}', [InfoController::class, 'show']);
+Route::get('subscriptions', [SubscriptionController::class, 'index']);
 
 //Article
 Route::post('addArticle', [ArticleController::class, 'store']);
@@ -170,9 +152,7 @@ Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle'])
 Route::post('makeFavouritre/{article}', [ArticleController::class, 'makeFavourite']);
 
 
-
 //category
-
 Route::get('getCategories', [CategoryController::class, 'index']);
 Route::post('AddCategory', [CategoryController::class, 'store']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);

@@ -38,7 +38,8 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-        'remember_token', 'email_verified_at'
+        'remember_token',
+        'email_verified_at'
     ];
     protected $appends = ['rate', 'is_paid'];
 
@@ -72,21 +73,20 @@ class User extends Authenticatable implements JWTSubject
     }
     public function coachprogrames()
     {
-        return $this->belongsToMany(Program::class, 'programe_users', 'user_id')->withPivot('days','startDate');
+        return $this->belongsToMany(Program::class, 'programe_users', 'user_id')->withPivot('days', 'startDate');
     }
     public function playerprogrames()
     {
-        return $this->belongsToMany(Program::class, 'programe_users', 'player_id')->withPivot('days','startDate');
+        return $this->belongsToMany(Program::class, 'programe_users', 'player_id')->withPivot('days', 'startDate');
     }
     public function coachOrder()
     {
-        return $this->hasMany(Order::class,'coachId');
+        return $this->hasMany(Order::class, 'coachId');
     }
     public function playerOrder()
     {
         return $this->hasMany(Order::class, 'playerId');
     }
-
 
     public function time()
     {
@@ -104,71 +104,59 @@ class User extends Authenticatable implements JWTSubject
 
     public function rate()
     {
-        return $this->hasMany(Rating::class,'coachId','playerId');
+        return $this->hasMany(Rating::class, 'coachId', 'playerId');
 
     }
 
     public function finance()
     {
-        return $this->hasMany(Finance::class,'userId');
+        return $this->hasMany(Finance::class, 'userId');
 
     }
-
-
-
 
     public function getRateAttribute()
     {
         $coachId = $this->id;
-
         $totalRating = Rating::query()
             ->where('coachId', $coachId)
             ->sum('rate');
-
         $userCount = Rating::query()
             ->where('coachId', $coachId)
             ->count('playerId');
-
         if ($userCount === 0) {
             return 0;
         }
-
         $averageRating = $totalRating / $userCount;
-
         return intval($averageRating);
     }
     public function userInfo()
-
     {
-        return $this->hasOne(UserInfo::class,'userId');
+        return $this->hasOne(UserInfo::class, 'userId');
     }
 
     public function sendedmessages(): HasMany
     {
-        return $this->hasMany(Message::class,'sennder_id');
+        return $this->hasMany(Message::class, 'sennder_id');
     }
     public function receivedmessages(): HasMany
     {
-        return $this->hasMany(Message::class,'receiver_id');
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 
     public function getIsPaidAttribute()
     {
         return $this->isPaid();
     }
-
-
     public function isPaid()
-{
-    $currentDate = now();
-    $expirationDate = $this->expiration;
-    if ($currentDate->lessThanOrEqualTo($expirationDate)) {
-        return 'paid';
-    } else {
-        return 'unpaid';
+    {
+        $currentDate = now();
+        $expirationDate = $this->expiration;
+        if ($currentDate->lessThanOrEqualTo($expirationDate)) {
+            return 'paid';
+        } else {
+            return 'unpaid';
+        }
     }
-}
-
 
     public function notifications(): HasMany
     {
@@ -176,16 +164,15 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function favorites()
-{
-    return $this->belongsToMany(Article::class, 'article_user', 'user_id', 'article_id')->withPivot('isFavourite');
+    {
+        return $this->belongsToMany(Article::class, 'article_user', 'user_id', 'article_id')->withPivot('isFavourite');
+    }
+    public function coachArticle()
+    {
+        return $this->belongsToMany(Article::class, 'article_user', 'coach_id', 'article_id')->withPivot('isFavourite');
+    }
+    public function prgrame()
+    {
+        return $this->hasMany(Program::class, 'user_id');
+    }
 }
-public function coachArticle()
-{
-    return $this->belongsToMany(Article::class, 'article_user', 'coach_id', 'article_id')->withPivot('isFavourite');
-}
-public function prgrame()
-{
-    return $this->hasMany(Program::class,'user_id');
-}
-}
-

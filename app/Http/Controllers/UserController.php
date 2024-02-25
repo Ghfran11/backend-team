@@ -286,8 +286,8 @@ class UserController extends Controller
                     ->toArray();
                 return ResponseHelper::success($users);
             } elseif ($user->role == 'coach') {
-                $result = $user->coachOrder()->where('status', 'accepted')
-                    ->where('name', 'LIKE', "%{$search}%")
+                $result = $user->where('name', 'LIKE', "%{$search}%")
+                    ->coachOrder()->where('status', 'accepted')
                     ->get()
                     ->toArray();
                 return ResponseHelper::success($result);

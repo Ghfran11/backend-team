@@ -9,13 +9,6 @@ use App\Helpers\ResponseHelper;
 
 class InfoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -64,11 +57,4 @@ class InfoController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Info $info)
-    {
-        //
-    }
 }

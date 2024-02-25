@@ -109,10 +109,10 @@ class MessageController extends Controller
                 return ResponseHelper::success($coaches);
             } else {
                 if ($user->role == 'coach') {
-                    $result = $user
-                        ->whereHas('coachOrder', function ($query) use ($user) {
-                            $query->where('coachId', $user->id);
-                        })
+                    $result = $user->coachOrder()
+                        //->whereHas('coachOrder', function ($query) use ($user) {
+                         //   $query->where('coachId', $user->id);
+                        //})
                         ->get()
                         ->toArray();
                     return ResponseHelper::success($result);

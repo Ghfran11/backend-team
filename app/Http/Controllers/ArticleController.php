@@ -10,8 +10,6 @@ use App\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\DB;
 
 
-use function PHPUnit\Framework\isEmpty;
-
 class ArticleController extends Controller
 {
     /**

@@ -72,7 +72,7 @@ class ProgramController extends Controller
                     'user_id' => Auth::id(),
                     'name' => $request->name,
                     'file' => $path,
-                    'image' =>'kjhgggfghmjh',
+                    'image' => $image,
                     'type' => $request->type,
                     'categoryId' => $request->categoryId
                 ]
@@ -81,7 +81,7 @@ class ProgramController extends Controller
 
 
         }
-    }
+    
 
     /**
      * Display the specified resource.

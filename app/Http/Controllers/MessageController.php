@@ -102,26 +102,6 @@ class MessageController extends Controller
         }
     }
 
-    public function contactList()
-    {
-        try {
-            $user = User::find(Auth::id());
-            if ($user->role == 'player') {
-                $coaches = User::where('role', 'coach')->get()->toArray();
-                return ResponseHelper::success($coaches);
-            } else {
-                if ($user->role == 'coach') {
-                    $result = $user->coachOrder()->where('status', 'accepted')
-                        ->get()
-                        ->toArray();
-                    return ResponseHelper::success($result);
-                }
-            }
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-    }
-
     /**
      * Remove the specified resource from storage.
      */

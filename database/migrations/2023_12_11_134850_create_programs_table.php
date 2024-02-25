@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('file');
             $table->string('imageUrl')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('type', ['general', 'private','recomended']);
+            $table->enum('type', ['general', 'private']);
             $table->timestamps();
         });
     }

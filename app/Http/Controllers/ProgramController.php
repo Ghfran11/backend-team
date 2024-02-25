@@ -48,7 +48,6 @@ class ProgramController extends Controller
      */
     public function store(StoreprogramRequest $request)
     {
-        try {
             $path = Files::saveFile($request);
             $image = $this->imageService->storeImage($request);
             $result = Program::query()->create(
@@ -56,14 +55,14 @@ class ProgramController extends Controller
                     'user_id' => Auth::id(),
                     'name' => $request->name,
                     'file' => $path,
-                    'imageUrl' => $image,
+                    'image' =>'kjhgggfghmjh',
                     'type' => $request->type,
                     'categoryId' => $request->categoryId
                 ]
             );
             return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
+
+
         }
     }
 

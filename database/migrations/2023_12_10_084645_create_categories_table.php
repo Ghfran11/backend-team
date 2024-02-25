@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('description');
             $table->string('imageUrl')->nullable();
-            $table->enum('type', ['Sport', 'food']);
+
+            $table->enum('type',['sport','food']);
             $table->timestamps();
         });
     }

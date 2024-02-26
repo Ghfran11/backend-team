@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
-
 use Carbon\Carbon;
 
 class AuthController extends Controller
@@ -31,12 +30,10 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('phoneNumber', 'password');
-        $token = Auth::attempt($credentials, [
-            'exp' => Carbon::now()->addDays(20)->timestamp
-        ]);
+        $token = Auth::attempt($credentials, ['exp' => Carbon::now()->addDays(20)->timestamp]);
         // $token = Auth::attempt($credentials);
         if (!$token) {
-            return ResponseHelper::error('phonenumber or password are not correct', null, 'error', 401);
+            return ResponseHelper::error('phone number or password are not correct', null, 'error', 401);
         }
         $user = Auth::user();
         $user->image;

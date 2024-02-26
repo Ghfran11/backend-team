@@ -17,11 +17,7 @@ class ExerciseController extends Controller
         try {
             $result = Exercise::query()->get();
             return ResponseHelper::success($result);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
-        } catch (\Exception $e) {
+        }  catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
 

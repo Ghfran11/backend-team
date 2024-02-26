@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Notification;
-use App\Http\Requests\UpdateNotificationRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response;
 
 class NotificationController extends Controller
 {

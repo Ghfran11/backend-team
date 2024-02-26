@@ -67,7 +67,7 @@ class ReportController extends Controller
             $report->delete();
             return ResponseHelper::success(
                 [
-                    'message' => 'deleted successfuly'
+                    'message' => 'deleted successfully'
                 ]
             );
         } catch (\Exception $e) {

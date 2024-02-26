@@ -61,7 +61,6 @@ class OrderController extends Controller
                     [
                         'coachId' => $request->coachId,
                         'playerId' => $request->playerId,
-
                     ]
                 );
                 return ResponseHelper::success($order);

@@ -61,9 +61,10 @@ class ProgramController extends Controller
                 ]
             );
             return ResponseHelper::success($result);
-
-
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
+    }
 
 
     /**

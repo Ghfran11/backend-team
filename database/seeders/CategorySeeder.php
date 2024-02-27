@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
             'name' => 'Strength Training',
             'description' => 'Programs that focus on building and maintaining muscle mass.',
             'type' => 'sport',
-            'imageUrl' => '1.png'
+            'imageUrl' => '.png'
         ]);
         DB::table('categories')->insert([
             'name' => 'Cardiovascular Training',

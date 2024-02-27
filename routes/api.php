@@ -103,6 +103,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('mvpCoach', [UserController::class, 'mvpCoach']);
     Route::get('showPercentage', [UserController::class, 'showCountPercentage']);
     Route::get('financeMonth', [UserController::class, 'financeMonth']);
+    Route::get('exite', [TimeController::class, 'Exite']);
 
 
     //Search

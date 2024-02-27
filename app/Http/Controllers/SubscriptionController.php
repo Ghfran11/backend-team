@@ -60,10 +60,10 @@ class SubscriptionController extends Controller
                 ->mapWithKeys(function ($month) use ($monthlyOrderCounts, $totalOrderCount) {
                     $data = $monthlyOrderCounts->get($month, collect());
                     $percentage = ($data->sum('count') / $totalOrderCount) * 100;
-                    $formattedPercentage = number_format($percentage, 1) . '%';
+                    $formattedPercentage = number_format($percentage) . '%';
                     return [$month => $formattedPercentage];
                 });
-            return ResponseHelper::success($monthlyOrderPercentages);
+            return ResponseHelper::success(array_values($monthlyOrderPercentages->toArray()));
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

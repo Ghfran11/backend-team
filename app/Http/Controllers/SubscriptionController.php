@@ -19,6 +19,7 @@ class SubscriptionController extends Controller
             ->get()->toArray();
         return ResponseHelper::success($subscriptions);
     }
+
     public function subscribe(Request $request)
     {
         try {
@@ -47,13 +48,20 @@ class SubscriptionController extends Controller
                 ->whereYear('created_at', date('Y'))
                 ->groupBy(DB::raw('DATE(created_at)'))
                 ->get();
-            $monthlyOrderPercentages = $dailyOrderCounts
+            $allMonths = collect([
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            ]);
+            $monthlyOrderCounts = $dailyOrderCounts
                 ->groupBy(function ($date) {
-                    return Carbon::parse($date->date)->format('Y-m');
-                })
-                ->map(function ($data) use ($totalOrderCount) {
+                    return Carbon::parse($date->date)->format('M');
+                });
+            $monthlyOrderPercentages = $allMonths
+                ->mapWithKeys(function ($month) use ($monthlyOrderCounts, $totalOrderCount) {
+                    $data = $monthlyOrderCounts->get($month, collect());
                     $percentage = ($data->sum('count') / $totalOrderCount) * 100;
-                    return number_format($percentage, 1) . '%';
+                    $formattedPercentage = number_format($percentage, 1) . '%';
+                    return [$month => $formattedPercentage];
                 });
             return ResponseHelper::success($monthlyOrderPercentages);
         } catch (\Exception $e) {

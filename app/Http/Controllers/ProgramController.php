@@ -217,7 +217,7 @@ class ProgramController extends Controller
             $userRange = $user->time()->whereBetween('startTime', [$startDate, $endDate])->count();
             $result = ($userRange / $numberOfDays) * 100;
             return ResponseHelper::success($result);
-       } catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }

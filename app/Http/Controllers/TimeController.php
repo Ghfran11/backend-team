@@ -248,27 +248,19 @@ class TimeController extends Controller
 
     public function Exite()
     {
-        $now=Carbon::now();
-       $times=Time::query()->where('endTime',null)->get();
-       foreach( $times as $time)
-       {
-
-       $startTime= Carbon::parse($time->startTime);
-       $sub=$startTime->diffInHours($now);
-
-        if($sub  > 3)
-        {
-         
-            $time->update(
-                [
-                    'endTime'=>$now
-                ]
+        $now = Carbon::now();
+        $times = Time::query()->where('endTime', null)->get();
+        foreach ($times as $time) {
+            $startTime = Carbon::parse($time->startTime);
+            $sub = $startTime->diffInHours($now);
+            if ($sub > 3) {
+                $time->update(
+                    [
+                        'endTime' => $now
+                    ]
                 );
+            }
         }
-       }
-       return ResponseHelper::success('successfully');
-
-
-
+        return ResponseHelper::success('successfully');
     }
 }

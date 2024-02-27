@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(DaysSeeder::class);
+        $this->call(CategorySeeder::class);
         $this->call(ProgramSeeder::class);
         $this->call(ExerciseSeeder::class);
-        $this->call(CategorySeeder::class);
         $this->call(ImageSeeder::class);
         $this->call(ReportSeeder::class);
         $this->call(RatingSeeder::class);

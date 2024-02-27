@@ -7,6 +7,7 @@ use App\Models\Program;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProgramSeeder extends Seeder
 {
@@ -15,21 +16,21 @@ class ProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        // Fetch all categories and users
-        $categories = Category::all();
-        $users = User::all();
+        $types = ['general', 'private'];
+        $userIds = DB::table('users')->pluck('id')->toArray(); // get all user ids
+        $categoryIds = DB::table('categories')->pluck('id')->toArray(); // get all category ids
 
-        // If there are no categories or users, we can't seed the programs table
-        if ($categories->isEmpty() || $users->isEmpty()) {
-            return;
+        for ($i = 0; $i < 10; $i++) {
+            DB::table('programs')->insert([
+                'categoryId' => $categoryIds[array_rand($categoryIds)],
+                'name' => Str::random(10),
+                'file' => Str::random(10),
+                'imageUrl' => '1.jpg', // replace with your image URL
+                'user_id' => $userIds[array_rand($userIds)],
+                'type' => $types[array_rand($types)],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
-
-        // Create 50 programs
-        Program::factory()->count(50)->create()->each(function ($program) use ($categories, $users) {
-            // Assign a random category and user to each program
-            $program->categoryId = $categories->random()->id;
-            $program->user_id = $users->random()->id;
-            $program->save();
-        });
     }
 }

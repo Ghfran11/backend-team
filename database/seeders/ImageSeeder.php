@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -12,39 +13,32 @@ class ImageSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    { DB::table('images')->insert([
-        ['userId' => '1','exerciseId'=>null,'image'=>'460838971.jpg'],
-        ['userId' => '1','exerciseId'=>null,'image'=>'765871961.jpg'],
+    {
+        DB::table('images')->insert([
+            ['userId' => '1', 'exerciseId' => 1, 'image' => 'img1.jpg'],
+            ['userId' => '1', 'exerciseId' => 2, 'image' => 'img2.jpg'],
 
-        ['userId' => '2','exerciseId'=>null,'image'=>'919412255.jpg'],
-        ['userId' => '2','exerciseId'=>null,'image'=>'626584726.jpg'],
+            ['userId' => '2', 'exerciseId' => 1, 'image' => 'img3.png'],
+            ['userId' => '2', 'exerciseId' => 2, 'image' => 'img4.png'],
 
-        ['userId' => '3','exerciseId'=>null,'image'=>'1202299738.jpg'],
-        ['userId' => '3','exerciseId'=>null,'image'=>'1311461512.jpg'],
+            ['userId' => '3', 'exerciseId' => 3, 'image' => 'img5.png'],
+            ['userId' => '3', 'exerciseId' => 4, 'image' => 'img6.png'],
 
-        ['userId' => '4','exerciseId'=>null,'image'=>'1744293202.jpg'],
-        ['userId' => '4','exerciseId'=>null,'image'=>'540998245.jpg'],
+            ['userId' => '4', 'exerciseId' => 3, 'image' => 'img7.png'],
+            ['userId' => '4', 'exerciseId' => 4, 'image' => 'img1.jpg'],
 
-        ['userId' => '5','exerciseId'=>null,'image'=>'301136981.jpg'],
-        ['userId' => '5','exerciseId'=>null,'image'=>'1903471181.jpg'],
+            ['userId' => '5', 'exerciseId' => 1, 'image' => 'img2.jpg'],
+            ['userId' => '5', 'exerciseId' => 2, 'image' => 'img3.jpg'],
 
-        ['userId' => '8','exerciseId'=>null,'image'=>'1202299738.jpg'],
-        ['userId' => '8','exerciseId'=>null,'image'=>'1311461512.jpg'],
+            ['userId' => '8', 'exerciseId' => 1, 'image' => 'img4.png'],
+            ['userId' => '8', 'exerciseId' => 2, 'image' => 'img5.png'],
 
-        ['userId' => '9','exerciseId'=>null,'image'=>'1744293202.jpg'],
-        ['userId' => '9','exerciseId'=>null,'image'=>'540998245.jpg'],
+            ['userId' => '9', 'exerciseId' => 3, 'image' => 'img6.jpg'],
+            ['userId' => '9', 'exerciseId' => 4, 'image' => 'img7.jpg'],
 
-        ['userId' => '10','exerciseId'=>null,'image'=>'301136981.jpg'],
-        ['userId' => '10','exerciseId'=>null,'image'=>'1903471181.jpg'],
-
-
-
-
-
-
-
-
-    ]);
+            ['userId' => '10', 'exerciseId' => 3, 'image' => 'img7.jpg'],
+            ['userId' => '10', 'exerciseId' => 4, 'image' => 'img6..jpg'],
+        ]);
 
     }
 }

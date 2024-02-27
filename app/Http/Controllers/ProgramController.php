@@ -60,8 +60,11 @@ class ProgramController extends Controller
                     'categoryId' => $request->categoryId
                 ]
             );
-            return ResponseHelper::success($result);
 
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+        return ResponseHelper::success($result);
 
         }
 

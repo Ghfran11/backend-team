@@ -19,6 +19,7 @@ class SubscriptionController extends Controller
             ->get()->toArray();
         return ResponseHelper::success($subscriptions);
     }
+
     public function subscribe(Request $request)
     {
         try {
@@ -38,6 +39,9 @@ class SubscriptionController extends Controller
         try {
             $coach_id = Auth::id();
             $totalOrderCount = Order::whereYear('created_at', date('Y'))->count();
+            if ($totalOrderCount == 0) {
+                return ResponseHelper::error('There is no Orders');
+            }
             $dailyOrderCounts = Order::select(
                 DB::raw('DATE(created_at) as date'),
                 DB::raw('count(*) as count')
@@ -47,15 +51,22 @@ class SubscriptionController extends Controller
                 ->whereYear('created_at', date('Y'))
                 ->groupBy(DB::raw('DATE(created_at)'))
                 ->get();
-            $monthlyOrderPercentages = $dailyOrderCounts
+            $allMonths = collect([
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            ]);
+            $monthlyOrderCounts = $dailyOrderCounts
                 ->groupBy(function ($date) {
-                    return Carbon::parse($date->date)->format('Y-m');
-                })
-                ->map(function ($data) use ($totalOrderCount) {
-                    $percentage = ($data->sum('count') / $totalOrderCount) * 100;
-                    return number_format($percentage, 1) . '%';
+                    return Carbon::parse($date->date)->format('M');
                 });
-            return ResponseHelper::success($monthlyOrderPercentages);
+            $monthlyOrderPercentages = $allMonths
+                ->mapWithKeys(function ($month) use ($monthlyOrderCounts, $totalOrderCount) {
+                    $data = $monthlyOrderCounts->get($month, collect());
+                    $percentage = ($data->sum('count') / $totalOrderCount) * 100;
+                    $formattedPercentage = number_format($percentage) . '%';
+                    return [$month => $formattedPercentage];
+                });
+            return ResponseHelper::success(array_values($monthlyOrderPercentages->toArray()));
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

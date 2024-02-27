@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Models\Day;
 use App\Http\Requests\StoredaysRequest;
-use App\Http\Requests\UpdatedaysRequest;
 
 class DaysController extends Controller
 {
@@ -17,10 +16,6 @@ class DaysController extends Controller
         try {
             $days = Day::query()->get();
             return ResponseHelper::success($days);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -36,11 +31,7 @@ class DaysController extends Controller
             Day::create([
                 'name' => $request->name,
             ]);
-            return ResponseHelper::success(['message' => 'day stored successfuly']);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
+            return ResponseHelper::success(['message' => 'day stored successfully']);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -51,10 +42,6 @@ class DaysController extends Controller
         try {
             $Day->delete();
             return ResponseHelper::success('Day deleted successfully');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

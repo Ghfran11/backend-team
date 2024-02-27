@@ -14,7 +14,9 @@ use Illuminate\Queue\SerializesModels;
 class SubscrbtionExpiration implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     private $user;
+
     /**
      * Create a new event instance.
      */
@@ -42,7 +44,7 @@ class SubscrbtionExpiration implements ShouldBroadcast
         return [
             'message' => 'Your subscription is expired !',
             'subscription_starts' => $this->user->created_at,
-            'subscription_ends' => $newDate = $this->user->created_at->addMonth(),
+            'subscription_ends' => $this->user->created_at->addMonth(),
         ];
     }
 }

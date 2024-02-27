@@ -153,7 +153,7 @@ class UserController extends Controller
                 $Paid = $user['is_paid'];
                 $result = [
                     'id' => $user['id'],
-                    'userNaname' => $userName,
+                    'userName' => $userName,
                     'remainingTime' => $remainingTime,
                     'paidStatus' => $Paid,
                     'SubscriptionDate' => $SubscriptionDate,
@@ -348,7 +348,7 @@ class UserController extends Controller
             $userOrder[] = $user->playerOrder()->get();
             if (!empty($userOrder)) {
                 $status = $user->playerOrder()->pluck('status');
-                if ($status = 'accepted') {
+                if ($status == 'accepted') {
                     $hasCoach = 'true';
                     $mycoach = $user->playerOrder()->get();
                 } else {

@@ -137,7 +137,7 @@ Route::post('addInfo', [UserInfoController::class, 'store']);
 Route::post('updateInfo', [UserInfoController::class, 'update']);
 Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
 
-//monthly Subscribtion Avg
+//monthly Subscription Avg
 Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);
 
 //finance

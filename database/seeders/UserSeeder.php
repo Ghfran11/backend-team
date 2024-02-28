@@ -28,6 +28,26 @@ class UserSeeder extends Seeder
             ['name' => 'Elfat', 'birthDate' => '1999-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622247', 'role' => 'player', 'finance' => 10000, 'created_at' => Carbon::now()],
             ['name' => 'Hadi', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622248', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
             ['name' => 'Hussam', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622249', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+
+            ['name' => 'Ismael', 'birthDate' => '1997-10-23', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622250', 'role' => 'player', 'finance' => 2000000, 'created_at' => Carbon::now()],
+            ['name' => 'Elfat', 'birthDate' => '1999-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622251', 'role' => 'player', 'finance' => 10000, 'created_at' => Carbon::now()],
+            ['name' => 'Hadi', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622252', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+            ['name' => 'Hussam', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622253', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+
+            ['name' => 'Ismael', 'birthDate' => '1997-10-23', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622254', 'role' => 'player', 'finance' => 2000000, 'created_at' => Carbon::now()],
+            ['name' => 'Elfat', 'birthDate' => '1999-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622255', 'role' => 'player', 'finance' => 10000, 'created_at' => Carbon::now()],
+            ['name' => 'Hadi', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622256', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+
+            ['name' => 'Hussam', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622257', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+            ['name' => 'Ismael', 'birthDate' => '1997-10-23', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622258', 'role' => 'player', 'finance' => 2000000, 'created_at' => Carbon::now()],
+            ['name' => 'Elfat', 'birthDate' => '1999-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622259', 'role' => 'player', 'finance' => 10000, 'created_at' => Carbon::now()],
+            ['name' => 'Hadi', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622260', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+
+            ['name' => 'Hussam', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622261', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+            ['name' => 'Ismael', 'birthDate' => '1997-10-23', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622262', 'role' => 'player', 'finance' => 2000000, 'created_at' => Carbon::now()],
+            ['name' => 'Elfat', 'birthDate' => '1999-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622263', 'role' => 'player', 'finance' => 10000, 'created_at' => Carbon::now()],
+            ['name' => 'Hadi', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622264', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
+            ['name' => 'Hussam', 'birthDate' => '2001-11-13', 'password' => Hash::make('123456789'), 'phoneNumber' => '0935622265', 'role' => 'player', 'finance' => 1000000, 'created_at' => Carbon::now()],
         ]);
     }
 }

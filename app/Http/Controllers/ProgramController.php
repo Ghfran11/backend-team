@@ -191,9 +191,8 @@ class ProgramController extends Controller
                     ->where('type', $request->programType)
                     ->where('name', 'LIKE', "%{$search}%")
                     ->orWhere('type', 'LIKE', "%{$search}%")
-                    ->whereHas('category', function ($query) use ($request) {
-                        $query->where('id', $request->categoryId);
-                    })->get();
+                    ->where('categoryId', $request->categoryId)
+                    ->get();
                 return ResponseHelper::success($programs);
             }
             $programs = Program::query()

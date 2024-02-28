@@ -24,7 +24,6 @@ class OrderSeeder extends Seeder
         $types = ['join', 'program'];
         $statuses = ['waiting', 'accepted'];
         $currentYear = Carbon::now()->year;
-
         foreach ($users as $user) {
             $randomDate = Carbon::create($currentYear, rand(1, 12), rand(1, 28));
             DB::table('orders')->insert([

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use phpseclib3\Crypt\Random;
 
 class ProgramSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class ProgramSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             DB::table('programs')->insert([
                 'categoryId' => $categoryIds[array_rand($categoryIds)],
-                'name' => Str::random(10),
+                'name' => 'Program ' . random_int(1, 100),
                 'file' => Str::random(10),
                 'imageUrl' => '1.jpg', // replace with your image URL
                 'user_id' => $userIds[array_rand($userIds)],

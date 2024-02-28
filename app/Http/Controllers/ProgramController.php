@@ -42,6 +42,7 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -184,7 +185,17 @@ class ProgramController extends Controller
     public function search(Request $request)
     {
         try {
-            $search = $request->input('search_text');
+            $search = $request->search_text;
+            if ($request->categoryId && $request->programType) {
+                $programs = Program::query()
+                    ->where('type', $request->programType)
+                    ->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('type', 'LIKE', "%{$search}%")
+                    ->whereHas('category', function ($query) use ($request) {
+                        $query->where('id', $request->categoryId);
+                    })->get();
+                return ResponseHelper::success($programs);
+            }
             $programs = Program::query()
                 ->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('type', 'LIKE', "%{$search}%")

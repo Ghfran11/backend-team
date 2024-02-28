@@ -186,12 +186,13 @@ class ProgramController extends Controller
     {
         try {
             $search = $request->search_text;
+            //dd(intval($request->categoryId));
             if ($request->categoryId && $request->programType) {
                 $programs = Program::query()
                     ->where('type', $request->programType)
                     ->where('name', 'LIKE', "%{$search}%")
                     ->orWhere('type', 'LIKE', "%{$search}%")
-                    ->where('categoryId', $request->categoryId)
+                    ->where('categoryId', intval($request->categoryId))
                     ->get();
                 return ResponseHelper::success($programs);
             }

@@ -190,8 +190,10 @@ class ProgramController extends Controller
                 $programs = Program::query()
                     ->where('categoryId', intval($request->categoryId))
                     ->where('type', $request->programType)
-                    ->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('type', 'LIKE', "%{$search}%")
+                    ->where(function ($query) use ($search) {
+                        $query->where('name', 'LIKE', "%{$search}%")
+                            ->orWhere('type', 'LIKE', "%{$search}%");
+                    })
                     ->get();
                 return ResponseHelper::success($programs);
             }

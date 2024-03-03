@@ -203,7 +203,7 @@ class TimeController extends Controller
                 ->with('user')
                 ->get()
                 ->toArray();
-            if ($activeplayers > 5) {
+            if (count($activeplayers) > 5) {
                 $isTraffic = true;
             } else {
                 $isTraffic = false;

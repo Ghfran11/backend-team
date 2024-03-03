@@ -10,4 +10,7 @@ class Info extends Model
     use HasFactory;
 
     protected $fillable = ['finance'];
+
+
+ 
 }

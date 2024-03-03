@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double('height')->nullable();
             $table->double('BFP')->nullable();
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('program_id')->nullable();
             $table->timestamps();
         });
     }

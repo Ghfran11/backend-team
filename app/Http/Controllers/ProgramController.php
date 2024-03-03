@@ -256,7 +256,9 @@ class ProgramController extends Controller
     public function selectProgram( Request $request)
     {
         $userinfo=UserInfo::where('userId',Auth::id());
-        if($userinfo->program_id == null)
+        $program=UserInfo::where('userId',Auth::id())->value('program_id');
+   
+        if( $program == null)
         {
        $result= $userinfo->update([
             'program_id'=> $request->program_id,

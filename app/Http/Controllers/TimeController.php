@@ -199,6 +199,7 @@ class TimeController extends Controller
     public function activePlayers()
     {
         try {
+            $this->endCounters();
             $activeplayers = Time::whereNull('endTime')
                 ->with('user')
                 ->get()
@@ -252,7 +253,7 @@ class TimeController extends Controller
     }
 
 
-    public function Exite()
+    public function endCounters()
     {
         $now = Carbon::now();
         $times = Time::query()->where('endTime', null)->get();

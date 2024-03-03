@@ -83,10 +83,11 @@ class ArticleController extends Controller
                 $result = DB::table('article_user')
                     ->where('article_id', $article->id)
                     ->update(['user_id' => Auth::id(), 'isFavourite' => false]);
-            } else
-                if ($favorite == false) {
+                return ResponseHelper::success(['isFavourite' => false]);
+            }
+            elseif ($favorite == false) {
                     $result = DB::table('article_user')->where('article_id', $article->id)->update(['user_id' => Auth::id(), 'isFavourite' => true]);
-                    return ResponseHelper::success($result);
+                return ResponseHelper::success(['isFavourite' => true]);
                 }
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

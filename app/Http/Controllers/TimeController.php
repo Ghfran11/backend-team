@@ -56,6 +56,7 @@ class TimeController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function showCoachTime(User $user)
     {
         try {
@@ -65,6 +66,7 @@ class TimeController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function endCounter(Request $request)
     {
         try {
@@ -129,6 +131,7 @@ class TimeController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     /**
      * Update the specified resource in storage.
      */
@@ -154,6 +157,7 @@ class TimeController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -214,18 +218,21 @@ class TimeController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function monthlyProgress()
     {
         try {
             $startDate = Carbon::now()->startOfMonth();
             $endDate = Carbon::now()->endOfMonth();
             $user = User::find(Auth::id());
-            $result = $user->time()->whereBetween('startTime', [$startDate, $endDate])->pluck('startTime');
+            $result = $user->time()->whereBetween('startTime', [$startDate, $endDate])
+                ->pluck('startTime');
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function weeklyProgress()
     {
         try {
@@ -245,30 +252,21 @@ class TimeController extends Controller
     }
 
 
-
     public function Exite()
     {
-        $now=Carbon::now();
-       $times=Time::query()->where('endTime',null)->get();
-       foreach( $times as $time)
-       {
-
-       $startTime= Carbon::parse($time->startTime);
-       $sub=$startTime->diffInHours($now);
-
-        if($sub  > 3)
-        {
-         
-            $time->update(
-                [
-                    'endTime'=>$now
-                ]
+        $now = Carbon::now();
+        $times = Time::query()->where('endTime', null)->get();
+        foreach ($times as $time) {
+            $startTime = Carbon::parse($time->startTime);
+            $sub = $startTime->diffInHours($now);
+            if ($sub > 3) {
+                $time->update(
+                    [
+                        'endTime' => $now
+                    ]
                 );
+            }
         }
-       }
-       return ResponseHelper::success('successfully');
-
-
-
+        return ResponseHelper::success('successfully');
     }
 }

@@ -15,13 +15,13 @@ class DaysSeeder extends Seeder
     public function run(): void
     {
         DB::table('days')->insert([
+            ['name' => 'Saturday'],
             ['name' => 'Sunday'],
             ['name' => 'Monday'],
             ['name' => 'Tuesday'],
             ['name' => 'Wednesday'],
             ['name' => 'Thursday'],
             ['name' => 'Friday'],
-            ['name' => 'Saturday'],
         ]);
     }
     }

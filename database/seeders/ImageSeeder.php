@@ -37,7 +37,7 @@ class ImageSeeder extends Seeder
             ['userId' => '9', 'exerciseId' => 4, 'image' => 'img7.jpg'],
 
             ['userId' => '10', 'exerciseId' => 3, 'image' => 'img7.jpg'],
-            ['userId' => '10', 'exerciseId' => 4, 'image' => 'img6..jpg'],
+            ['userId' => '10', 'exerciseId' => 4, 'image' => 'img6.jpg'],
         ]);
 
     }

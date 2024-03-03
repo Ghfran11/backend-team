@@ -189,10 +189,11 @@ class OrderController extends Controller
         }
     }
 
-    public function showMyPlayer()
+    public function showMyPlayer()//as a coach i want to show my accepted players
     {
         try {
-            $order = Order::query()->where('coachId', 12);
+            $order = Order::query()->where('coachId', Auth::id())
+                ->where('status', 'accepted');
             $result = $order->with('player')->with('player.image', function ($query) {
                 $query->where('type', null);
             })->get()->toArray();

@@ -78,17 +78,27 @@ class ArticleController extends Controller
     {
         try {
             $favorite = DB::table('article_user')
-                ->where('article_id', $article->id)->value('isFavourite');
-            if ($favorite == true) {
-                $result = DB::table('article_user')
-                    ->where('article_id', $article->id)
-                    ->update(['user_id' => Auth::id(), 'isFavourite' => false]);
-                return ResponseHelper::success(['isFavourite' => false]);
-            }
-            elseif ($favorite == false) {
-                    $result = DB::table('article_user')->where('article_id', $article->id)->update(['user_id' => Auth::id(), 'isFavourite' => true]);
-                return ResponseHelper::success(['isFavourite' => true]);
+                ->where('article_id', $article->id)->first();
+            //dd($favorite);
+            if ($favorite) {
+                if ($favorite->isFavourite) {
+                    $result = DB::table('article_user')
+                        ->where('article_id', $article->id)
+                        ->update(['user_id' => Auth::id(), 'isFavourite' => false]);
+                    return ResponseHelper::success(['isFavourite' => $result]);
+                } elseif ($favorite->isFavourite == false) {
+                    $result = DB::table('article_user')->where('article_id', $article->id)
+                        ->update(['user_id' => Auth::id(), 'isFavourite' => true]);
+                    return ResponseHelper::success(['isFavourite' => $result]);
                 }
+            }
+            $result = DB::table('article_user')->insert([
+                'article_id' => $article->id,
+                'user_id' => Auth::id(),
+                'coach_id' => null,
+                'isFavourite' => true,
+            ]);
+            return ResponseHelper::success(['isFavourite' => $result]);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

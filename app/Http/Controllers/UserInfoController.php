@@ -61,7 +61,7 @@ class UserInfoController extends Controller
                     'age' => $age
                 ]
             );
-            $userInfo = $user->userInfo()->get()->toArray();
+            $userInfo = $user->userInfo()->with('program')->get()->toArray();
             return ResponseHelper::success($userInfo);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

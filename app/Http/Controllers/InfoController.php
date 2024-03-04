@@ -33,7 +33,7 @@ class InfoController extends Controller
     public function show(Info $info)
     {
         try {
-            $result = $info->get()->toArray();
+            $result = $info->with('program')->get()->toArray();
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

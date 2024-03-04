@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateprogramRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\UserInfo;
 use App\Http\Traits\Files;
 use Carbon\Carbon;
 
@@ -256,4 +257,26 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+    public function selectProgram( Request $request)
+    {
+        $userinfo=UserInfo::where('userId',Auth::id());
+        $program=UserInfo::where('userId',Auth::id())->value('program_id');
+   
+        if( $program == null)
+        {
+       $result= $userinfo->update([
+            'program_id'=> $request->program_id,
+        ]);
+    }
+    else
+{
+    $result= $userinfo->update([
+        'program_id'=> null,
+    ]);
+
+}
+
+return ResponseHelper::success($result);
+    }
+
 }

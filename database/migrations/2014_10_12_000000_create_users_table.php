@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('rate')->default(0);
             $table->date('expiration')->default(now()->addMonth());
             $table->double('finance')->default(0);
+          
             $table->rememberToken();
             $table->timestamps();
         });

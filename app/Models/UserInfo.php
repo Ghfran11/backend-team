@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class UserInfo extends Model
 {
     use HasFactory;
-    protected $fillable = ['gender', 'weight', 'waist Measurement', 'neck', 'height', 'userId', 'birthDate'];
+    protected $fillable = ['gender', 'weight', 'waist Measurement', 'neck', 'height', 'userId', 'birthDate','program_id'];
+
+
+
+    public function program()
+    {
+        return $this->belongsTo(Program::class);
+    }
 
 }

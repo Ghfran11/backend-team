@@ -199,11 +199,12 @@ class TimeController extends Controller
     public function activePlayers()
     {
         try {
+            $this->endCounters();
             $activeplayers = Time::whereNull('endTime')
                 ->with('user')
                 ->get()
                 ->toArray();
-            if ($activeplayers > 5) {
+            if (count($activeplayers) > 5) {
                 $isTraffic = true;
             } else {
                 $isTraffic = false;
@@ -252,7 +253,7 @@ class TimeController extends Controller
     }
 
 
-    public function Exite()
+    public function endCounters()
     {
         $now = Carbon::now();
         $times = Time::query()->where('endTime', null)->get();

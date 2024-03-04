@@ -79,26 +79,25 @@ class ArticleController extends Controller
         try {
             $favorite = DB::table('article_user')
                 ->where('article_id', $article->id)->first();
-            //dd($favorite);
             if ($favorite) {
-                if ($favorite->isFavourite) {
+                if ($favorite->isFavourite == true) {
                     DB::table('article_user')
                         ->where('article_id', $article->id)
-                        ->update(['user_id' => Auth::id(), 'isFavourite' => false]);
+                        ->update(['isFavourite' => false]);
                     return ResponseHelper::success(['isFavourite' => false]);
                 } elseif ($favorite->isFavourite == false) {
                     DB::table('article_user')->where('article_id', $article->id)
-                        ->update(['user_id' => Auth::id(), 'isFavourite' => true]);
+                        ->update(['isFavourite' => true]);
                     return ResponseHelper::success(['isFavourite' => true]);
                 }
             }
-            $result = DB::table('article_user')->insert([
+            DB::table('article_user')->insert([
                 'article_id' => $article->id,
                 'user_id' => Auth::id(),
                 'coach_id' => null,
                 'isFavourite' => true,
             ]);
-            return ResponseHelper::success(['isFavourite' => $result]);
+            return ResponseHelper::success(['isFavourite' => true]);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

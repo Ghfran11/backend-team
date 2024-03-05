@@ -163,7 +163,7 @@ class ProgramController extends Controller
     public function assignProgram(Program $program, Request $request)
     {
         try {
-            $user = User::findOrFail('id',$request->player_id)->first();
+            $user = User::findOrFail('id', $request->player_id)->first();
             if ($user->role == 'coach') {
                 return ResponseHelper::error('');
             }
@@ -257,26 +257,23 @@ class ProgramController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    public function selectProgram( Request $request)
+    public function selectProgram(Request $request)
     {
-        $userinfo=UserInfo::where('userId',Auth::id());
-        $program=UserInfo::where('userId',Auth::id())->value('program_id');
-   
-        if( $program == null)
-        {
-       $result= $userinfo->update([
-            'program_id'=> $request->program_id,
-        ]);
-    }
-    else
-{
-    $result= $userinfo->update([
-        'program_id'=> null,
-    ]);
+        $userinfo = UserInfo::where('userId', Auth::id());
+        $program = UserInfo::where('userId', Auth::id())->value('program_id');
 
-}
+        if ($program == null) {
+            $result = $userinfo->update([
+                'program_id' => $request->program_id,
+            ]);
+        } else {
+            $result = $userinfo->update([
+                'program_id' => null,
+            ]);
 
-return ResponseHelper::success($result);
+        }
+
+        return ResponseHelper::success($result);
     }
 
 }

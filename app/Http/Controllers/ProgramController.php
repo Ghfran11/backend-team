@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\UserInfo;
 use App\Http\Traits\Files;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProgramController extends Controller
 {
@@ -259,24 +260,24 @@ class ProgramController extends Controller
     }
     public function selectProgram( Request $request)
     {
-        $userinfo=UserInfo::where('userId',Auth::id());
-        $program=UserInfo::where('userId',Auth::id())->value('program_id');
-   
-        if( $program == null)
-        {
-       $result= $userinfo->update([
-            'program_id'=> $request->program_id,
-        ]);
-    }
-    else
-{
-    $result= $userinfo->update([
-        'program_id'=> null,
+        $userinfo_id=UserInfo::where('userId',Auth::id())->value('id');
+        $userinfo=UserInfo::find($userinfo_id);
+    
+    $result= $userinfo->program()->syncWithoutDetaching([
+        'program_id'=> $request->program_id,
+        'userInfo_id'=>$userinfo_id
     ]);
 
-}
 
-return ResponseHelper::success($result);
-    }
+return ResponseHelper::success('set successfully');
+ }
+ public function unselectProgram( Request $request)
+ {
+    $userinfo_id=UserInfo::where('userId',Auth::id())->value('id');
+    $userinfo=UserInfo::find($userinfo_id);
+    $result= DB::table('program_userinfos')->where('program_id',$request->program_id)->where('userInfo_id',$userinfo_id)->delete();
+    return ResponseHelper::success($result);
+
+ }
 
 }

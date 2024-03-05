@@ -16,7 +16,6 @@ return new class extends Migration
            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
            $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
            $table->foreignId('player_id')->nullable()->constrained('users')->onDelete('cascade');
-       
            $table->date('startDate');
            $table->integer('days');
            $table->timestamps();

@@ -26,6 +26,7 @@ class Program extends Model
     }
     public function userInfo()
     {
-        return $this->hasMany(userInfo::class , 'program_id');
+        return $this->hasMany(userInfo::class ,'program_userinfos', 'program_id');
     }
+
 }

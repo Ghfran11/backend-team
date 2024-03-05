@@ -21,11 +21,17 @@ class ArticleController extends Controller
             $user = User::find(Auth::id());
             $articles = Article::query()->get();
             foreach ($articles as $article) {
-                if ($user->favorites->contains('id', $article->id)) {
-                    $isFavourite = true;
-                } else {
+                $isFav=DB::table('article_user')
+                ->where('article_id', $article->id)->where('user_id',Auth::id())->value('isFavourite');
+
+                if ($user->favorites->contains('id', $article->id)  &&  $isFav == true)
+                {
+              $isFavourite = true;
+                } else
+                {
                     $isFavourite = false;
                 }
+
                 $results[] =
                     [
                         'id' => $article->id,
@@ -33,7 +39,8 @@ class ArticleController extends Controller
                         'content' => $article->content,
                         'isFavourite' => $isFavourite
                     ];
-            }
+
+        }
             return ResponseHelper::success($results);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return ResponseHelper::error($e->validator->errors()->first(), 400);

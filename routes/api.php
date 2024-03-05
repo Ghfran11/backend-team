@@ -72,6 +72,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('downloadFile/{id}', [ProgramController::class, 'downloadFile']);
     Route::get('getPrograms', [ProgramController::class, 'getPrograms']);
     Route::post('selectProgram', [ProgramController::class, 'selectProgram']);
+    Route::post('unselectProgram', [ProgramController::class, 'unselectProgram']);
     //chat
     Route::get('contactList', [MessageController::class, 'contactList']);//for chat
     Route::get('listChat', [MessageController::class, 'index']);

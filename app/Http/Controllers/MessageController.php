@@ -29,12 +29,12 @@ class MessageController extends Controller
             });
             $chatDetails = [];
             foreach ($chats as $chatId => $messages) {
-                $sid2 = User::find($chatId);
+                $sid2 = User::find($chatId)->with('image');
                 $latestMessage = $messages->sortByDesc('created_at')->first();
                 $chatDetails[] = [
                     'sid2' => $sid2,
                     'latestMessage' => $latestMessage,
-                    'image' => $sid2->image()
+
                 ];
             }
             return ResponseHelper::success($chatDetails);

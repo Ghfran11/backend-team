@@ -126,16 +126,16 @@ class OrderController extends Controller
                         'status' => 'accepted',
                     ]
                 );
-                if ($result) {
+
                     return ResponseHelper::success([], null, 'accepted successfully', 200);
-                }
-            } else {
-                return ResponseHelper::success([], null, 'Not accepted', 200);
             }
+
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
+
 
     public function requestProgram(Request $request)
     {

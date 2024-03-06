@@ -57,11 +57,12 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         try {
+            $validated = $request->validated();
             $user = User::findOrFail(Auth::id());
             $article = $user->coachArticle()->create(
                 [
-                    'title' => $request->title,
-                    'content' => $request->content
+                    'title' => $validated->title,
+                    'content' => $validated->content
                 ]
             );
             return ResponseHelper::success($article);
@@ -81,6 +82,7 @@ class ArticleController extends Controller
         }
 
     }
+
     public function makeFavourite(Article $article)
     {
         try {
@@ -119,6 +121,7 @@ class ArticleController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function getMyArticle()
     {
         try {

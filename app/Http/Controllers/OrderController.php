@@ -85,15 +85,40 @@ class OrderController extends Controller
         }
     }
 
-    public function getMyOrder()
+    public function getMyOrder(Request $request)
     {
         try {
             $user = User::find(Auth::id());
-            if ($user->role = 'coach') {
-                $result = $user->coachOrder()->get()->toArray();
-            } else if ($user->role = 'player') {
-                $result = $user->playerOrder()->get()->toArray();
+            if ($user->role = 'coach' ) {
+                if($request->type== 'join')
+                {
+                $result = $user->coachOrder()->where('type','join')->get()->toArray();
+                }
+                else if($request->type == 'nutrition')
+                {
+                    $result = $user->coachOrder()->where('type','nutrition')->get()->toArray();
+                }
+                else if($request->type == 'training')
+                {
+                    $result = $user->coachOrder()->where('type','training')->get()->toArray();
+                }
+
             }
+            else if ($user->role = 'player') {
+                if($request->type== 'join')
+                {
+                $result = $user->playerOrder()->where('type','join')->get()->toArray();
+            }
+            else if($request->type == 'nutrition')
+            {
+                $result = $user->playerOrder()->where('type','nutrition')->get()->toArray();
+            }
+            else if($request->type == 'training')
+            {
+                $result = $user->playerOrder()->where('type','training')->get()->toArray();
+            }
+        }
+
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -140,11 +165,12 @@ class OrderController extends Controller
     public function requestProgram(Request $request)
     {
         try {
+
             $Order = Order::query()->create(
                 [
                     'coachId' => $request->coachId,
                     'playerId' => Auth::id(),
-                    'type' => 'program'
+                    'type' => $request->type
                 ]
             );
             return ResponseHelper::success($Order);

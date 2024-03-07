@@ -206,7 +206,7 @@ class OrderController extends Controller
     public function myActivePlayer()
     {
         try {
-            $order = Order::query()->where('coachId', 12);
+            $order = Order::query()->where('coachId', Auth::id());
             $result = $order->with('player')->with('player.image', function ($query) {
                 $query->where('type', null);
             })->with('player.time', function ($query) {

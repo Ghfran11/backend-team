@@ -51,7 +51,7 @@ class ImageController extends Controller
     public function getImages(User $user)
     {
         try {
-            $result = $user->image()->where('type', 'before')->orwhere('type', 'after')->get();
+            $result = $user->image()->where('type', 'before')->orwhere('type', 'after')->get()->toArray();
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

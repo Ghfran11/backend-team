@@ -207,14 +207,18 @@ class OrderController extends Controller
     {
         try {
             $order = Order::query()->where('coachId', Auth::id());
-            $result = $order->with('player')->with('player.image', function ($query) {
-                $query->where('type', null);
-            })->with('player.time', function ($query) {
+            $result = $order->where('status', 'accepted')
+            ->where('type','join')->with('player')->with('player.image', function ($query) {
+                $query->where('type', 'null');
+            })->with('player.time',function ($query) {
                 $query->where('endTime', null);
             })->get()->toArray();
             return ResponseHelper::success($result, 'your  active player');
-        } catch (\Exception $e) {
+
+
+}catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
 }
+

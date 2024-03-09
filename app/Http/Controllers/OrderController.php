@@ -89,36 +89,24 @@ class OrderController extends Controller
     {
         try {
             $user = User::find(Auth::id());
-            if ($user->role = 'coach' ) {
-                if($request->type== 'join')
-                {
-                $result = $user->coachOrder()->where('type','join')->get()->toArray();
+            $result = [];
+            if ($user->role = 'coach') {
+                if ($request->type == 'join') {
+                    $result = $user->coachOrder()->where('type', 'join')->get()->toArray();
+                } else if ($request->type == 'nutrition') {
+                    $result = $user->coachOrder()->where('type', 'nutrition')->get()->toArray();
+                } else if ($request->type == 'training') {
+                    $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
                 }
-                else if($request->type == 'nutrition')
-                {
-                    $result = $user->coachOrder()->where('type','nutrition')->get()->toArray();
+            } else if ($user->role = 'player') {
+                if ($request->type == 'join') {
+                    $result = $user->playerOrder()->where('type', 'join')->get()->toArray();
+                } else if ($request->type == 'nutrition') {
+                    $result = $user->playerOrder()->where('type', 'nutrition')->get()->toArray();
+                } else if ($request->type == 'training') {
+                    $result = $user->playerOrder()->where('type', 'training')->get()->toArray();
                 }
-                else if($request->type == 'training')
-                {
-                    $result = $user->coachOrder()->where('type','training')->get()->toArray();
-                }
-
             }
-            else if ($user->role = 'player') {
-                if($request->type== 'join')
-                {
-                $result = $user->playerOrder()->where('type','join')->get()->toArray();
-            }
-            else if($request->type == 'nutrition')
-            {
-                $result = $user->playerOrder()->where('type','nutrition')->get()->toArray();
-            }
-            else if($request->type == 'training')
-            {
-                $result = $user->playerOrder()->where('type','training')->get()->toArray();
-            }
-        }
-
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -152,14 +140,13 @@ class OrderController extends Controller
                     ]
                 );
 
-                    return ResponseHelper::success([], null, 'accepted successfully', 200);
+                return ResponseHelper::success([], null, 'accepted successfully', 200);
             }
 
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-
 
 
     public function requestProgram(Request $request)
@@ -235,20 +222,20 @@ class OrderController extends Controller
             $order = Order::query()->where('coachId', Auth::id());
 
             $result = $order->where('status', 'accepted')
-    ->where('type','join')
-    ->whereHas('player', function ($query) {
-        $query->whereHas('time', function ($query) {
-            $query->where('endTime', null);
-        });
-    })
-    ->with('player')
-    ->with('player.image')
-    ->get()
-    ->toArray();
+                ->where('type', 'join')
+                ->whereHas('player', function ($query) {
+                    $query->whereHas('time', function ($query) {
+                        $query->where('endTime', null);
+                    });
+                })
+                ->with('player')
+                ->with('player.image')
+                ->get()
+                ->toArray();
             return ResponseHelper::success($result, 'your  active player');
 
 
-}catch (\Exception $e) {
+        } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }

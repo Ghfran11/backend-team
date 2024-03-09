@@ -88,22 +88,28 @@ class OrderController extends Controller
     public function getMyOrder(Request $request)
     {
         try {
-            $user = User::find(Auth::id());
+            $user = Auth::user();
             $result = [];
             if ($user->role = 'coach') {
                 if ($request->type == 'join') {
                     $result = $user->coachOrder()->where('type', 'join')->get()->toArray();
-                } else if ($request->type == 'nutrition') {
+                }
+                if ($request->type == 'nutrition') {
                     $result = $user->coachOrder()->where('type', 'nutrition')->get()->toArray();
-                } else if ($request->type == 'training') {
+                }
+                if ($request->type == 'training') {
                     $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
                 }
-            } else if ($user->role = 'player') {
+            }
+            if ($user->role = 'player') {
                 if ($request->type == 'join') {
                     $result = $user->playerOrder()->where('type', 'join')->get()->toArray();
-                } else if ($request->type == 'nutrition') {
+                    //dd($result);
+                }
+                if ($request->type == 'nutrition') {
                     $result = $user->playerOrder()->where('type', 'nutrition')->get()->toArray();
-                } else if ($request->type == 'training') {
+                }
+                if ($request->type == 'training') {
                     $result = $user->playerOrder()->where('type', 'training')->get()->toArray();
                 }
             }

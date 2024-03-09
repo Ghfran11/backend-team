@@ -98,7 +98,7 @@ class UserController extends Controller
                     'finance' => $request->finance,
                 ]
             );
-            return ResponseHelper::success(['updated successfuly']);
+            return ResponseHelper::success(['updated successfully']);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

@@ -89,9 +89,9 @@ class OrderController extends Controller
     {
         try {
             $user = Auth::user();
-          
+
             $result = [];
-            if ($user->role = 'coach') {
+            if ($user->role =='coach') {
                 if ($request->type == 'join') {
                     $result = $user->coachOrder()->where('type', 'join')->get()->toArray();
                 }
@@ -102,8 +102,9 @@ class OrderController extends Controller
                     $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
                 }
             }
-            if ($user->role = 'player') {
+            if ($user->role == 'player') {
                 if ($request->type == 'join') {
+                  
                     $result = $user->playerOrder()->where('type', 'join')->get()->toArray();
                     //dd($result);
                 }

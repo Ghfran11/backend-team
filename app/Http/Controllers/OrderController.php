@@ -89,6 +89,7 @@ class OrderController extends Controller
     {
         try {
             $user = Auth::user();
+          
             $result = [];
             if ($user->role = 'coach') {
                 if ($request->type == 'join') {

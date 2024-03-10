@@ -56,7 +56,7 @@ class UserInfoController extends Controller
             $height = $user->userInfo()->value('height');
             $birthDate = $user->userInfo()->value('birthDate');
             $age = Carbon::parse($birthDate)->age;
-          
+
             $BFP = $this->calculateBFP($weight, $height);
             $userInfo = $user->userInfo()->update(
                 [
@@ -101,11 +101,12 @@ class UserInfoController extends Controller
     public function updateInfo(Request $request)//update image and name and phone
     {
         try {
-            $user = Auth::user();
+            $user = User::findorFail(Auth::id());
             $user = $user->update(
                 [
                     'name' => $request->name,
-                    'phoneNumber' => $request->phoneNumber
+                    'phoneNumber' => $request->phoneNumber,
+                    'bio'=>$request->bio ? :null
                 ]
             );
             if ($request->has('image')) {

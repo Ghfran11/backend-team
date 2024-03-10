@@ -138,9 +138,10 @@ class TimeController extends Controller
     public function update(UpdatetimeRequest $request, Time $time)
     {
         try {
+            $user=User::find(Auth::id());
             $result = $time->update(
                 [
-                    'userId' => $request->userId,
+                    'userId' => $user->id,
                     'startTime' => $request->atartTime,
                     'endTime' => $request->endTime,
                     'dayId' => $request->dayId,
@@ -149,7 +150,7 @@ class TimeController extends Controller
             );
             return ResponseHelper::success(
                 [
-                    'message' => 'program updated successfuly',
+                    'message' => 'time updated successfuly',
                     'data' => $result,
                 ]
             );

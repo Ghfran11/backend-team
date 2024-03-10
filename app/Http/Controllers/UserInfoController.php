@@ -54,6 +54,7 @@ class UserInfoController extends Controller
             $height = $user->userInfo()->value('height');
             $birthDate = $user->userInfo()->value('birthDate');
             $age = Carbon::parse($birthDate)->age;
+          
             $BFP = $this->calculateBFP($weight, $height);
             $userInfo = $user->userInfo()->update(
                 [

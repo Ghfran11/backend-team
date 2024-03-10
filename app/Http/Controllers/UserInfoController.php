@@ -105,7 +105,7 @@ class UserInfoController extends Controller
             $user = $user->update(
                 [
                     'name' => $request->name,
-                    'phoneNumber' => $request->phoneNumber,
+                    'phoneNumber' => $request->phoneNumber?:$user->phoneNumber ,
                     'bio'=>$request->bio ? :null
                 ]
             );

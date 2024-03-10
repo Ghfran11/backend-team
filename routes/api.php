@@ -59,6 +59,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('playerInfo/{id}', [UserController::class, 'playerInfo']);
     Route::delete('delete/{user}', [UserController::class, 'deleteUser']);
     Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
+    Route::post('updateUserInfo',[UserInfoController::class,'updateInfo']);
     Route::post('rate/{user}', [UserController::class, 'rateCoach']);
     //program
     Route::get('showProgram', [ProgramController::class, 'index']);

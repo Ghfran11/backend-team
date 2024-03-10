@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserInfoRequest;
 use App\Http\Requests\UpdateUserInfoRequest;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ class UserInfoController extends Controller
     {
         $this->imageService = $imageService;
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -75,7 +77,7 @@ class UserInfoController extends Controller
     public function update(UpdateUserInfoRequest $request)
     {
         try {
-            $user = User::find(Auth::id());
+            $user = Auth::user();
             $userInfo = $user->userInfo()->updateOrcreate(
                 [
                     'gender' => $request->gender,
@@ -94,6 +96,26 @@ class UserInfoController extends Controller
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
+    }
+
+    public function updateInfo(Request $request)//update image and name and phone
+    {
+        try {
+            $user = Auth::user();
+            $user = $user->update(
+                [
+                    'name' => $request->name,
+                    'phoneNumber' => $request->phoneNumber
+                ]
+            );
+            if ($request->has('image')) {
+                $this->imageService->storeImage($request, Auth::id(), null, 'profile');
+            }
+            return ResponseHelper::success($user);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+
     }
 
     /**

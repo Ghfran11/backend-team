@@ -104,7 +104,7 @@ class OrderController extends Controller
             }
             if ($user->role == 'player') {
                 if ($request->type == 'join') {
-                  
+
                     $result = $user->playerOrder()->where('type', 'join')->get()->toArray();
                     //dd($result);
                 }
@@ -130,12 +130,21 @@ class OrderController extends Controller
                         'status' => 'accepted',
                     ]
                 );
-                if ($result) {
+
+                if ($result == true) {
+
+
                     $otherOrder = Order::query()->where('playerId', $order->playerId)
                         ->where('id', '!=', $order->id)
                         ->where('coachId', '!=', Auth::id())
+                        ->where('playerId',$order->playerId)
                         ->where('type', 'join')
-                        ->where('status', 'waiting')->delete();
+                        ->where('status', 'waiting')->get();
+
+                        foreach( $otherOrder as $item)
+                        {
+                            $item->delete();
+                        }
                     if ($otherOrder) {
                         return ResponseHelper::success([], null, 'accepted successfully', 200);
                     }

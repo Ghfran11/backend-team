@@ -164,10 +164,11 @@ class ProgramController extends Controller
     public function assignProgram(Program $program, Request $request)
     {
         try {
-            $user = User::findOrFail('id', $request->player_id)->first();
-            if ($user->role == 'coach') {
-                return ResponseHelper::error('');
-            }
+            // $user = User::findOrFail('id', $request->player_id)->first();
+            // dd( $user);
+            // if ($user->role == 'coach') {
+            //     return ResponseHelper::error('');
+            
             $startDate = Carbon::parse($request->startDate)
                 ->addDays($request->days)
                 ->toDateString();

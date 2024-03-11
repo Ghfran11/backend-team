@@ -345,12 +345,14 @@ class UserController extends Controller
     {
         try {
             $user = User::find(Auth::id());
-            $userOrder[] = $user->playerOrder()->get();
+            $userOrder[] = $user->playerOrder()->where('type','join')->get();
+
             if (!empty($userOrder)) {
-                $status = $user->playerOrder()->pluck('status');
+                $status = $user->playerOrder()->where('type','join')->value('status');
+
                 if ($status == 'accepted') {
                     $hasCoach = 'true';
-                    $mycoach = $user->playerOrder()->get();
+                    $mycoach = $user->playerOrder()->where('type','join')->with('coach')->get();
                 } else {
                     $hasCoach = 'false';
                     $mycoach = null;

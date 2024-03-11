@@ -57,12 +57,12 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         try {
-            $validated = $request->validated();
+          //  $validated = $request->validated();
             $user = User::findOrFail(Auth::id());
             $article = $user->coachArticle()->create(
                 [
-                    'title' => $validated->title,
-                    'content' => $validated->content
+                    'title' =>  $request->title,
+                    'content' =>  $request->content
                 ]
             );
             return ResponseHelper::success($article);

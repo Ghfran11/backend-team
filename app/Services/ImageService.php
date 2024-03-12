@@ -13,6 +13,7 @@ class ImageService
         $images = $request->file('image');
         $result = [];
         foreach ($images as $image) {
+          
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/images'), $new_name);
             $result[] = Image::query()->create([

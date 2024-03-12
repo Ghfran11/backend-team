@@ -91,12 +91,12 @@ class OrderController extends Controller
             $user = Auth::user();
 
             $result = [];
-            if ($user->role =='coach') {
+            if ($user->role == 'coach') {
                 if ($request->type == 'join') {
                     $result = $user->coachOrder()->where('type', 'join')->get()->toArray();
                 }
-                if ($request->type == 'nutrition') {
-                    $result = $user->coachOrder()->where('type', 'nutrition')->get()->toArray();
+                if ($request->type == 'food') {
+                    $result = $user->coachOrder()->where('type', 'food')->get()->toArray();
                 }
                 if ($request->type == 'training') {
                     $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
@@ -108,8 +108,8 @@ class OrderController extends Controller
                     $result = $user->playerOrder()->where('type', 'join')->get()->toArray();
                     //dd($result);
                 }
-                if ($request->type == 'nutrition') {
-                    $result = $user->playerOrder()->where('type', 'nutrition')->get()->toArray();
+                if ($request->type == 'food') {
+                    $result = $user->playerOrder()->where('type', 'food')->get()->toArray();
                 }
                 if ($request->type == 'training') {
                     $result = $user->playerOrder()->where('type', 'training')->get()->toArray();
@@ -137,14 +137,13 @@ class OrderController extends Controller
                     $otherOrder = Order::query()->where('playerId', $order->playerId)
                         ->where('id', '!=', $order->id)
                         ->where('coachId', '!=', Auth::id())
-                        ->where('playerId',$order->playerId)
+                        ->where('playerId', $order->playerId)
                         ->where('type', 'join')
                         ->where('status', 'waiting')->get();
 
-                        foreach( $otherOrder as $item)
-                        {
-                            $item->delete();
-                        }
+                    foreach ($otherOrder as $item) {
+                        $item->delete();
+                    }
                     if ($otherOrder) {
                         return ResponseHelper::success([], null, 'accepted successfully', 200);
                     }
@@ -169,7 +168,6 @@ class OrderController extends Controller
     public function requestProgram(Request $request)
     {
         try {
-
             $Order = Order::query()->create(
                 [
                     'coachId' => $request->coachId,

@@ -168,7 +168,7 @@ class ProgramController extends Controller
             // dd( $user);
             // if ($user->role == 'coach') {
             //     return ResponseHelper::error('');
-            
+
             $startDate = Carbon::parse($request->startDate)
                 ->addDays($request->days)
                 ->toDateString();

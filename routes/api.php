@@ -152,7 +152,7 @@ Route::get('subscriptions', [SubscriptionController::class, 'index']);
 //Article
 Route::post('addArticle', [ArticleController::class, 'store']);
 Route::get('allArticle', [ArticleController::class, 'index']);
-Route::delete('deleteArticle', [ArticleController::class, 'destroy']);
+Route::delete('deleteArticle/{article}', [ArticleController::class, 'destroy']);
 Route::get('myArticle', [ArticleController::class, 'getMyArticle']);
 Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle']);
 Route::post('makeFavourite/{article}', [ArticleController::class, 'makeFavourite']);

@@ -137,7 +137,7 @@ class OrderController extends Controller
                     $otherOrder = Order::query()->where('playerId', $order->playerId)
                         ->where('id', '!=', $order->id)
                         ->where('coachId', '!=', Auth::id())
-                        ->where('playerId',$order->playerId)
+                        ->where('playerId',$order->playerId )
                         ->where('type', 'join')
                         ->where('status', 'waiting')->get();
 
@@ -207,9 +207,22 @@ class OrderController extends Controller
         }
     }
 
-    public function unAssign(Order $order)
+    public function unAssign(User $coach)
     {
         try {
+            $order=Order::where('coachId',$coach->id)->where('playerId',Auth::id())->where('type','join')->get();
+            if ($order->status == 'accepted') {
+                $result = $order->delete();
+                return ResponseHelper::success($result, 'canceled successfully');
+            }
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+    public function deletePlayer(User $player)
+    {
+        try {
+            $order=Order::where('coachId',Auth::id())->where('playerId',$player)->where('type','join')->get();
             if ($order->status == 'accepted') {
                 $result = $order->delete();
                 return ResponseHelper::success($result, 'canceled successfully');

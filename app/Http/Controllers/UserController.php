@@ -8,6 +8,7 @@ use App\Models\Report;
 use App\Models\Info;
 use App\Models\Rating;
 use App\Models\User;
+use App\Models\Program;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -369,11 +370,22 @@ class UserController extends Controller
                 $hasProgram = 'false';
                 $programType = null;
             }
+            $selectedProgram=$user->userInfo()->program()->get()->toArray();
+            if($selectedProgram)
+            {
+                $selectedProgram=Program::find($selectedProgram);
+            }
+            else
+            {
+                $selectedProgram=null;
+            }
+
             $result = [
                 'hasCoach' => $hasCoach,
                 'hasProgram' => $hasProgram,
                 'programType' => $programType,
-                'myCoach' => $mycoach
+                'myCoach' => $mycoach,
+                'selectedProgram'=>$selectedProgram
             ];
             return responseHelper::success([$result]);
         } catch (\Exception $e) {

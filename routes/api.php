@@ -59,11 +59,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('playerInfo/{id}', [UserController::class, 'playerInfo']);
     Route::delete('delete/{user}', [UserController::class, 'deleteUser']);
     Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
-    Route::post('updateUserInfo',[UserInfoController::class,'updateInfo']);
+    Route::post('updateUserInfo', [UserInfoController::class, 'updateInfo']);
     Route::post('rate/{user}', [UserController::class, 'rateCoach']);
     //program
     Route::get('showProgram', [ProgramController::class, 'index']);
-    Route::get('allProgramByType', [ProgramController::class,'indexByType']);
+    Route::get('allProgramByType', [ProgramController::class, 'indexByType']);
     Route::get('myprogram', [ProgramController::class, 'showMyPrograms']);
     Route::post('store', [ProgramController::class, 'store']);//Program
     Route::get('getCategory', [ProgramController::class, 'getCategory']);
@@ -153,6 +153,7 @@ Route::get('subscriptions', [SubscriptionController::class, 'index']);
 Route::post('addArticle', [ArticleController::class, 'store']);
 Route::get('allArticle', [ArticleController::class, 'index']);
 Route::delete('deleteArticle/{article}', [ArticleController::class, 'destroy']);
+Route::post('updateArticle/{id}', [ArticleController::class, 'update']);
 Route::get('myArticle', [ArticleController::class, 'getMyArticle']);
 Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle']);
 Route::post('makeFavourite/{article}', [ArticleController::class, 'makeFavourite']);

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreArticleRequest;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -21,14 +22,12 @@ class ArticleController extends Controller
             $user = User::find(Auth::id());
             $articles = Article::query()->get();
             foreach ($articles as $article) {
-                $isFav=DB::table('article_user')
-                ->where('article_id', $article->id)->where('user_id',Auth::id())->value('isFavourite');
+                $isFav = DB::table('article_user')
+                    ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
 
-                if ($user->favorites->contains('id', $article->id)  &&  $isFav == true)
-                {
-              $isFavourite = true;
-                } else
-                {
+                if ($user->favorites->contains('id', $article->id) && $isFav == true) {
+                    $isFavourite = true;
+                } else {
                     $isFavourite = false;
                 }
 
@@ -40,7 +39,7 @@ class ArticleController extends Controller
                         'isFavourite' => $isFavourite
                     ];
 
-        }
+            }
             return ResponseHelper::success($results);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return ResponseHelper::error($e->validator->errors()->first(), 400);
@@ -57,12 +56,12 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         try {
-          //  $validated = $request->validated();
+            //  $validated = $request->validated();
             $user = User::findOrFail(Auth::id());
             $article = $user->coachArticle()->create(
                 [
-                    'title' =>  $request->title,
-                    'content' =>  $request->content
+                    'title' => $request->title,
+                    'content' => $request->content
                 ]
             );
             return ResponseHelper::success($article);
@@ -71,6 +70,22 @@ class ArticleController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail(Auth::id());
+            $user->coachArticle()->where('article_id', $id)
+            ->update(
+                [
+                    'title' => $request->title,
+                    'content' => $request->content
+                ]
+            );
+            return ResponseHelper::success('updated');
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
 
     public function destroy(Article $article)
     {

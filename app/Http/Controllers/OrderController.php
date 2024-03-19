@@ -205,26 +205,26 @@ class OrderController extends Controller
         }
     }
 
-    public function unAssign(User $coach)
+    public function unAssign($user)
     {
         try {
-            $order=Order::where('coachId',$coach->id)->where('playerId',Auth::id())->where('type','join')->get();
-            if ($order->status == 'accepted') {
-                $result = $order->delete();
+
+            $result=Order::query()->where('coachId',$user)->where('playerId',Auth::id())->where('type','join')->where('status','accepted')->delete();
+
+
                 return ResponseHelper::success($result, 'canceled successfully');
-            }
+
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    public function deletePlayer(User $player)
+    public function deletePlayer($player)
     {
         try {
-            $order=Order::where('coachId',Auth::id())->where('playerId',$player)->where('type','join')->get();
-            if ($order->status == 'accepted') {
-                $result = $order->delete();
+            $result=Order::query()->where('coachId',Auth::id())->where('playerId',$player)->where('type','join')->where('status','accepted')->delete();
+
                 return ResponseHelper::success($result, 'canceled successfully');
-            }
+
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

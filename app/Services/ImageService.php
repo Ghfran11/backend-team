@@ -13,7 +13,7 @@ class ImageService
         $images = $request->file('image');
         $result = [];
         foreach ($images as $image) {
-          
+
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/images'), $new_name);
             $result[] = Image::query()->create([
@@ -24,5 +24,15 @@ class ImageService
             ]);
         }
         return $result;
+    }
+    public function deleteUserImage($user)
+    {
+        $result = Image::query()
+        ->where('userId', $user->id)
+        ->where(function ($query) {
+            $query->where('type', 'before')
+                ->orWhere('type', 'after');
+        })
+        ->delete();
     }
 }

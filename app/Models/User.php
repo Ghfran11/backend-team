@@ -177,4 +177,5 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Program::class, 'user_id');
     }
+    
 }

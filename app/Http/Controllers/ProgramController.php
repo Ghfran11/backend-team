@@ -280,5 +280,29 @@ class ProgramController extends Controller
         return ResponseHelper::success($result);
 
     }
+    public function recomendedProgram()
+    {
+        try {
+        $user=User::find(Auth::id());
+       $foodprogram= $user->playerPrograms()->whereHas('category', function ($query) {
+        $query->where('type', 'food');
+    })
+    ->get()
+    ->toArray();
+        $sportprogram= $user-> playerPrograms()->whereHas('category', function ($query) {
+            $query->where('type', 'sport');
+        })
+        ->get()
+        ->toArray();
+        $result = [
+            'foodProgram'=>$foodprogram,
+            'sportProgram'=>$sportprogram
+        ];
+
+    return responseHelper::success([$result]);
+} catch (\Exception $e) {
+    return ResponseHelper::error($e->getMessage(), $e->getCode());
+}
+}
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Services\ImageService;
 use App\Models\User;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,10 +39,10 @@ class ImageController extends Controller
         }
     }
 
-    public function deleteUserImage(Request $request)
+    public function deleteUserImage(Image $image)
     {
         try {
-            $result = $this->imageService->storeImage($request, Auth::id(), null);
+            $result = $this->imageService->deleteUserImage($image);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -52,6 +53,15 @@ class ImageController extends Controller
     {
         try {
             $result = $user->image()->where('type', 'before')->orwhere('type', 'after')->get()->toArray();
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+    public function deleteAllUserImage(User $user)
+    {
+        try {
+            $result = $this->imageService->deleteUserImage($user);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

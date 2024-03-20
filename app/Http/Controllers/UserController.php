@@ -76,10 +76,7 @@ class UserController extends Controller
             $result = User::query()
                 ->where('id', $id)
                 ->where('role', 'player')
-                ->with([
-                    'image'=>function ($query)  {
-                    $query->where('type', 'profile');
-                    }])
+                ->with('image')
                 ->get()
                 ->toArray();
             if (empty($result)) {

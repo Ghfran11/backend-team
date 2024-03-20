@@ -263,7 +263,20 @@ class ProgramController extends Controller
     {
         $userinfo_id = UserInfo::where('userId', Auth::id())->value('id');
         $userinfo = UserInfo::find($userinfo_id);
+        $program=Program::findOrFail($request->program_id);
+        $programType=$program->category()->value('type');
 
+      $existprogram= $userinfo->program()->whereHas('category', function ($query) use ($programType) {
+        $query->where('type',  $programType);})->value('program_id');
+     
+
+if($existprogram)
+{
+    DB::table('program_userInfos')->where('program_id',$existprogram)->where('userInfo_id',$userinfo_id)->delete();
+
+
+
+}
         $result = $userinfo->program()->syncWithoutDetaching([
             'program_id' => $request->program_id,
             'userInfo_id' => $userinfo_id

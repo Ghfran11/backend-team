@@ -26,6 +26,8 @@ class CategoryController extends Controller
         try {
             $result = Category::query()
                 ->where('type', $request->type)
+
+                
                 ->get()->toArray();
             return ResponseHelper::success($result);
         } catch (\Exception $e) {

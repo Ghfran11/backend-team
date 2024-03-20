@@ -97,7 +97,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function image()
     {
-        return $this->hasMany(Image::class, 'userId');
+        return $this->hasMany(Image::class, 'userId')->where('type',null);
     }
     public function report()
     {
@@ -177,5 +177,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Program::class, 'user_id');
     }
-    
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'userId');
+    }
+
+
 }

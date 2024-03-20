@@ -124,6 +124,8 @@ class OrderController extends Controller
     public function acceptOrder(Order $order)
     {
         try {
+            if($order->coach_id == Auth::id())
+            {
             if ($order->status == 'waiting' && $order->type == 'join') {
                 $result = $order->update(
                     [
@@ -158,6 +160,7 @@ class OrderController extends Controller
 
                 return ResponseHelper::success([], null, 'accepted successfully', 200);
             }
+        }
 
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

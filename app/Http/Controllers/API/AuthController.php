@@ -42,7 +42,7 @@ class AuthController extends Controller
         ];
         if (now()->gt($user->expiration) && $user->role == 'player') {
             // The current date is later than the user's expiration date
-            event(new SubscrbtionExpiration($user));
+            //event(new SubscrbtionExpiration($user)); //**temporary */
             Notification::query()->updateOrCreate([
                 'type' => NotificationType::EXPIRATION,
                 'title' => 'Gym name',
@@ -104,7 +104,7 @@ class AuthController extends Controller
         $user = Auth::user();
         if (now()->gt($user->expiration) && $user->role == 'player') {
             // The current date is later than the user's expiration date
-            event(new SubscrbtionExpiration($user));
+            //event(new SubscrbtionExpiration($user));//*/
             Notification::query()->updateOrCreate([
                 'type' => NotificationType::EXPIRATION,
                 'title' => 'Gym name',

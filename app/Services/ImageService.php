@@ -13,9 +13,18 @@ class ImageService
         $images = $request->file('image');
         $result = [];
         foreach ($images as $image) {
-          
+
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/images'), $new_name);
+
+            $existImage=Image::query()->where('userId',$userId)->where('type',null)->get()->toArray();
+           
+            if($existImage)
+            {
+                return 'you have profile Image';
+            }
+            else{
+
             $result[] = Image::query()->create([
                 'userId' => $exerciseId ? null : ($userId ?? Auth::user()->id),
                 'exerciseId' => $exerciseId,
@@ -23,6 +32,17 @@ class ImageService
                 'type' => $type
             ]);
         }
+    }
         return $result;
+    }
+    public function deleteUserImage($user)
+    {
+        $result = Image::query()
+        ->where('userId', $user->id)
+        ->where(function ($query) {
+            $query->where('type', 'before')
+                ->orWhere('type', 'after');
+        })
+        ->delete();
     }
 }

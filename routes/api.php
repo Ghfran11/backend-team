@@ -33,7 +33,8 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
-    Route::post('deleteUserImage', [ImageController::class, 'deleteUserImage']);
+    Route::delete('deleteUserImage/{image}', [ImageController::class, 'deleteUserImage']);
+    Route::delete('deleteAll/{user}', [ImageController::class, 'deleteAllUserImage']);
     //exercise
     Route::post('storeExercise', [ExerciseController::class, 'store']);
     Route::get('showExercise/{exercise}', [ExerciseController::class, 'show']);
@@ -74,6 +75,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getPrograms', [ProgramController::class, 'getPrograms']);
     Route::post('selectProgram', [ProgramController::class, 'selectProgram']);
     Route::post('unselectProgram', [ProgramController::class, 'unselectProgram']);
+    Route::get('recomendedProgram', [ProgramController::class, 'recomendedProgram']);
     //chat
     Route::get('contactList', [MessageController::class, 'contactList']);//for chat
     Route::get('listChat', [MessageController::class, 'index']);
@@ -132,7 +134,8 @@ Route::get('Premum', [OrderController::class, 'getPremium']);
 Route::get('myPlayer', [OrderController::class, 'showMyPlayer']);
 Route::get('myActivePlayer', [OrderController::class, 'myActivePlayer']);
 Route::post('cancle/{order}', [OrderController::class, 'cancelOrder']);
-Route::get('unAssign/{order}', [OrderController::class, 'unAssign']);
+Route::get('unAssign/{user}', [OrderController::class, 'unAssign']);
+Route::get('deletePlayer/{user}', [OrderController::class, 'deletePlayer']);
 Route::post('myPlayer', [OrderController::class, 'showMyPlayer']);
 
 //user info

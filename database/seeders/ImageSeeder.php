@@ -16,28 +16,27 @@ class ImageSeeder extends Seeder
     {
         DB::table('images')->insert([
             ['userId' => '1', 'exerciseId' => 1, 'image' => 'img1.jpg'],
-            ['userId' => '1', 'exerciseId' => 2, 'image' => 'img2.jpg'],
+
 
             ['userId' => '2', 'exerciseId' => 1, 'image' => 'img3.png'],
-            ['userId' => '2', 'exerciseId' => 2, 'image' => 'img4.png'],
 
             ['userId' => '3', 'exerciseId' => 3, 'image' => 'img5.png'],
-            ['userId' => '3', 'exerciseId' => 4, 'image' => 'img6.png'],
+
 
             ['userId' => '4', 'exerciseId' => 3, 'image' => 'img7.png'],
-            ['userId' => '4', 'exerciseId' => 4, 'image' => 'img1.jpg'],
+
 
             ['userId' => '5', 'exerciseId' => 1, 'image' => 'img2.jpg'],
-            ['userId' => '5', 'exerciseId' => 2, 'image' => 'img3.jpg'],
+
 
             ['userId' => '8', 'exerciseId' => 1, 'image' => 'img4.png'],
-            ['userId' => '8', 'exerciseId' => 2, 'image' => 'img5.png'],
+
 
             ['userId' => '9', 'exerciseId' => 3, 'image' => 'img6.jpg'],
             ['userId' => '9', 'exerciseId' => 4, 'image' => 'img7.jpg'],
 
             ['userId' => '10', 'exerciseId' => 3, 'image' => 'img7.jpg'],
-            ['userId' => '10', 'exerciseId' => 4, 'image' => 'img6.jpg'],
+        
         ]);
 
     }

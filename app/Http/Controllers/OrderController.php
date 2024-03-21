@@ -101,6 +101,10 @@ class OrderController extends Controller
                 if ($request->type == 'training') {
                     $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
                 }
+                if($request->type == null)
+                {
+                    $result = $user->coachOrder();
+                }
             }
             if ($user->role == 'player') {
                 if ($request->type == 'join') {
@@ -124,6 +128,8 @@ class OrderController extends Controller
     public function acceptOrder(Order $order)
     {
         try {
+            if($order->coach_id == Auth::id())
+            {
             if ($order->status == 'waiting' && $order->type == 'join') {
                 $result = $order->update(
                     [
@@ -158,6 +164,7 @@ class OrderController extends Controller
 
                 return ResponseHelper::success([], null, 'accepted successfully', 200);
             }
+        }
 
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -205,26 +212,26 @@ class OrderController extends Controller
         }
     }
 
-    public function unAssign(User $coach)
+    public function unAssign($user)
     {
         try {
-            $order=Order::where('coachId',$coach->id)->where('playerId',Auth::id())->where('type','join')->get();
-            if ($order->status == 'accepted') {
-                $result = $order->delete();
+
+            $result=Order::query()->where('coachId',$user)->where('playerId',Auth::id())->where('type','join')->where('status','accepted')->delete();
+
+
                 return ResponseHelper::success($result, 'canceled successfully');
-            }
+
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    public function deletePlayer(User $player)
+    public function deletePlayer($player)
     {
         try {
-            $order=Order::where('coachId',Auth::id())->where('playerId',$player)->where('type','join')->get();
-            if ($order->status == 'accepted') {
-                $result = $order->delete();
+            $result=Order::query()->where('coachId',Auth::id())->where('playerId',$player)->where('type','join')->where('status','accepted')->delete();
+
                 return ResponseHelper::success($result, 'canceled successfully');
-            }
+
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

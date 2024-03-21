@@ -9,6 +9,7 @@ use App\Models\Info;
 use App\Models\Rating;
 use App\Models\User;
 use App\Models\Program;
+use App\Models\UserInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,10 +76,7 @@ class UserController extends Controller
             $result = User::query()
                 ->where('id', $id)
                 ->where('role', 'player')
-                ->with([
-                    'image'=>function ($query)  {
-                    $query->where('type', 'null');
-                    }])
+                ->with('image')
                 ->get()
                 ->toArray();
             if (empty($result)) {
@@ -362,30 +360,26 @@ class UserController extends Controller
                     $mycoach = null;
                 }
             }
-            $userProgram = $user->playerPrograms()->get()->toArray();
-            if (!empty($userProgram)) {
-                $hasProgram = 'true';
-                $programType = $user->playerPrograms()->get();
-            } else {
-                $hasProgram = 'false';
-                $programType = null;
-            }
-            $selectedProgram=$user->userInfo()->program()->get()->toArray();
-            if($selectedProgram)
-            {
-                $selectedProgram=Program::find($selectedProgram);
-            }
-            else
-            {
-                $selectedProgram=null;
-            }
+            $userInfo=UserInfo::query()->where('userId',$user->id)->value('id');
+           $info=UserInfo::find($userInfo);
+           $foodProgrm=$info->program()->whereHas('category', function ($query)  {
+            $query->where('type', 'food');
 
+
+        })  ->get()
+        ->toArray();
+        $sportProgrm=$info->program()->whereHas('category', function ($query)  {
+            $query->where('type', 'sport');
+
+
+        })
+        ->get()
+        ->toArray();
             $result = [
                 'hasCoach' => $hasCoach,
-                'hasProgram' => $hasProgram,
-                'programType' => $programType,
                 'myCoach' => $mycoach,
-                'selectedProgram'=>$selectedProgram
+                'foodProgrm'=>$foodProgrm,
+                'sportProgram'=>$sportProgrm
             ];
             return responseHelper::success([$result]);
         } catch (\Exception $e) {

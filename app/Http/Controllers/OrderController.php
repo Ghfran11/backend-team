@@ -101,6 +101,10 @@ class OrderController extends Controller
                 if ($request->type == 'training') {
                     $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
                 }
+                if($request->type == null)
+                {
+                    $result = $user->coachOrder();
+                }
             }
             if ($user->role == 'player') {
                 if ($request->type == 'join') {

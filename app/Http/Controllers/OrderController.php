@@ -98,8 +98,8 @@ class OrderController extends Controller
                 if ($request->type == 'food') {
                     $result = $user->coachOrder()->where('type', 'food')->get()->toArray();
                 }
-                if ($request->type == 'training') {
-                    $result = $user->coachOrder()->where('type', 'training')->get()->toArray();
+                if ($request->type == 'sport') {
+                    $result = $user->coachOrder()->where('type', 'sport')->get()->toArray();
                 }
                 if($request->type == null)
                 {

@@ -57,11 +57,11 @@ class MessageController extends Controller
                 'content' => $request->content,
             ]);
             $sender_name = Auth::user()->name;
-            Notification::query()->create([
-                'type' => NotificationType::MESSAGE,
-                'receiver_id' => $request->receiver_id,
-                'message_id' => $message->id,
-            ]);
+            // Notification::query()->create([
+            //     'type' => NotificationType::MESSAGE,
+            //     'receiver_id' => $request->receiver_id,
+            //     'message_id' => $message->id,
+            // ]);
             event(new MessagesNotification($message, $sender_name));
             return ResponseHelper::success($message);
         } catch (\Exception $e) {
@@ -79,9 +79,9 @@ class MessageController extends Controller
                 ['sender_id', $user->id],
                 ['receiver_id', Auth::id()],
             ])->orWhere([
-                ['sender_id', Auth::id()],
-                ['receiver_id', $user->id],
-            ])->get();
+                        ['sender_id', Auth::id()],
+                        ['receiver_id', $user->id],
+                    ])->get();
             foreach ($message as $item) {
                 if ($item->sender_id == Auth::id()) {
                     $is_sender = true;

@@ -40,11 +40,14 @@ class AuthController extends Controller
         $response = [
             'data' => ['user' => $user, 'token' => $token]
         ];
-        if (now()->gt($user->expiration)) {
+        if (now()->gt($user->expiration) && $user->role == 'player') {
             // The current date is later than the user's expiration date
-            event(new SubscrbtionExpiration($user));
-            Notification::create([
+            //event(new SubscrbtionExpiration($user)); //**temporary */
+            Notification::query()->updateOrCreate([
                 'type' => NotificationType::EXPIRATION,
+                'title' => 'Gym name',
+                'date' => $user->expiration,
+                'contect' => 'Your subscription is expired for this month, Please renew your subscription so you can keep using our app.',
                 'receiver_id' => $user->id,
             ]);
         }
@@ -76,6 +79,8 @@ class AuthController extends Controller
             //store the notification in DB
             Notification::create([
                 'type' => NotificationType::WELCOME,
+                'title' => 'Gym name',
+                'contect' => 'Wellcome to our Gym, We hope you enjoy !',
                 'receiver_id' => $user->id,
             ]);
         }
@@ -97,11 +102,14 @@ class AuthController extends Controller
     public function refresh()
     {
         $user = Auth::user();
-        if (now()->gt($user->expiration)) {
+        if (now()->gt($user->expiration) && $user->role == 'player') {
             // The current date is later than the user's expiration date
-            event(new SubscrbtionExpiration($user));
-            Notification::create([
+            //event(new SubscrbtionExpiration($user));//*/
+            Notification::query()->updateOrCreate([
                 'type' => NotificationType::EXPIRATION,
+                'title' => 'Gym name',
+                'date' => $user->expiration,
+                'contect' => 'Your subscription is expired for this month, Please renew your subscription so you can keep using our app.',
                 'receiver_id' => $user->id,
             ]);
         }

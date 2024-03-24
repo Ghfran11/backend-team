@@ -95,15 +95,17 @@ class OrderController extends Controller
                 if ($request->type == 'join') {
                     $result = $user->coachOrder()->where('type', 'join')->get()->toArray();
                 }
-                if ($request->type == 'food') {
+                elseif ($request->type == 'food') {
                     $result = $user->coachOrder()->where('type', 'food')->get()->toArray();
                 }
-                if ($request->type == 'sport') {
+                elseif ($request->type == 'sport') {
                     $result = $user->coachOrder()->where('type', 'sport')->get()->toArray();
                 }
-                if($request->type == null)
-                {
-                    $result = $user->coachOrder();
+
+
+                else{
+
+                    $result = $user->coachOrder()->get()->toArray();
                 }
             }
             if ($user->role == 'player') {

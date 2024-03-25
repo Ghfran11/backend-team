@@ -26,7 +26,7 @@ class UserController extends Controller
                 ->with('image')
                 ->get()
                 ->toArray();
-            if (empty($result)) {
+            if (empty ($result)) {
                 return ResponseHelper::error([], null, 'No coaches found', 204);
             }
             return ResponseHelper::success($result, null, 'Show Coaches', 200);
@@ -44,7 +44,7 @@ class UserController extends Controller
                 ->with('image')
                 ->get()
                 ->toArray();
-            if (empty($result)) {
+            if (empty ($result)) {
                 return ResponseHelper::error([], null, 'Coach not found', 202);
             }
             return ResponseHelper::success($result);
@@ -61,7 +61,7 @@ class UserController extends Controller
                 ->with('image')
                 ->get()
                 ->toArray();
-            if (empty($result)) {
+            if (empty ($result)) {
                 return ResponseHelper::error([], null, 'No players found', 204);
             }
             return ResponseHelper::success($result);
@@ -76,10 +76,10 @@ class UserController extends Controller
             $result = User::query()
                 ->where('id', $id)
                 ->where('role', 'player')
-                ->with('image')
-                ->get()
+                ->with('profileImage')
+                ->first()
                 ->toArray();
-            if (empty($result)) {
+            if (empty ($result)) {
                 return ResponseHelper::error([], null, 'User not found', 202);
             }
             return ResponseHelper::success($result);
@@ -347,39 +347,39 @@ class UserController extends Controller
     {
         try {
             $user = User::find(Auth::id());
-            $userOrder[] = $user->playerOrder()->where('type','join')->get();
+            $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
 
-            if (!empty($userOrder)) {
-                $status = $user->playerOrder()->where('type','join')->value('status');
+            if (!empty ($userOrder)) {
+                $status = $user->playerOrder()->where('type', 'join')->value('status');
 
                 if ($status == 'accepted') {
                     $hasCoach = 'true';
-                    $mycoach = $user->playerOrder()->where('type','join')->with('coach')->get();
+                    $mycoach = $user->playerOrder()->where('type', 'join')->with('coach')->get();
                 } else {
                     $hasCoach = 'false';
                     $mycoach = null;
                 }
             }
-            $userInfo=UserInfo::query()->where('userId',$user->id)->value('id');
-           $info=UserInfo::find($userInfo);
-           $foodProgrm=$info->program()->whereHas('category', function ($query)  {
-            $query->where('type', 'food');
+            $userInfo = UserInfo::query()->where('userId', $user->id)->value('id');
+            $info = UserInfo::find($userInfo);
+            $foodProgrm = $info->program()->whereHas('category', function ($query) {
+                $query->where('type', 'food');
 
 
-        })  ->get()
-        ->toArray();
-        $sportProgrm=$info->program()->whereHas('category', function ($query)  {
-            $query->where('type', 'sport');
+            })->get()
+                ->toArray();
+            $sportProgrm = $info->program()->whereHas('category', function ($query) {
+                $query->where('type', 'sport');
 
 
-        })
-        ->get()
-        ->toArray();
+            })
+                ->get()
+                ->toArray();
             $result = [
                 'hasCoach' => $hasCoach,
                 'myCoach' => $mycoach,
-                'foodProgrm'=>$foodProgrm,
-                'sportProgram'=>$sportProgrm
+                'foodProgrm' => $foodProgrm,
+                'sportProgram' => $sportProgrm
             ];
             return responseHelper::success([$result]);
         } catch (\Exception $e) {

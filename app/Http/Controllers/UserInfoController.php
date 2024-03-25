@@ -79,18 +79,18 @@ class UserInfoController extends Controller
         try {
             $user = Auth::user();
 
-
-            $userInfo = $user->userInfo()->updateOrcreate(['userId'=>$user->id],
+            $userInfo = $user->userInfo()->updateOrcreate(
+                ['userId' => $user->id],
                 [
                     'gender' => $request->gender,
                     'weight' => $request->weight,
-                    'waist Measurement' => $request->waistMeasurement,
+                    'waist_measurement' => $request->waistMeasurement,
                     'neck' => $request->neck,
-                    'userId' => Auth::id(),
                     'height' => $request->height,
                     'birthDate' => $request->birthDate
                 ]
             );
+
             if ($request->has('image')) {
                 $this->imageService->storeImage($request, Auth::id(), null, 'profile');
             }
@@ -107,8 +107,8 @@ class UserInfoController extends Controller
             $user = $user->update(
                 [
                     'name' => $request->name,
-                    'phoneNumber' => $request->phoneNumber?:$user->phoneNumber ,
-                    'bio'=>$request->bio ? :null
+                    'phoneNumber' => $request->phoneNumber ?: $user->phoneNumber,
+                    'bio' => $request->bio ?: null
                 ]
             );
             if ($request->has('image')) {

@@ -30,7 +30,7 @@ class UserInfoSeeder extends Seeder
                 'birthDate' => $this->randomBirthDate(),
                 'age' => $this->randomAge(),
                 'weight' => $this->randomWeight(),
-                'waist Measurement' => $this->randomWaistMeasurement(),
+                'waist_measurement' => $this->randomWaistMeasurement(),
                 'neck' => $this->randomNeck(),
                 'height' => $this->randomHeight(),
                 'BFP' => $this->randomBFP(),

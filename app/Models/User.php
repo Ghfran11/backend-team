@@ -83,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
     }
     public function coachOrder()
     {
-        return $this->hasMany(Order::class, 'coachId');
+        return $this->hasMany(Order::class, 'coachId')->where('status','waiting');
     }
     public function playerOrder()
     {

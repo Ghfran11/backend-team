@@ -43,15 +43,19 @@ class TimeController extends Controller
     public function storeCoachTime(StoretimeRequest $request)
     {
         try {
+            foreach($request->coachTime as $item)
+            {
             $time = Time::query()
                 ->create([
                     'userId' => Auth::id(),
                     'isCoach' => '1',
-                    'dayId' => $request->dayId,
-                    'startTime' => $request->startTime,
-                    'endTime' => $request->endTime
+                    'dayId' => $item['dayId'],
+                    'startTime' => $item['startTime'],
+                    'endTime' => $item['endTime']
                 ]);
-            return ResponseHelper::success($time, null, 'success', 200);
+                $results[]=  $time;
+            }
+            return ResponseHelper::success($results, null, 'success', 200);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

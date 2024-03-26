@@ -71,7 +71,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
     Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
     Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
-    Route::get('downloadFile/{id}', [ProgramController::class, 'downloadFile']);
+    Route::get('downloadFile/{program}', [ProgramController::class, 'downloadFile']);
     Route::get('getPrograms', [ProgramController::class, 'getPrograms']);
     Route::post('selectProgram', [ProgramController::class, 'selectProgram']);
     Route::post('unselectProgram', [ProgramController::class, 'unselectProgram']);

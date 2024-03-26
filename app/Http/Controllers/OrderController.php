@@ -88,18 +88,19 @@ class OrderController extends Controller
     public function getMyOrder(Request $request)
     {
         try {
-            $user = Auth::user();
+            $user = User::find(Auth::id());
 
             $result = [];
             if ($user->role == 'coach') {
                 if ($request->type == 'join') {
-                    $result = $user->coachOrder()->where('type', 'join')->get()->toArray();
+
+                    $result = $user->coachOrder()->with('player.image')->get()->toArray();
                 }
                 elseif ($request->type == 'food') {
-                    $result = $user->coachOrder()->where('type', 'food')->get()->toArray();
+                    $result = $user->coachOrder()->with('player.image')->where('type', 'food')->get()->toArray();
                 }
                 elseif ($request->type == 'sport') {
-                    $result = $user->coachOrder()->where('type', 'sport')->get()->toArray();
+                    $result = $user->coachOrder()->with('player.image')->where('type', 'sport')->get()->toArray();
                 }
 
 
@@ -130,8 +131,9 @@ class OrderController extends Controller
     public function acceptOrder(Order $order)
     {
         try {
-            if($order->coach_id == Auth::id())
+            if($order->coachId == Auth::id())
             {
+
             if ($order->status == 'waiting' && $order->type == 'join') {
                 $result = $order->update(
                     [

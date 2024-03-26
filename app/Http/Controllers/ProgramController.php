@@ -122,14 +122,16 @@ class ProgramController extends Controller
 
     public function downloadFile(Program $program)
     {
-        try {
-            $filepath = $program->path;
+      //  try {
+            $filepath = $program->file;
             $filename = $program->name;
+
             return response()->download($filepath, $filename);
-        } catch (\Exception $e) {
+       // } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-    }
+    
+
 
     public function showMyPrograms(Request $request)
     {

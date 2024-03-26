@@ -130,7 +130,7 @@ class ProgramController extends Controller
        // } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
-    
+
 
 
     public function showMyPrograms(Request $request)
@@ -267,7 +267,6 @@ class ProgramController extends Controller
         $userinfo = UserInfo::find($userinfo_id);
         $program=Program::findOrFail($request->program_id);
         $programType=$program->category()->value('type');
-
       $existprogram= $userinfo->program()->whereHas('category', function ($query) use ($programType) {
         $query->where('type',  $programType);})->value('program_id');
 
@@ -279,7 +278,7 @@ if($existprogram)
 
 
 }
-        $result = $userinfo->program()->syncWithoutDetaching([
+        $result =  DB::table('program_userInfos')->insert([
             'program_id' => $request->program_id,
             'userInfo_id' => $userinfo_id
         ]);

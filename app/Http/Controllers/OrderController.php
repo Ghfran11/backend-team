@@ -106,7 +106,7 @@ class OrderController extends Controller
 
                 else{
 
-                    $result = $user->coachOrder()->get()->toArray();
+                    $result = $user->coachOrder()->with('player.image')->get()->toArray();
                 }
             }
             if ($user->role == 'player') {

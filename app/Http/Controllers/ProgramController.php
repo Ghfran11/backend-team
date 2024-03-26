@@ -268,7 +268,7 @@ class ProgramController extends Controller
 
       $existprogram= $userinfo->program()->whereHas('category', function ($query) use ($programType) {
         $query->where('type',  $programType);})->value('program_id');
-     
+
 
 if($existprogram)
 {
@@ -308,8 +308,8 @@ if($existprogram)
         ->get()
         ->toArray();
         $result = [
-            'foodProgram'=>$foodprogram,
-            'sportProgram'=>$sportprogram
+            'foodProgaram'=>$foodprogram,
+            'sportPrograam'=>$sportprogram
         ];
 
     return responseHelper::success([$result]);

@@ -362,13 +362,13 @@ class UserController extends Controller
             }
             $userInfo = UserInfo::query()->where('userId', $user->id)->value('id');
             $info = UserInfo::find($userInfo);
-            $foodProgrm = $info->program()->whereHas('category', function ($query) {
+            $foodProgram = $info->program()->whereHas('category', function ($query) {
                 $query->where('type', 'food');
 
 
             })->get()
                 ->toArray();
-            $sportProgrm = $info->program()->whereHas('category', function ($query) {
+            $sportProgram = $info->program()->whereHas('category', function ($query) {
                 $query->where('type', 'sport');
 
 
@@ -378,8 +378,8 @@ class UserController extends Controller
             $result = [
                 'hasCoach' => $hasCoach,
                 'myCoach' => $mycoach,
-                'foodProgrm' => $foodProgrm,
-                'sportProgram' => $sportProgrm
+                'foodProgram' => $foodProgram,
+                'sportProgram' => $sportProgram
             ];
             return responseHelper::success([$result]);
         } catch (\Exception $e) {

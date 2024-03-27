@@ -309,8 +309,8 @@ if($existprogram)
         ->get()
         ->toArray();
         $result = [
-            'foodProgaram'=>$foodprogram,
-            'sportPrograam'=>$sportprogram
+            'foodProgram'=>$foodprogram,
+            'sportProgram'=>$sportprogram
         ];
 
     return responseHelper::success([$result]);

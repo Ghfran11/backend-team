@@ -130,8 +130,28 @@ class ArticleController extends Controller
     public function getCoachArticle(User $user)
     {
         try {
-            $result = $user->coachArticle()->get()->toArray();
-            return ResponseHelper::success($result);
+
+            $articles  = $user->coachArticle()->get();
+            foreach ($articles as $article) {
+                $isFav = DB::table('article_user')
+                    ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
+
+                if ($user->favorites->contains('id', $article->id) && $isFav == true) {
+                    $isFavourite = true;
+                } else {
+                    $isFavourite = false;
+                }
+
+                $results[] =
+                    [
+                        'id' => $article->id,
+                        'title' => $article->title,
+                        'content' => $article->content,
+                        'isFavourite' => $isFavourite
+                    ];
+
+            }
+            return ResponseHelper::success($results);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

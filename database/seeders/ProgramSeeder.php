@@ -17,7 +17,7 @@ class ProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        $types = ['general', 'private','recommended'];
+        $types = ['general', 'private'];
         $userIds = DB::table('users')->pluck('id')->toArray(); // get all user ids
         $categoryIds = DB::table('categories')->pluck('id')->toArray(); // get all category ids
 
@@ -33,5 +33,20 @@ class ProgramSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+
+        for ($i = 0; $i < 2; $i++) {
+            DB::table('programs')->insert([
+                'categoryId' => $categoryIds[array_rand($categoryIds)],
+                'name' => 'Program ' . random_int(1, 100),
+                'file' => Str::random(10),
+                'imageUrl' => '1.jpg', // replace with your image URL
+                'user_id' => $userIds[array_rand($userIds)],
+                'type' => 'recommended',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+
     }
 }

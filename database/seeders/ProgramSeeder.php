@@ -17,7 +17,7 @@ class ProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        $types = ['general', 'private'];
+        $types = ['general', 'private','recommended'];
         $userIds = DB::table('users')->pluck('id')->toArray(); // get all user ids
         $categoryIds = DB::table('categories')->pluck('id')->toArray(); // get all category ids
 

@@ -303,11 +303,30 @@ if($existprogram)
     })
     ->get()
     ->toArray();
-        $sportprogram= $user-> playerPrograms()->whereHas('category', function ($query) {
+    if(!$foodprogram)
+    {
+        $foodprogram=Program::query()->where('type','recomended')->whereHas('category', function ($query) {
+            $query->where('type', 'food');
+        })
+        ->get()
+        ->toArray();
+    }
+        $sportprogram= $user->playerPrograms()->whereHas('category', function ($query) {
             $query->where('type', 'sport');
         })
         ->get()
         ->toArray();
+
+        if(!$sportprogram)
+        {
+
+            $sportprogram=Program::query()->where('type','recommended')->whereHas('category', function ($query) {
+                $query->where('type', 'sport');
+            })
+            ->get()
+            ->toArray();
+          
+        }
         $result = [
             'foodProgram'=>$foodprogram,
             'sportProgram'=>$sportprogram

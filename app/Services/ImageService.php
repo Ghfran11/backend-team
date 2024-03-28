@@ -8,7 +8,7 @@ use App\Models\Image;
 
 class ImageService
 {
-    public function storeImage($request, $userId = null, $exerciseId = null, $type = null)
+    public function storeImage($request, $userId , $exerciseId = null, $type = null)
     {
         $images = $request->file('image');
         $result = [];
@@ -26,7 +26,7 @@ class ImageService
             else{
 
             $result[] = Image::query()->create([
-                'userId' => $exerciseId ? null : ($userId ?? Auth::user()->id),
+                'userId' => $userId ? : (Auth::user()->id),
                 'exerciseId' => $exerciseId,
                 'image' => $new_name,
                 'type' => $type

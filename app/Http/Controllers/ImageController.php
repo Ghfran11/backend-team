@@ -22,6 +22,7 @@ class ImageController extends Controller
     public function storeUserImage(Request $request)
     {
         try {
+       
             $result = $this->imageService->storeImage($request, $request->user_id ?:Auth::id(), null, $request->type);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {

@@ -19,7 +19,7 @@ class ImageService
 
             $existImage=Image::query()->where('userId',$userId)->where('type',null)->get()->toArray();
 
-            if($existImage)
+            if($existImage && $type == null)
             {
                 return 'you have profile Image';
             }

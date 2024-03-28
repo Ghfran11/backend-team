@@ -18,7 +18,7 @@ class ImageService
             $image->move(public_path('uploads/images'), $new_name);
 
             $existImage=Image::query()->where('userId',$userId)->where('type',null)->get()->toArray();
-           
+
             if($existImage)
             {
                 return 'you have profile Image';

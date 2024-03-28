@@ -99,10 +99,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Image::class, 'userId')->where('type', null);
     }
-    public function profileImage()
-    {
-        return $this->hasOne(Image::class, 'userId')->where('type', 'profile');
-    }
+    // public function profileImage()
+    // {
+    //     return $this->hasOne(Image::class, 'userId')->where('type', 'profile');
+    // }
     public function report()
     {
         return $this->hasMany(Report::class, 'userId');

@@ -56,15 +56,23 @@ class UserInfoController extends Controller
             $height = $user->userInfo()->value('height');
             $birthDate = $user->userInfo()->value('birthDate');
             $age = Carbon::parse($birthDate)->age;
-
+            if ($weight == null && $height == null) {
+                $user->userInfo()->update(
+                    [
+                        'BFP' => null,
+                    ]
+                );
+                $userInfo = $user->userInfo()->get()->toArray();
+                return ResponseHelper::success($userInfo);
+            }
             $BFP = $this->calculateBFP($weight, $height);
-            $userInfo = $user->userInfo()->update(
+            $user->userInfo()->update(
                 [
                     'BFP' => $BFP,
                     'age' => $age
                 ]
             );
-            $userInfo = $user->userInfo()->with('program')->get()->toArray();
+            $userInfo = $user->userInfo()->get()->toArray();
             return ResponseHelper::success($userInfo);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

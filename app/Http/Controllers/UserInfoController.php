@@ -111,8 +111,8 @@ class UserInfoController extends Controller
     public function updateInfo(Request $request)//update image and name and phone
     {
         try {
-            $user = User::findorFail(Auth::id());
-            $user = $user->update(
+            $user = User::find(Auth::id());
+            $newUser = $user->update(
                 [
                     'name' => $request->name,
                     'phoneNumber' => $request->phoneNumber ?: $user->phoneNumber,
@@ -123,7 +123,7 @@ class UserInfoController extends Controller
                 $user->image()->delete();
                 $this->imageService->storeImage($request, Auth::id(), null, null);
             }
-            return ResponseHelper::success($user);
+            return ResponseHelper::success($newUser);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -136,6 +136,7 @@ class UserInfoController extends Controller
     public function destroy(UserInfo $userInfo)
     {
         try {
+
             $userInfo->delete();
             return ResponseHelper::success(['message' => 'deleted successfuly']);
         } catch (\Exception $e) {

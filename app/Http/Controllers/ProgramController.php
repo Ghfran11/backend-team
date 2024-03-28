@@ -305,7 +305,7 @@ if($existprogram)
     ->toArray();
     if(!$foodprogram)
     {
-        $foodprogram=Program::query()->where('type','recomended')->whereHas('category', function ($query) {
+        $foodprogram=Program::query()->where('type','recommended')->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })
         ->get()
@@ -325,7 +325,7 @@ if($existprogram)
             })
             ->get()
             ->toArray();
-          
+
         }
         $result = [
             'foodProgram'=>$foodprogram,

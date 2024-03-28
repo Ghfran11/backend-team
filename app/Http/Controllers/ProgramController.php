@@ -332,7 +332,7 @@ if($existprogram)
             'sportProgram'=>$sportprogram
         ];
 
-    return responseHelper::success([$result]);
+    return responseHelper::success($result);
 } catch (\Exception $e) {
     return ResponseHelper::error($e->getMessage(), $e->getCode());
 }

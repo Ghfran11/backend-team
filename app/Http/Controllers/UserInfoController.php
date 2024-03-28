@@ -100,7 +100,7 @@ class UserInfoController extends Controller
             );
 
             if ($request->has('image')) {
-                $this->imageService->storeImage($request, Auth::id(), null, 'profile');
+                $this->imageService->storeImage($request, Auth::id(), null,null);
             }
             return ResponseHelper::success($userInfo);
         } catch (\Exception $e) {
@@ -120,7 +120,8 @@ class UserInfoController extends Controller
                 ]
             );
             if ($request->has('image')) {
-                $this->imageService->storeImage($request, Auth::id(), null, 'profile');
+                $user->image()->delete();
+                $this->imageService->storeImage($request, Auth::id(), null, null);
             }
             return ResponseHelper::success($user);
         } catch (\Exception $e) {

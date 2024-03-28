@@ -118,7 +118,6 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('status', [UserController::class, 'info']);
-});
 
 
 Route::post('addOrder', [OrderController::class, 'store']);
@@ -166,3 +165,6 @@ Route::post('makeFavourite/{article}', [ArticleController::class, 'makeFavourite
 Route::get('getCategories', [CategoryController::class, 'index']);
 Route::post('AddCategory', [CategoryController::class, 'store']);
 Route::get('getimage/{user}', [ImageController::class, 'getImages']);
+});
+
+

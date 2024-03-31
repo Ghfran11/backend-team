@@ -110,6 +110,7 @@ class ArticleService
         {
             return null;
         }
+        else{
         foreach ($articles as $article) {
             $isFav = DB::table('article_user')
                 ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
@@ -132,6 +133,7 @@ class ArticleService
         }
         return $results;
     }
+}
 
     public function getMyArticle()
     {

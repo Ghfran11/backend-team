@@ -28,7 +28,7 @@ class UserController extends Controller
                 ->toArray();
             if (empty ($result)) {
                 return ResponseHelper::error([], null, 'No coaches found', 204);
-            }
+            } 
             return ResponseHelper::success($result, null, 'Show Coaches', 200);
         } catch (\Exception $e) {
             return ResponseHelper::error([], null, $e->getMessage(), 500);

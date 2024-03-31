@@ -22,7 +22,7 @@ class ImageController extends Controller
     public function storeUserImage(Request $request)
     {
         try {
-       
+
             $result = $this->imageService->storeImage($request, $request->user_id ?:Auth::id(), null, $request->type);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
@@ -43,7 +43,7 @@ class ImageController extends Controller
     public function deleteUserImage(Image $image)
     {
         try {
-            $result = $this->imageService->deleteUserImage($image);
+            $result = $this->imageService->deleteoneImage($image);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -62,7 +62,7 @@ class ImageController extends Controller
     public function deleteAllUserImage(User $user)
     {
         try {
-            $result = $this->imageService->deleteUserImage($user);
+            $result = $this->imageService->deleteUserImages($user);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

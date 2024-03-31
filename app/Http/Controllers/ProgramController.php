@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Program;
 use App\Helpers\ResponseHelper;
 use App\Services\ImageService;
+use App\Services\ProgramService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreprogramRequest;
 use App\Http\Requests\UpdateprogramRequest;
@@ -19,10 +20,12 @@ use Illuminate\Support\Facades\DB;
 class ProgramController extends Controller
 {
     protected $imageService;
+    protected $programService;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService , ProgramService $programService)
     {
         $this->imageService = $imageService;
+        $this->programService=$programService;
     }
 
     /**
@@ -31,15 +34,8 @@ class ProgramController extends Controller
     public function index(Request $request)
     {
         try {
-            $lowerCaseType = strtolower($request->type);
-            $program = Program::with('category')
-                ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
-                    $query->where('type', $lowerCaseType)
-                        ->where('id', $request->categoryId);
-                })
-                ->get()
-                ->toArray();
-            return ResponseHelper::success($program);
+            $result=$this->programService->index($request);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -50,19 +46,8 @@ class ProgramController extends Controller
      */
     public function store(StoreprogramRequest $request)
     {
-        try {
-            $path = Files::saveFile($request);
-            $image = Files::saveImage($request);
-            $result = Program::query()->create(
-                [
-                    'user_id' => Auth::id(),
-                    'name' => $request->name,
-                    'file' => $path,
-                    'imageUrl' => $image,
-                    'type' => $request->type,
-                    'categoryId' => $request->categoryId
-                ]
-            );
+        try{
+        $result=$this->programService->store($request);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -76,7 +61,7 @@ class ProgramController extends Controller
     public function show(Program $program)
     {
         try {
-            $result = $program->get();
+            $result=$this->programService->show($program);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -89,14 +74,8 @@ class ProgramController extends Controller
     public function update(UpdateprogramRequest $request, Program $program)
     {
         try {
-            Files::deleteFile($program->file);
-            $path = Files::saveFile($request);
-            $program->update([
-                'name' => $request->name,
-                'file' => $path,
-                'categoryId' => $request->categoryId,
-            ]);
-            return ResponseHelper::success('program updated successfuly');
+            $result=$this->programService->update($request ,$program);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -108,13 +87,8 @@ class ProgramController extends Controller
     public function destroy(program $program)
     {
         try {
-            Files::deleteFile($program);
-            $program->delete();
-            return ResponseHelper::success(
-                [
-                    'message' => 'user deleted successfully'
-                ]
-            );
+            $result=$this->programService->destroy($program);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -122,42 +96,22 @@ class ProgramController extends Controller
 
     public function downloadFile(Program $program)
     {
-      //  try {
-            $filepath = $program->file;
-            $filename = $program->name;
-
-            return response()->download($filepath, $filename);
-       // } catch (\Exception $e) {
+        try {
+            $result=$this->programService->downloadFile($program);
+        } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
+    }
 
 
 
     public function showMyPrograms(Request $request)
     {
         try {
-            $user = User::find(Auth::id());
-            if ($user->role == 'player') {
-                $result = $user->playerPrograms()
-                    ->whereHas('category', function ($query) use ($request) {
-                        $query->where('type', $request->type)
-                            ->where('id', $request->categoryId);
-                    })
-                    ->get()
-                    ->toArray();
-                return ResponseHelper::success($result);
-            } else {
-                if ($user->role == 'coach') {
-                    $result = $user->program()->where('type', $request->programType)
-                        ->whereHas('category', function ($query) use ($request) {
-                            $query->where('type', $request->type)
-                                ->where('id', $request->categoryId);
-                        })
-                        ->get()
-                        ->toArray();
+            $result=$this->programService->showMyPrograms($request);
                     return ResponseHelper::success($result);
-                }
-            }
+
+
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -166,26 +120,8 @@ class ProgramController extends Controller
     public function assignProgram(Program $program, Request $request)
     {
         try {
-            // $user = User::findOrFail('id', $request->player_id)->first();
-            // dd( $user);
-            // if ($user->role == 'coach') {
-            //     return ResponseHelper::error('');
-
-            $startDate = Carbon::parse($request->startDate)
-                ->addDays($request->days)
-                ->toDateString();
-            $players = $request->player_id;
-            foreach ($players as $item) {
-                $attach = [
-                    'user_id' => Auth::id(),
-                    'startDate' => $startDate,
-                    'player_id' => $item,
-                    'days' => $request->days,
-                    'created_at' => Carbon::now()
-                ];
-                $program->coachs()->syncWithoutDetaching([$attach]);
-            }
-            return ResponseHelper::success([], null, 'success', 200);
+            $result=$this->programService->assignProgram($program,$request);
+            return ResponseHelper::success([], null, $result, 200);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -194,49 +130,27 @@ class ProgramController extends Controller
     public function search(Request $request)
     {
         try {
-            $search = $request->search_text;
-            if ($request->categoryId && $request->programType) {
-                $programs = Program::query()
-                    ->where('categoryId', intval($request->categoryId))
-                    ->where('type', $request->programType)
-                    ->where(function ($query) use ($search) {
-                        $query->where('name', 'LIKE', "%{$search}%")
-                            ->orWhere('type', 'LIKE', "%{$search}%");
-                    })
-                    ->get();
-                return ResponseHelper::success($programs);
-            }
-            $programs = Program::query()
-                ->where('name', 'LIKE', "%{$search}%")
-                ->orWhere('type', 'LIKE', "%{$search}%")
-                ->get();
-            return ResponseHelper::success($programs);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-    }
-
-    public function getCategory()
-    {
-        try {
-            $result = Category::query()->get()->toArray();
+            $result=$this->programService->search($request);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
 
+    // public function getCategory()
+    // {
+    //     try {
+    //         $result = Category::query()->get()->toArray();
+    //         return ResponseHelper::success($result);
+    //     } catch (\Exception $e) {
+    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
+    //     }
+    // }
+
     public function programCommitment()
     {
         try {
-            $user = User::find(Auth::id());
-            $numberOfDays = $user->playerPrograms()->value('days');
-
-            $startDate = $user->playerPrograms()->value('startDate');
-            $carbonStartDate = Carbon::createFromFormat('Y-m-d', $startDate);
-            $endDate = $carbonStartDate->addDays($numberOfDays);
-            $userRange = $user->time()->whereBetween('startTime', [$startDate, $endDate])->count();
-            $result = ($userRange / $numberOfDays) * 100;
+            $result=$this->programService->programCommitment();
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -246,16 +160,7 @@ class ProgramController extends Controller
     public function getPrograms(Request $request)
     {
         try {
-            $result = Category::query()
-                ->where('id', $request->categoryId)
-                ->where('type', $request->type)
-                ->with([
-                    'program' => function ($query) use ($request) {
-                        $query->where('type', $request->programType);
-                    }
-                ])
-                ->get()
-                ->toArray();
+            $result=$this->programService->getPrograms($request);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -263,74 +168,27 @@ class ProgramController extends Controller
     }
     public function selectProgram(Request $request)
     {
-        $userinfo_id = UserInfo::where('userId', Auth::id())->value('id');
-        $userinfo = UserInfo::find($userinfo_id);
-        $program=Program::findOrFail($request->program_id);
-        $programType=$program->category()->value('type');
-      $existprogram= $userinfo->program()->whereHas('category', function ($query) use ($programType) {
-        $query->where('type',  $programType);})->value('program_id');
+        try{
+        $result=$this->programService->selectProgram($request);
 
-
-if($existprogram)
-{
-    DB::table('program_userInfos')->where('program_id',$existprogram)->where('userInfo_id',$userinfo_id)->delete();
-
-
-
-}
-        $result =  DB::table('program_userInfos')->insert([
-            'program_id' => $request->program_id,
-            'userInfo_id' => $userinfo_id
-        ]);
-
-
-        return ResponseHelper::success('set successfully');
+        return ResponseHelper::success($result);
+    } catch (\Exception $e) {
+        return ResponseHelper::error($e->getMessage(), $e->getCode());
+    }
     }
     public function unselectProgram(Request $request)
     {
-        $userinfo_id = UserInfo::where('userId', Auth::id())->value('id');
-        $userinfo = UserInfo::find($userinfo_id);
-        $result = DB::table('program_userinfos')->where('program_id', $request->program_id)->where('userInfo_id', $userinfo_id)->delete();
+        try{
+            $result=$this->programService->unselectProgram($request);
         return ResponseHelper::success($result);
-
+    } catch (\Exception $e) {
+        return ResponseHelper::error($e->getMessage(), $e->getCode());
+    }
     }
     public function recomendedProgram()
     {
         try {
-        $user=User::find(Auth::id());
-       $foodprogram= $user->playerPrograms()->whereHas('category', function ($query) {
-        $query->where('type', 'food');
-    })
-    ->get()
-    ->toArray();
-    if(!$foodprogram)
-    {
-        $foodprogram=Program::query()->where('type','recommended')->whereHas('category', function ($query) {
-            $query->where('type', 'food');
-        })
-        ->get()
-        ->toArray();
-    }
-        $sportprogram= $user->playerPrograms()->whereHas('category', function ($query) {
-            $query->where('type', 'sport');
-        })
-        ->get()
-        ->toArray();
-
-        if(!$sportprogram)
-        {
-
-            $sportprogram=Program::query()->where('type','recommended')->whereHas('category', function ($query) {
-                $query->where('type', 'sport');
-            })
-            ->get()
-            ->toArray();
-
-        }
-        $result = [
-            'foodProgram'=>$foodprogram,
-            'sportProgram'=>$sportprogram
-        ];
+            $result=$this->programService->recomendedProgram();
 
     return responseHelper::success($result);
 } catch (\Exception $e) {

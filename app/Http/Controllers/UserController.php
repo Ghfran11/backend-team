@@ -35,8 +35,20 @@ class UserController extends Controller
     public function showCoach()
     {
         try {
+<<<<<<< HEAD
             $result = $this->userservice->ShowCoachs();
             return ResponseHelper::success($result, null, 'All Coaches', 200);
+=======
+            $result = User::query()
+                ->where('role', 'coach')
+                ->with('image')
+                ->get()
+                ->toArray();
+            if (empty ($result)) {
+                return ResponseHelper::error([], null, 'No coaches found', 204);
+            } 
+            return ResponseHelper::success($result, null, 'Show Coaches', 200);
+>>>>>>> 14dcfe0bdec7f721fc151faf4f5ade9a71a4dad7
         } catch (\Exception $e) {
             return ResponseHelper::error([], null, $e->getMessage(), 500);
         }

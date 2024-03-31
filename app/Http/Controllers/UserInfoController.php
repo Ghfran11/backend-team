@@ -55,8 +55,12 @@ class UserInfoController extends Controller
             $weight = $user->userInfo()->value('weight');
             $height = $user->userInfo()->value('height');
             $birthDate = $user->userInfo()->value('birthDate');
+            $neck=$user->userInfo()->value('neck');
+            $gender=$user->userInfo()->value('gender');
+            $waist_measurement=$user->userInfo()->value('waist_measurement');
+
             $age = Carbon::parse($birthDate)->age;
-            if ($weight == null && $height == null) {
+            if ($weight == null || $height == null ||$neck == null ||$gender == null || $waist_measurement == null) {
                 $user->userInfo()->update(
                     [
                         'BFP' => null,
@@ -65,7 +69,8 @@ class UserInfoController extends Controller
                 $userInfo = $user->userInfo()->get()->toArray();
                 return ResponseHelper::success($userInfo);
             }
-            $BFP = $this->calculateBFP($weight, $height);
+            $BFP = $this->calculateBFP($weight, $height,$neck,$gender,$waist_measurement);
+
             $user->userInfo()->update(
                 [
                     'BFP' => $BFP,
@@ -121,7 +126,7 @@ class UserInfoController extends Controller
             );
             if ($request->has('image')) {
                 $user->image()->delete();
-                $this->imageService->storeImage($request, Auth::id(), null, null);
+                $this->imageService->storeImage($request, Auth::id(), null, 'profile');
             }
             return ResponseHelper::success($newUser);
         } catch (\Exception $e) {

@@ -105,7 +105,7 @@ class UserInfoController extends Controller
             );
 
             if ($request->has('image')) {
-                $this->imageService->storeImage($request, Auth::id(), null,'profile');
+                $this->imageService->storeImage($request, Auth::id(), null,null);
             }
             return ResponseHelper::success($userInfo);
         } catch (\Exception $e) {
@@ -149,20 +149,41 @@ class UserInfoController extends Controller
         }
     }
 
-    public function calculateBFP($weight, $height,$neck,$gender,$waist_measurement )
+    public function calculateBFP($weight, $height)
     {
+        try {
+            $W = $weight / 100; // convert weight to kg
+            $H = $height / 100; // convert height to cm
+            $BFP = 495 / (1.0324 - 0.19077 * log10($W) + 0.15456 * log10($H)) - 450;
+            return round($BFP, 2); // round to 2 decimal places
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+$gender = $request->gender;
+$weight = $request->weight;
+$waist_measurement = $request->waistMeasurement;
+$neck = $request->neck;
+$height = $request->height;
+$hip = $request->hip;
+
 
 $waist_inch = $waist_measurement / 2.54;
 $neck_inch = $neck / 2.54;
+$hip_inch = $hip / 2.54;
+
+
 if ($gender === 'male') {
     $body_density = 1.0324 - 0.19077 * log10($waist_inch - $neck_inch) + 0.15456 * log10($height);
 } elseif ($gender === 'female') {
-    $body_density = 1.29579 - 0.35004 * log10($waist_inch  - $neck_inch) + 0.221 * log10($height);
-}
-return$body_density;
+    $body_density = 1.29579 - 0.35004 * log10($waist_inch + $hip_inch - $neck_inch) + 0.221 * log10($height);
+} else {
 
 
-}
-}
 
+$bfp = (495 / $body_density) - 450;
+
+}
 

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\NotificationType;
+use App\Models\Notification;
 use App\Models\order;
 use App\Models\User;
+use App\Services\NotificationService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreorderRequest;
 use App\Http\Requests\UpdateorderRequest;
@@ -13,6 +17,14 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -95,16 +107,11 @@ class OrderController extends Controller
                 if ($request->type == 'join') {
 
                     $result = $user->coachOrder()->with('player.image')->get()->toArray();
-                }
-                elseif ($request->type == 'food') {
+                } elseif ($request->type == 'food') {
                     $result = $user->coachOrder()->with('player.image')->where('type', 'food')->get()->toArray();
-                }
-                elseif ($request->type == 'sport') {
+                } elseif ($request->type == 'sport') {
                     $result = $user->coachOrder()->with('player.image')->where('type', 'sport')->get()->toArray();
-                }
-
-
-                else{
+                } else {
 
                     $result = $user->coachOrder()->with('player.image')->get()->toArray();
                 }
@@ -131,44 +138,42 @@ class OrderController extends Controller
     public function acceptOrder(Order $order)
     {
         try {
-            if($order->coachId == Auth::id())
-            {
+            if ($order->coachId == Auth::id()) {
 
-            if ($order->status == 'waiting' && $order->type == 'join') {
-                $result = $order->update(
-                    [
-                        'status' => 'accepted',
-                    ]
-                );
+                if ($order->status == 'waiting' && $order->type == 'join') {
+                    $result = $order->update(
+                        [
+                            'status' => 'accepted',
+                        ]
+                    );
 
-                if ($result == true) {
+                    if ($result == true) {
+                        $this->notificationService->acceptOrderNotification(Auth::user(), $order->playerId);
+                        $otherOrder = Order::query()->where('playerId', $order->playerId)
+                            ->where('id', '!=', $order->id)
+                            ->where('coachId', '!=', Auth::id())
+                            ->where('playerId', $order->playerId)
+                            ->where('type', 'join')
+                            ->where('status', 'waiting')->get();
 
-
-                    $otherOrder = Order::query()->where('playerId', $order->playerId)
-                        ->where('id', '!=', $order->id)
-                        ->where('coachId', '!=', Auth::id())
-                        ->where('playerId',$order->playerId)
-                        ->where('type', 'join')
-                        ->where('status', 'waiting')->get();
-
-                    foreach ($otherOrder as $item) {
-                        $item->delete();
-                    }
-                    if ($otherOrder) {
-                        return ResponseHelper::success([], null, 'accepted successfully', 200);
+                        foreach ($otherOrder as $item) {
+                            $item->delete();
+                        }
+                        if ($otherOrder) {
+                            return ResponseHelper::success([], null, 'accepted successfully', 200);
+                        }
                     }
                 }
-            }
-            if ($order->status == 'waiting' && $order->type == 'program') {
-                $result = $order->update(
-                    [
-                        'status' => 'accepted',
-                    ]
-                );
+                if ($order->status == 'waiting' && $order->type == 'program') {
+                    $result = $order->update(
+                        [
+                            'status' => 'accepted',
+                        ]
+                    );
 
-                return ResponseHelper::success([], null, 'accepted successfully', 200);
+                    return ResponseHelper::success([], null, 'accepted successfully', 200);
+                }
             }
-        }
 
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -220,21 +225,22 @@ class OrderController extends Controller
     {
         try {
 
-            $result=Order::query()->where('coachId',$user)->where('playerId',Auth::id())->where('type','join')->where('status','accepted')->delete();
+            $result = Order::query()->where('coachId', $user)->where('playerId', Auth::id())->where('type', 'join')->where('status', 'accepted')->delete();
 
 
-                return ResponseHelper::success($result, 'canceled successfully');
+            return ResponseHelper::success($result, 'canceled successfully');
 
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function deletePlayer($player)
     {
         try {
-            $result=Order::query()->where('coachId',Auth::id())->where('playerId',$player)->where('type','join')->where('status','accepted')->delete();
+            $result = Order::query()->where('coachId', Auth::id())->where('playerId', $player)->where('type', 'join')->where('status', 'accepted')->delete();
 
-                return ResponseHelper::success($result, 'canceled successfully');
+            return ResponseHelper::success($result, 'canceled successfully');
 
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

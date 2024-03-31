@@ -7,15 +7,18 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Helpers\ResponseHelper;
 use App\Services\ImageService;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     protected $imageService;
+    protected $categoryService;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService , CategoryService $categoryService)
     {
         $this->imageService = $imageService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -24,11 +27,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         try {
-            $result = Category::query()
-                ->where('type', $request->type)
-
-                
-                ->get()->toArray();
+      $result=$this->categoryService->index($request);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -41,13 +40,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         try {
-            $image = $this->imageService->storeImage($request);
-            $result = Category::query()->create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'type' => $request->type,
-                'imageUrl' => $image,
-            ]);
+            $result=$this->categoryService->store($request);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

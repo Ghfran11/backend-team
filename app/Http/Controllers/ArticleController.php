@@ -2,45 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Requests\StoreArticleRequest;
 use App\Models\Article;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreArticleRequest;
-use App\Helpers\ResponseHelper;
+use App\Services\ArticleService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
 
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $articleService;
+
+    public function __construct(ArticleService $articleService)
+    {
+        $this->articleService = $articleService;
+
+    }
     public function index()
     {
         try {
-            $user = User::find(Auth::id());
-            $articles = Article::query()->get();
-            foreach ($articles as $article) {
-                $isFav = DB::table('article_user')
-                    ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
-
-                if ($user->favorites->contains('id', $article->id) && $isFav == true) {
-                    $isFavourite = true;
-                } else {
-                    $isFavourite = false;
-                }
-
-                $results[] =
-                    [
-                        'id' => $article->id,
-                        'title' => $article->title,
-                        'content' => $article->content,
-                        'isFavourite' => $isFavourite
-                    ];
-
-            }
-            return ResponseHelper::success($results);
+            $result = $this->articleService->index();
+            return ResponseHelper::success($result);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return ResponseHelper::error($e->validator->errors()->first(), 400);
         } catch (\Illuminate\Database\QueryException $e) {
@@ -56,15 +41,8 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request)
     {
         try {
-            //  $validated = $request->validated();
-            $user = User::findOrFail(Auth::id());
-            $article = $user->coachArticle()->create(
-                [
-                    'title' => $request->title,
-                    'content' => $request->content
-                ]
-            );
-            return ResponseHelper::success($article);
+            $result = $this->articleService->store($request);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -73,15 +51,8 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = User::findOrFail(Auth::id());
-            $user->coachArticle()->where('article_id', $id)
-            ->update(
-                [
-                    'title' => $request->title,
-                    'content' => $request->content
-                ]
-            );
-            return ResponseHelper::success('updated');
+            $result = $this->articleService->update($request, $id);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -90,8 +61,8 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         try {
-            $delete = $article->delete();
-            return ResponseHelper::success($delete);
+            $results = $this->articleService->destroy($article);
+            return ResponseHelper::success($results);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -101,27 +72,8 @@ class ArticleController extends Controller
     public function makeFavourite(Article $article)
     {
         try {
-            $favorite = DB::table('article_user')
-                ->where('article_id', $article->id)->first();
-            if ($favorite) {
-                if ($favorite->isFavourite == true) {
-                    DB::table('article_user')
-                        ->where('article_id', $article->id)
-                        ->update(['isFavourite' => false]);
-                    return ResponseHelper::success(['isFavourite' => false]);
-                } elseif ($favorite->isFavourite == false) {
-                    DB::table('article_user')->where('article_id', $article->id)
-                        ->update(['isFavourite' => true]);
-                    return ResponseHelper::success(['isFavourite' => true]);
-                }
-            }
-            DB::table('article_user')->insert([
-                'article_id' => $article->id,
-                'user_id' => Auth::id(),
-                'coach_id' => null,
-                'isFavourite' => true,
-            ]);
-            return ResponseHelper::success(['isFavourite' => true]);
+            $result = $this->articleService->makeFavourite($article);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -131,27 +83,8 @@ class ArticleController extends Controller
     {
         try {
 
-            $articles  = $user->coachArticle()->get();
-            foreach ($articles as $article) {
-                $isFav = DB::table('article_user')
-                    ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
-
-                if ($user->favorites->contains('id', $article->id) && $isFav == true) {
-                    $isFavourite = true;
-                } else {
-                    $isFavourite = false;
-                }
-
-                $results[] =
-                    [
-                        'id' => $article->id,
-                        'title' => $article->title,
-                        'content' => $article->content,
-                        'isFavourite' => $isFavourite
-                    ];
-
-            }
-            return ResponseHelper::success($results);
+            $result = $this->articleService->getCoachArticle($user);
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
@@ -160,8 +93,7 @@ class ArticleController extends Controller
     public function getMyArticle()
     {
         try {
-            $user = User::find(Auth::id());
-            $result = $user->coachArticle()->get()->toArray();
+            $result = $this->articleService->getMyArticle();
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

@@ -33,7 +33,7 @@ class ImageService
                 'type' => $type
             ]);
         }
-    //}
+    }
         return $result;
     }
     public function deleteUserImages($user)

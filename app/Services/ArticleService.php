@@ -128,11 +128,15 @@ class ArticleService
 
 
         }
+
         return $results;
     }
+
     else
+    {
     return null;
 }
+    }
 
     public function getMyArticle()
     {

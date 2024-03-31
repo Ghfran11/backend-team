@@ -40,7 +40,7 @@ class UserController extends Controller
                 ->with('image')
                 ->get()
                 ->toArray();
-            if (empty ($result)) {
+            if (empty($result)) {
                 return ResponseHelper::error([], null, 'No coaches found', 204);
             }
             return ResponseHelper::success($result, null, 'Show Coaches', 200);

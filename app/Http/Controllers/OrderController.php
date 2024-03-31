@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\StoreorderRequest;
 use App\Http\Requests\UpdateorderRequest;
 use App\Models\order;
+use App\Services\NotificationService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -13,11 +14,13 @@ class OrderController extends Controller
 {
 
     protected $orderService;
+    public $notificationService;
 
-    public function __construct(OrderService $orderService)
+
+    public function __construct(OrderService $orderService,NotificationService $notificationService)
     {
         $this->orderService = $orderService;
-
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -89,6 +92,7 @@ class OrderController extends Controller
     {
         try {
             $order = $this->orderService->acceptOrder($order);
+
             return ResponseHelper::success([], null, 'accepted successfully', 200);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -138,6 +142,7 @@ class OrderController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+
     public function deletePlayer($player)
     {
         try {

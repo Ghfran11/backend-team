@@ -5,7 +5,7 @@ namespace App\Enum;
 
 enum NotificationType: string
 {
-    case MESSAGE = 'Message';
-    case WELCOME = 'Welcome';
+    case ACCEPT_ORDER = 'Accept Order';
+
     case EXPIRATION = 'Expiration';
 }

@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     public function store($request)
     {
 
@@ -48,6 +53,7 @@ class OrderService
 
         }
     }
+
     public function destroy(order $order)
     {
 
@@ -57,6 +63,7 @@ class OrderService
         return 'deleted successfully';
 
     }
+
     public function getMyOrder(Request $request) //as a coach or a player , iwant to show my order which
     {
 
@@ -92,6 +99,7 @@ class OrderService
         return $result;
 
     }
+
     public function acceptOrder(Order $order) //as a coach i want to accept the join order from the player
     {
 
@@ -103,7 +111,7 @@ class OrderService
                         'status' => 'accepted',
                     ]
                 );
-
+                $this->notificationService->acceptOrderNotification(Auth::user(), $order->playerId);
                 if ($result == true) {
 
                     $otherOrder = Order::query()->where('playerId', $order->playerId)

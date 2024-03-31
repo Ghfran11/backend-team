@@ -106,11 +106,8 @@ class ArticleService
     public function getCoachArticle(User $user)
     {
         $articles = $user->coachArticle()->get();
-        if(!$articles)
-        {
-            return null;
-        }
-        else{
+        if($articles)
+       {
         foreach ($articles as $article) {
             $isFav = DB::table('article_user')
                 ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
@@ -133,6 +130,8 @@ class ArticleService
         }
         return $results;
     }
+    else
+    return null;
 }
 
     public function getMyArticle()

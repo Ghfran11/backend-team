@@ -106,7 +106,7 @@ class ArticleService
     public function getCoachArticle(User $user)
     {
         $articles = $user->coachArticle()->get();
-        if($articles)
+        if(!empty($articles->toArray()))
        {
         foreach ($articles as $article) {
             $isFav = DB::table('article_user')
@@ -125,10 +125,7 @@ class ArticleService
                 'content' => $article->content,
                 'isFavourite' => $isFavourite,
             ];
-
-
         }
-
         return $results;
     }
 

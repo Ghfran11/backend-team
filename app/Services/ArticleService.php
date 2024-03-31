@@ -123,6 +123,10 @@ class ArticleService
                 'content' => $article->content,
                 'isFavourite' => $isFavourite,
             ];
+            if(!$results)
+            {
+                return null;
+            }
 
         }
         return $results;

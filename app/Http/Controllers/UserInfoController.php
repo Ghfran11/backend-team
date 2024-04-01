@@ -92,7 +92,7 @@ class UserInfoController extends Controller
         try {
             $user = Auth::user();
 
-            $userInfo = $user->userInfo->updateOrcreate(
+            $userInfo = $user->userInfo()->updateOrcreate(
                 ['userId' => $user->id],
                 [
                     'gender' => $request->gender,

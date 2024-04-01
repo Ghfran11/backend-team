@@ -50,7 +50,7 @@ class ImageService
     public function deleteUserImage($user, $type)
     {
         $result = Image::query()
-            ->where('userId', $user->id)
+            ->where('userId', $user)
             ->where('type', $type)
             ->delete();
         return $result;

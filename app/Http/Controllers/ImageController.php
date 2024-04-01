@@ -82,7 +82,7 @@ class ImageController extends Controller
     {
         try {
             $result = $this->imageService->deleteUserImage($user, $request->type);
-            return ResponseHelper::success('deleted successfully');
+            return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

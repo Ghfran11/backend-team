@@ -5,6 +5,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Image;
+use App\Models\User;
 
 class ImageService
 {
@@ -49,14 +50,23 @@ class ImageService
 
     public function deleteUserImage($user, $type)
     {
-        $result = Image::query()
-            ->where('userId', $user)
-            ->where('type', $type)
-            ->delete();
+        $userId = User::find($user);
 
-            if($result)
-        return $result;
+        if ($userId) {
+            $result = Image::query()
+                ->where('userId', $userId->id)
+                ->where('type', $type)
+                ->delete();
+
+            if ($result) {
+                return $result;
+            }
+        }
+
+        return false;
     }
+
+    
     public function deleteoneImage($image)
     {
         $image->delete();

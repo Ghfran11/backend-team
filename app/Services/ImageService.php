@@ -35,14 +35,23 @@ class ImageService
     }
         return $result;
     }
-    public function deleteUserImage($user)
+    // public function deleteUserImage($user)
+    // {
+    //     $result = Image::query()
+    //     ->where('userId', $user->id)
+    //     ->where(function ($query) {
+    //         $query->where('type', 'before')
+    //             ->orWhere('type', 'after');
+    //     })
+    //     ->delete();
+    // }
+
+    public function deleteUserImage($user, $type)
     {
         $result = Image::query()
-        ->where('userId', $user->id)
-        ->where(function ($query) {
-            $query->where('type', 'before')
-                ->orWhere('type', 'after');
-        })
-        ->delete();
+            ->where('userId', $user->id)
+            ->where('type', $type)
+            ->delete();
+        return $result;
     }
 }

@@ -53,6 +53,8 @@ class ImageService
             ->where('userId', $user)
             ->where('type', $type)
             ->delete();
+
+            if($result)
         return $result;
     }
     public function deleteoneImage($image)

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = ['message_id', 'receiver_id', 'type', 'date', 'contect', 'title'];
+    protected $fillable = ['message_id', 'receiver_id', 'type', 'date', 'content', 'title'];
 
     public function user(): BelongsTo
     {

@@ -10,6 +10,7 @@ class ImageService
 {
     public function storeImage($request, $userId , $exerciseId = null, $type = null)
     {
+
         $images = $request->file('image');
         $result = [];
         foreach ($images as $image) {
@@ -17,7 +18,7 @@ class ImageService
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/images'), $new_name);
 
-            $existImage=Image::query()->where('userId',$userId)->where('type',null)->get()->toArray();
+            $existImage=Image::query()->where('userId',$userId)->where('type','profile')->get()->toArray();
 
             if($existImage && $type == null)
             {
@@ -53,5 +54,10 @@ class ImageService
             ->where('type', $type)
             ->delete();
         return $result;
+    }
+    public function deleteoneImage($image)
+    {
+        $image->delete();
+
     }
 }

@@ -37,7 +37,7 @@ class AuthController extends Controller
         }
         $user = User::find(Auth::id());
         $user->image;
-       
+
         $response = [
             'data' => ['user' => $user, 'token' => $token]
         ];
@@ -48,7 +48,7 @@ class AuthController extends Controller
                 'type' => NotificationType::EXPIRATION,
                 'title' => 'Gym name',
                 'date' => $user->expiration,
-                'contect' => 'Your subscription is expired for this month, Please renew your subscription so you can keep using our app.',
+                'content' => 'Your subscription is expired for this month, Please renew your subscription so you can keep using our app.',
                 'receiver_id' => $user->id,
             ]);
         }

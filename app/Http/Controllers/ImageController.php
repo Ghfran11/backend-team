@@ -53,7 +53,11 @@ class ImageController extends Controller
     public function deleteUserImage(Request $request, $user)
     {
         try {
+<<<<<<< HEAD
             $result = $this->imageService->deleteUserImage($user, $request->type);
+=======
+            $result = $this->imageService->deleteoneImage($image);
+>>>>>>> 0eb62a3326adba22549d8fcbb4214a323ae1b300
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -69,6 +73,7 @@ class ImageController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
+<<<<<<< HEAD
     // public function deleteAllUserImage(User $user)
     // {
     //     try {
@@ -78,4 +83,15 @@ class ImageController extends Controller
     //         return ResponseHelper::error($e->getMessage(), $e->getCode());
     //     }
     // }
+=======
+    public function deleteAllUserImage(User $user)
+    {
+        try {
+            $result = $this->imageService->deleteUserImages($user);
+            return ResponseHelper::success($result);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+>>>>>>> 0eb62a3326adba22549d8fcbb4214a323ae1b300
 }

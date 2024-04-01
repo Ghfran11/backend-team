@@ -14,9 +14,9 @@ return new class extends Migration {
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['Expiration', 'Welcome']);
+            $table->enum('type', ['Expiration', 'Accept Order']);
             $table->string('title')->nullable();
-            $table->string('contect')->nullable();
+            $table->string('content')->nullable();
             $table->date('date')->nullable();
             $table->foreignId('receiver_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('message_id')->nullable()->constrained('messages')->cascadeOnDelete()->cascadeOnUpdate();

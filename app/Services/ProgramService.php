@@ -49,7 +49,7 @@ class ProgramService
             ]
         );
 
-        if ($request->player_id && $request->days) {
+        if ($request->player_id && $request->days && $request->type != 'general') {
             $players = $request->player_id;
             foreach ($players as $item) {
                 $attach = [

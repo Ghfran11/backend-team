@@ -49,28 +49,20 @@ class ProgramService
             ]
         );
 
-        if($request->player_id && $request->days)
-        {
-    $players = $request->player_id;
-    foreach ($players as $item) {
-        $user=User::find($item);
-        dd($user);
-        if(!$user)
-        {
-            return 'user not found';
+        if ($request->player_id && $request->days) {
+            $players = $request->player_id;
+            foreach ($players as $item) {
+                $attach = [
+                    'user_id' => Auth::id(),
+                    'startDate' => Carbon::now(),
+                    'player_id' => $item,
+                    'days' => $request->days,
+                    'created_at' => Carbon::now(),
+                ];
+                $program->coachs()->syncWithoutDetaching([$attach]);
+
+            }
         }
-        else{
-        $attach = [
-            'user_id' => Auth::id(),
-            'startDate' => Carbon::now(),
-            'player_id' => $item,
-            'days' => $request->days,
-            'created_at' => Carbon::now(),
-        ];
-        $program->coachs()->syncWithoutDetaching([$attach]);
-    }
-}
-}
         return $program;
 
     }

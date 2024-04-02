@@ -23,7 +23,7 @@ class ProgramService
             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                 $query->where('type', $lowerCaseType)
                     ->where('id', $request->categoryId);
-            })->where('type','general')
+            })
             ->get()
             ->toArray();
         return $program;

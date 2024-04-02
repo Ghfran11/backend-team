@@ -44,7 +44,7 @@ class ProgramController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreprogramRequest $request)
+    public function store(Request $request)
     {
         try{
         $result=$this->programService->store($request);

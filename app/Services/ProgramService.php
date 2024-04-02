@@ -89,6 +89,7 @@ class ProgramService
         $program->update([
             'name' => $request->name,
             'file' => $path,
+            'type'=>$request->type,
             'categoryId' => $request->categoryId,
         ]);
         return 'program updated successfuly';

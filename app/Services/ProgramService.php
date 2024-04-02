@@ -132,6 +132,7 @@ class ProgramService
             return $result;
         } else {
             if ($user->role == 'coach') {
+              
                 $result = $user->program()->where('type', $request->programType)
                     ->whereHas('category', function ($query) use ($request) {
                         $query->where('type', $request->type)

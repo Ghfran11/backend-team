@@ -159,7 +159,7 @@ class OrderService
 
         $user = User::find(Auth::id());
         $program = $user->playerPrograms()
-            ->where('type', $request->type)->get()->toArray();
+            ->where('type', 'private')->get()->toArray();
         return $program;
     }
 

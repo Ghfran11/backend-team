@@ -158,7 +158,7 @@ class ProgramService
         foreach ($players as $item) {
             $attach = [
                 'user_id' => Auth::id(),
-                'startDate' => $startDate,
+                'startDate' => Carbon::now(),
                 'player_id' => $item,
                 'days' => $request->days,
                 'created_at' => Carbon::now(),

@@ -125,6 +125,7 @@ class UserInfoController extends Controller
                 ]
             );
             if ($request->image) {
+
                 $user->image()->delete();
                 $this->imageService->storeImage($request, Auth::id(), null, 'profile');
             }

@@ -19,11 +19,11 @@ class ProgramService
     {
 
         $lowerCaseType = strtolower($request->type);
-        $program = Program::where('type','general')->with('category')
+        $program = Program::with('category')
             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                 $query->where('type', $lowerCaseType)
                     ->where('id', $request->categoryId);
-            })
+            })->where('type','general')
             ->get()
             ->toArray();
         return $program;

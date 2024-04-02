@@ -19,7 +19,7 @@ class ProgramService
     {
 
         $lowerCaseType = strtolower($request->type);
-        $program = Program::with('category')
+        $program = Program::where('type','general')->with('category')
             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
                 $query->where('type', $lowerCaseType)
                     ->where('id', $request->categoryId);
@@ -263,7 +263,7 @@ class ProgramService
     {
 
         $user = User::find(Auth::id());
-        $foodprogram = $user->playerPrograms()->whereHas('category', function ($query) {
+        $foodprogram = $user->playerPrograms()->where('type','general')->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })
             ->get()
@@ -275,7 +275,7 @@ class ProgramService
                 ->get()
                 ->toArray();
         }
-        $sportprogram = $user->playerPrograms()->whereHas('category', function ($query) {
+        $sportprogram = $user->playerPrograms()->where('type','general')->whereHas('category', function ($query) {
             $query->where('type', 'sport');
         })
             ->get()

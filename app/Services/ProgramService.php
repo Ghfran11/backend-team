@@ -299,7 +299,29 @@ class ProgramService
         ];
 
         return $result;
-
     }
+    public function programDetails($program)
+        {
+            $type=$program->type;
+            $categoryName=$program->category()->value('name');
+            $programName=$program->name;
+            $programFile=$program->file;
+            $players=$program->players()->with('image')->get();
+            $programDay=$program->players()->first();
+            $days=$programDay->pivot->days;
+$result=[
+    'type'=>$type,
+    'categoryName'=>$categoryName,
+    'programName'=>$programName,
+    'programFile'=>$programFile,
+    'days'=>$days,
+    'players'=>$players,
+
+
+];
+return $result;
+
+        }
+
 
 }

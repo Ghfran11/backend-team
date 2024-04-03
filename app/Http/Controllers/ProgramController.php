@@ -196,4 +196,15 @@ class ProgramController extends Controller
 }
 }
 
+public function programDetails(Program $program)
+{
+    try {
+        $result=$this->programService->programDetails($program);
+
+return responseHelper::success($result);
+} catch (\Exception $e) {
+return ResponseHelper::error($e->getMessage(), $e->getCode());
+}
+}
+
 }

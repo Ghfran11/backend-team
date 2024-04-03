@@ -304,18 +304,24 @@ class ProgramService
         {
             $type=$program->type;
             $categoryName=$program->category()->value('name');
+            $categoryType=$program->category()->value('type');
             $programName=$program->name;
             $programFile=$program->file;
             $players=$program->players()->with('image')->get();
             $programDay=$program->players()->first();
             $days=$programDay->pivot->days;
+            $cover=$program->imageUrl;
+
 $result=[
     'type'=>$type,
     'categoryName'=>$categoryName,
+    'categoryType'=>$categoryType,
     'programName'=>$programName,
     'programFile'=>$programFile,
+    'cover'=>$cover,
     'days'=>$days,
-    'players'=>$players,
+    'players'=>$players
+
 
 
 ];

@@ -83,7 +83,10 @@ class ProgramService
      */
     public function update($request, $program)
     {
-
+        if(Auth::id()!= $program->user_id)
+        {
+            return 'you can not update this program , you don not ave permission';
+        }
         Files::deleteFile($program->file);
         $path = Files::saveFile($request);
         $program->update([
@@ -97,11 +100,11 @@ class ProgramService
             $image = Files::saveImage($request);
             $program->update(
                 [
-                    'imageUrl'=>$image 
+                    'imageUrl'=>$image
                 ]
                 );
         }
-        return 'program updated successfuly';
+        return 'program updated successfuly';                                                                                                      
 
     }
 

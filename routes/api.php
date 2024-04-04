@@ -32,141 +32,150 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('storeUserImage', [ImageController::class, 'storeUserImage']);
-    Route::delete('deleteUserImage/{image}', [ImageController::class, 'deleteUserImage']);
-    Route::delete('deleteAll/{user}', [ImageController::class, 'deleteAllUserImage']);
+    Route::controller(ImageController::class)->group(function () {
+    Route::post('storeUserImage', 'storeUserImage');
+    Route::delete('deleteUserImage/{image}','deleteUserImage');
+    Route::delete('deleteAll/{user}','deleteAllUserImage');
+    });
+
     //exercise
-    Route::post('storeExercise', [ExerciseController::class, 'store']);
-    Route::get('showExercise/{exercise}', [ExerciseController::class, 'show']);
-    Route::get('indexExercise', [ExerciseController::class, 'index']);
-    Route::post('storeExerciseImage', [ImageController::class, 'storeExerciseImage']);
+    Route::controller(ExerciseController::class)->group(function () {
+    Route::post('storeExercise', 'store');
+    Route::get('showExercise/{exercise}', 'show');
+    Route::get('indexExercise', 'index');
+    Route::post('storeExerciseImage', 'storeExerciseImage');
+    });
 
     //time
-    Route::post('storeTime', [TimeController::class, 'storeCoachTime']);//coach
-    Route::post('storeCoachTime', [TimeController::class, 'storeCoachTime']);
-    Route::post('storeUserTime', [TimeController::class, 'storeUserTime']);
-    Route::post('endCounter', [TimeController::class, 'endCounter']);
-    Route::get('showMyTime', [TimeController::class, 'show']);
-    Route::get('monthly', [TimeController::class, 'monthlyProgress']);
-    Route::get('weekly', [TimeController::class, 'weeklyProgress']);
-    Route::get('showUserTime/{user}', [TimeController::class, 'showUserTime']);
-    Route::get('showCoachTime/{user}', [TimeController::class, 'showCoachTime']);
+    Route::controller(TimeController::class)->group(function () {
+    Route::post('storeTime', 'storeCoachTime');//coach
+    Route::post('storeCoachTime', 'storeCoachTime');
+    Route::post('storeUserTime', 'storeUserTime');
+    Route::post('endCounter', 'endCounter');
+    Route::get('showMyTime', 'show');
+    Route::get('monthly','monthlyProgress');
+    Route::get('weekly','weeklyProgress');
+    Route::get('showUserTime/{user}', 'showUserTime');
+    Route::get('showCoachTime/{user}', 'showCoachTime');
+    Route::get('countActivePlayers', 'activePlayersCounter');
+    Route::get('activePlayers','activePlayers');
+    Route::get('exite','Exite');
+    });
 
     //user
-    Route::get('showCoach', [UserController::class, 'showCoach']);
-    Route::get('showPlayer', [UserController::class, 'showPlayer']);
-    Route::get('showCoachInfo/{id}', [UserController::class, 'showCoachInfo']);
-    Route::get('showDays', [DaysController::class, 'index']);
-    Route::get('playerInfo/{id}', [UserController::class, 'playerInfo']);
-    Route::delete('delete/{user}', [UserController::class, 'deleteUser']);
-    Route::post('updateUser/{user}', [UserController::class, 'updateUser']);
-    Route::post('updateUserInfo', [UserInfoController::class, 'updateInfo']);
-    Route::post('rate/{user}', [UserController::class, 'rateCoach']);
+    Route::controller(UserController::class)->group(function () {
+    Route::get('showCoach',  'showCoach');
+    Route::get('showPlayer', 'showPlayer');
+    Route::get('showCoachInfo/{id}', 'showCoachInfo');
+    Route::get('showDays',  'index');
+    Route::get('playerInfo/{id}', 'playerInfo');
+    Route::delete('delete/{user}',  'deleteUser');
+    Route::post('updateUser/{user}', 'updateUser');
+    Route::post('updateUserInfo', 'updateInfo');
+    Route::post('rate/{user}','rateCoach');
+    Route::get('subscription', 'subscription');
+    Route::post('updateSubscription/{user}', 'updateSubscription');
+    Route::get('showPercentage', 'showCountPercentage');
+    Route::get('financeMonth', 'financeMonth');
+    Route::get('mvpCoach', 'mvpCoach');
+    Route::get('status','info');
+    Route::post('userSearch', 'search');
+    Route::get('statistics',  'statistics');
+    });
     //program
-    Route::get('showProgram', [ProgramController::class, 'index']);
-    Route::get('allProgramByType', [ProgramController::class, 'indexByType']);
-    Route::get('myprogram', [ProgramController::class, 'showMyPrograms']);
-    Route::post('store', [ProgramController::class, 'store']);//Program
-    Route::get('getCategory', [ProgramController::class, 'getCategory']);
-    Route::post('updateprogram/{program}', [ProgramController::class, 'update']);
-    Route::get('deleteProgram/{program}', [ProgramController::class, 'destroy']);
-    Route::post('asignprogram/{program}', [ProgramController::class, 'assignProgram']);
-    Route::post('programCommitment', [ProgramController::class, 'programCommitment']);
-    Route::get('downloadFile/{program}', [ProgramController::class, 'downloadFile']);
-    Route::get('getPrograms', [ProgramController::class, 'getPrograms']);
-    Route::post('selectProgram', [ProgramController::class, 'selectProgram']);
-    Route::post('unselectProgram', [ProgramController::class, 'unselectProgram']);
-    Route::get('recommendedProgram', [ProgramController::class, 'recomendedProgram']);
-    Route::get('programDetails/{program}', [ProgramController::class, 'programDetails']);
+    Route::controller(ProgramController::class)->group(function () {
+    Route::get('showProgram', 'index');
+    Route::get('allProgramByType',  'indexByType');
+    Route::get('myprogram','showMyPrograms');
+    Route::post('store',' store');//Program
+    Route::get('getCategory',  'getCategory');
+    Route::post('updateprogram/{program}','update');
+    Route::get('deleteProgram/{program}','destroy');
+    Route::post('asignprogram/{program}', 'assignProgram');
+    Route::post('programCommitment',  'programCommitment');
+    Route::get('downloadFile/{program}', 'downloadFile');
+    Route::get('getPrograms','getPrograms');
+    Route::post('selectProgram','selectProgram');
+    Route::post('unselectProgram',  'unselectProgram');
+    Route::get('recommendedProgram', 'recomendedProgram');
+    Route::get('programDetails/{program}', 'programDetails');
+    Route::post('programSearch', 'search');
+    });
     //chat
-    Route::get('contactList', [MessageController::class, 'contactList']);//for chat
-    Route::get('listChat', [MessageController::class, 'index']);
-    Route::get('showChat/{user}', [MessageController::class, 'show']);
+    Route::controller(MessageController::class)->group(function () {
+    Route::get('contactList', 'contactList');//for chat
+    Route::get('listChat', 'index');
+    Route::get('showChat/{user}','show');
     //message
-    Route::post('sendMessage', [MessageController::class, 'store']);
-    Route::delete('deleteMessage/{message}', [MessageController::class, 'destroy']);
+    Route::post('sendMessage','store');
+    Route::delete('deleteMessage/{message}', 'destroy');
+    });
     //notification
-    Route::get('listNotification', [NotificationController::class, 'index']);
+    Route::controller(NotificationController::class)->group(function () {
+    Route::get('listNotification',  'index');
+    });
     //report
-    Route::get('indexreport', [ReportController::class, 'index']);
-    Route::post('report', [ReportController::class, 'store']);
-    Route::delete('deletereport/{report}', [ReportController::class, 'destroy']);
-    Route::get('myreport', [ReportController::class, 'showMyReport']);
+    Route::controller(ReportController::class)->group(function () {
+    Route::get('indexreport','index');
+    Route::post('report', 'store');
+    Route::delete('deletereport/{report}', 'destroy');
+    Route::get('myreport', 'showMyReport');
     //rate
-    Route::post('setRate', [RatingController::class, 'setRate']);
-    Route::delete('deleteRate', [RatingController::class, 'deleteRate']);
-
+    Route::post('setRate','setRate');
+    Route::delete('deleteRate', 'deleteRate');
+    });
 
     //subscribe
     //  Route::post('subscribe',[SubscriptionController::class,'subscribe']);
 
-    //charts
+    Route::controller(OrderController::class)->group(function () {
+    Route::post('addOrder' ,'store');
+    Route::post('updateOrrder/{order}','update');
+    Route::get('getMyOrder',  'getMyOrder');
+    Route::post('acceptOrder/{order}', 'acceptOrder');
+    Route::delete('deleteOrder' ,'destroy');
+    Route::post('showOrder/{order}', 'show');
+    Route::get('showAnnual', 'showAnnual');
 
-    //
-    Route::get('subscription', [UserController::class, 'subscription']);
-    Route::post('updateSubscription/{user}', [UserController::class, 'updateSubscription']);
-    Route::get('countActivePlayers', [TimeController::class, 'activePlayersCounter']);
-    Route::get('activePlayers', [TimeController::class, 'activePlayers']);
-    Route::get('mvpCoach', [UserController::class, 'mvpCoach']);
-    Route::get('showPercentage', [UserController::class, 'showCountPercentage']);
-    Route::get('financeMonth', [UserController::class, 'financeMonth']);
-    Route::get('exite', [TimeController::class, 'Exite']);
-
-
-    //Search
-    Route::post('programSearch', [ProgramController::class, 'search']);
-    Route::post('userSearch', [UserController::class, 'search']);
-    Route::get('statistics', [UserController::class, 'statistics']);
-
-
-    Route::get('status', [UserController::class, 'info']);
-
-
-    Route::post('addOrder', [OrderController::class, 'store']);
-    Route::post('updateOrrder/{order}', [OrderController::class, 'update']);
-    Route::get('getMyOrder', [OrderController::class, 'getMyOrder']);
-    Route::post('acceptOrder/{order}', [OrderController::class, 'acceptOrder']);
-    Route::delete('deleteOrder', [OrderController::class, 'destroy']);
-    Route::post('showOrder/{order}', [OrderController::class, 'show']);
-    Route::get('showAnnual', [UserController::class, 'showAnnual']);
-
-    Route::post('requestPrograme', [OrderController::class, 'requestProgram']);
-    Route::get('Premum', [OrderController::class, 'getPremium']);
-    Route::get('myPlayer', [OrderController::class, 'showMyPlayer']);
-    Route::get('myActivePlayer', [OrderController::class, 'myActivePlayer']);
-    Route::post('cancle/{order}', [OrderController::class, 'cancelOrder']);
-    Route::get('unAssign/{user}', [OrderController::class, 'unAssign']);
-    Route::get('deletePlayer/{user}', [OrderController::class, 'deletePlayer']);
-    Route::post('myPlayer', [OrderController::class, 'showMyPlayer']);
-
+    Route::post('requestPrograme','requestProgram');
+    Route::get('Premum',  'getPremium');
+    Route::get('myPlayer',  'showMyPlayer');
+    Route::get('myActivePlayer', 'myActivePlayer');
+    Route::post('cancle/{order}', 'cancelOrder');
+    Route::get('unAssign/{user}', 'unAssign');
+    Route::get('deletePlayer/{user}',  'deletePlayer');
+    Route::post('myPlayer', 'showMyPlayer');
+    });
 //user info
-    Route::post('addInfo', [UserInfoController::class, 'store']);
-    Route::post('updateInfo', [UserInfoController::class, 'update']);
-    Route::get('showInfo/{user}', [UserInfoController::class, 'show']);
-
+Route::controller(UserInfoController::class)->group(function () {
+    Route::post('addInfo', 'store');
+    Route::post('updateInfo', 'update');
+    Route::get('showInfo/{user}', 'show');
+    Route::post('storeFinance','store');
+    Route::post('updateFinance/{info}', 'update');
+    Route::get('showFinance/{info}', 'show');
+});
 //monthly Subscription Avg
-    Route::get('monSubsAvg', [SubscriptionController::class, 'monthlySubscriptionAvg']);
-
-//finance
-    Route::post('storeFinance', [InfoController::class, 'store']);
-    Route::post('updateFinance/{info}', [InfoController::class, 'update']);
-    Route::get('showFinance/{info}', [InfoController::class, 'show']);
-    Route::get('subscriptions', [SubscriptionController::class, 'index']);
-
+Route::controller(SubscriptionController::class)->group(function () {
+    Route::get('monSubsAvg','monthlySubscriptionAvg');
+    Route::get('subscriptions', 'index');
+});
 //Article
-    Route::post('addArticle', [ArticleController::class, 'store']);
-    Route::get('allArticle', [ArticleController::class, 'index']);
-    Route::delete('deleteArticle/{article}', [ArticleController::class, 'destroy']);
-    Route::post('updateArticle/{id}', [ArticleController::class, 'update']);
-    Route::get('myArticle', [ArticleController::class, 'getMyArticle']);
-    Route::get('coachArticle/{user}', [ArticleController::class, 'getCoachArticle']);
-    Route::post('makeFavourite/{article}', [ArticleController::class, 'makeFavourite']);
-
-
-//category
-    Route::get('getCategories', [CategoryController::class, 'index']);
-    Route::post('AddCategory', [CategoryController::class, 'store']);
-    Route::get('getimage/{user}', [ImageController::class, 'getImages']);
+Route::controller(ArticleController::class)->group(function () {
+    Route::post('addArticle',  'store');
+    Route::get('allArticle', 'index');
+    Route::delete('deleteArticle/{article}','destroy');
+    Route::post('updateArticle/{id}', 'update');
+    Route::get('myArticle', 'getMyArticle');
+    Route::get('coachArticle/{user}', 'getCoachArticle');
+    Route::post('makeFavourite/{article}', 'makeFavourite');
 });
 
+//category
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('getCategories',  'index');
+    Route::post('AddCategory',  'store');
+    Route::get('getimage/{user}', 'getImages');
+});
+});
 

@@ -71,7 +71,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('playerInfo/{id}', 'playerInfo');
     Route::delete('delete/{user}',  'deleteUser');
     Route::post('updateUser/{user}', 'updateUser');
-    Route::post('updateUserInfo', 'updateInfo');
+
     Route::post('rate/{user}','rateCoach');
     Route::get('subscription', 'subscription');
     Route::post('updateSubscription/{user}', 'updateSubscription');
@@ -154,6 +154,7 @@ Route::controller(UserInfoController::class)->group(function () {
     Route::post('storeFinance','store');
     Route::post('updateFinance/{info}', 'update');
     Route::get('showFinance/{info}', 'show');
+    Route::post('updateUserInfo', 'updateInfo');
 });
 //monthly Subscription Avg
 Route::controller(SubscriptionController::class)->group(function () {

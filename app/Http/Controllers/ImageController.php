@@ -87,7 +87,7 @@ class ImageController extends Controller
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }
     }
-    public function deleteOnrImage(Image $image)
+    public function deleteOneImage(Image $image)
     {
         try {
             $result = $this->imageService->deleteoneImage($image);

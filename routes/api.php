@@ -34,7 +34,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::controller(ImageController::class)->group(function () {
     Route::post('storeUserImage', 'storeUserImage');
-    Route::delete('deleteUserImage/{image}','deleteUserImage');
+    Route::delete('deleteUserImage/{image}','deleteOneImage');
     Route::delete('deleteAll/{user}','deleteAllUserImage');
     });
 

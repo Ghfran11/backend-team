@@ -92,6 +92,15 @@ class ProgramService
             'type' => $request->type,
             'categoryId' => $request->categoryId,
         ]);
+        if($request->has('image'))
+        {
+            $image = Files::saveImage($request);
+            $program->update(
+                [
+                    'imageUrl'=>$image 
+                ]
+                );
+        }
         return 'program updated successfuly';
 
     }

@@ -36,6 +36,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('storeUserImage', 'storeUserImage');
     Route::delete('deleteUserImage/{image}','deleteOneImage');
     Route::delete('deleteAll/{user}','deleteAllUserImage');
+    Route::get('getimage/{user}', 'getImages');
     });
 
     //exercise
@@ -87,7 +88,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('showProgram', 'index');
     Route::get('allProgramByType',  'indexByType');
     Route::get('myprogram','showMyPrograms');
-    Route::post('store',' store');//Program
+    Route::post('store','store');//Program
     Route::get('getCategory',  'getCategory');
     Route::post('updateprogram/{program}','update');
     Route::get('deleteProgram/{program}','destroy');
@@ -174,9 +175,9 @@ Route::controller(ArticleController::class)->group(function () {
 
 //category
 Route::controller(CategoryController::class)->group(function () {
-    Route::get('getCategories',  'index');
-    Route::post('AddCategory',  'store');
-    Route::get('getimage/{user}', 'getImages');
+    Route::get('getCategories', 'index');
+    Route::post('AddCategory', 'store');
+
 });
 });
 

@@ -85,17 +85,15 @@ class ProgramService
     {
         if(Auth::id()!= $program->user_id)
         {
-            return 'you can not update this program , you don not ave permission';
+            return 'you can not update this program , you don not have permission';
         }
-        Files::deleteFile($program->file);
-        $path = Files::saveFile($request);
+
         $program->update([
             'name' => $request->name,
-            'file' => $path,
             'type' => $request->type,
             'categoryId' => $request->categoryId,
         ]);
-        if($request->has('image'))
+        if($request->has('imageUrl'))
         {
             $image = Files::saveImage($request);
             $program->update(
@@ -104,7 +102,18 @@ class ProgramService
                 ]
                 );
         }
-        return 'program updated successfuly';                                                                                                      
+
+        if($request->has('file'))
+        {
+            Files::deleteFile($program->file);
+        $path = Files::saveFile($request);
+        $program->update(
+            [
+                'file'=>$path
+            ]
+            );
+        }
+        return 'program updated successfuly';
 
     }
 

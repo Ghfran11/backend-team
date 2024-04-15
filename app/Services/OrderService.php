@@ -199,7 +199,7 @@ class OrderService
         $order = Order::query()->where('coachId', Auth::id())
             ->where('status', 'accepted');
         $result = $order->with('player')->with('player.image', function ($query) {
-            $query->where('type', null);
+            $query->where('type', 'profile');
         })->get()->toArray();
         return $result;
     }

@@ -39,7 +39,7 @@ class AuthController extends Controller
         $user->image;
 
         $response = [
-            'data' => ['user' => $user, 'token' => $token]
+          'data'=> [ 'user' => $user, 'token' => $token]
         ];
         if (now()->gt($user->expiration) && $user->role == 'player') {
             // The current date is later than the user's expiration date
@@ -75,17 +75,6 @@ class AuthController extends Controller
             'finance' => $request->finance
 
         ]);
-        if ($user->role != 'admin') {
-            //event(new WelcomeMessage($user));
-            //store the notification in DB
-            Notification::create([
-                'type' => NotificationType::WELCOME,
-                'title' => 'Gym name',
-                'contect' => 'Wellcome to our Gym, We hope you enjoy !',
-                'receiver_id' => $user->id,
-            ]);
-        }
-
         return ResponseHelper::success([
             'message' => 'User created successfully',
             'user' => $user
@@ -102,7 +91,7 @@ class AuthController extends Controller
 
     public function refresh()
     {
-        $user = Auth::user();
+        $user = User::query()->findOrFail(Auth::id());
         if (now()->gt($user->expiration) && $user->role == 'player') {
             // The current date is later than the user's expiration date
             //event(new SubscrbtionExpiration($user));//*/
@@ -110,7 +99,7 @@ class AuthController extends Controller
                 'type' => NotificationType::EXPIRATION,
                 'title' => 'Gym name',
                 'date' => $user->expiration,
-                'contect' => 'Your subscription is expired for this month, Please renew your subscription so you can keep using our app.',
+                'content' => 'Your subscription is expired for this month, Please renew your subscription so you can keep using our app.',
                 'receiver_id' => $user->id,
             ]);
         }

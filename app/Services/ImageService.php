@@ -66,10 +66,11 @@ class ImageService
         return false;
     }
 
-    
+
     public function deleteoneImage($image)
     {
-        $image->delete();
+        $result=$image->delete();
+        return $result;
 
     }
 }

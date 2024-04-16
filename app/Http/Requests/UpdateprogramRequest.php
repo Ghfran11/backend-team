@@ -22,9 +22,6 @@ class UpdateprogramRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required'],
-            'file'=>['required'],
-            'categoryId'=>['required']
         ];
     }
 }

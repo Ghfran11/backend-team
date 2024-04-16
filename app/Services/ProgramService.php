@@ -38,7 +38,7 @@ class ProgramService
 
         $path = Files::saveFile($request);
         $image = Files::saveImage($request);
-        $result = Program::query()->create(
+        $program = Program::query()->create(
             [
                 'user_id' => Auth::id(),
                 'name' => $request->name,
@@ -48,7 +48,22 @@ class ProgramService
                 'categoryId' => $request->categoryId,
             ]
         );
-        return $result;
+
+        if ($request->player_id && $request->days && $request->type != 'general') {
+            $players = $request->player_id;
+            foreach ($players as $item) {
+                $attach = [
+                    'user_id' => Auth::id(),
+                    'startDate' => Carbon::now(),
+                    'player_id' => $item,
+                    'days' => $request->days,
+                    'created_at' => Carbon::now(),
+                ];
+                $program->coachs()->syncWithoutDetaching([$attach]);
+
+            }
+        }
+        return $program;
 
     }
 
@@ -68,14 +83,36 @@ class ProgramService
      */
     public function update($request, $program)
     {
+        if(Auth::id()!= $program->user_id)
+        {
+            return 'you can not update this program , you don not have permission';
+        }
 
-        Files::deleteFile($program->file);
-        $path = Files::saveFile($request);
         $program->update([
             'name' => $request->name,
-            'file' => $path,
+            'type' => $request->type,
             'categoryId' => $request->categoryId,
         ]);
+        if($request->has('imageUrl'))
+        {
+            $image = Files::saveImage($request);
+            $program->update(
+                [
+                    'imageUrl'=>$image
+                ]
+                );
+        }
+
+        if($request->has('file'))
+        {
+            Files::deleteFile($program->file);
+        $path = Files::saveFile($request);
+        $program->update(
+            [
+                'file'=>$path
+            ]
+            );
+        }
         return 'program updated successfuly';
 
     }
@@ -105,6 +142,7 @@ class ProgramService
     public function showMyPrograms($request)
     {
         $user = User::find(Auth::id());
+
         if ($user->role == 'player') {
             $result = $user->playerPrograms()
                 ->where('category', function ($query) use ($request) {
@@ -116,6 +154,7 @@ class ProgramService
             return $result;
         } else {
             if ($user->role == 'coach') {
+
                 $result = $user->program()->where('type', $request->programType)
                     ->where('category', function ($query) use ($request) {
                         $query->where('type', $request->type)
@@ -143,7 +182,7 @@ class ProgramService
         foreach ($players as $item) {
             $attach = [
                 'user_id' => Auth::id(),
-                'startDate' => $startDate,
+                'startDate' => Carbon::now(),
                 'player_id' => $item,
                 'days' => $request->days,
                 'created_at' => Carbon::now(),
@@ -248,7 +287,7 @@ class ProgramService
     {
 
         $user = User::find(Auth::id());
-        $foodprogram = $user->playerPrograms()->whereHas('category', function ($query) {
+        $foodprogram = $user->playerPrograms()->where('type', 'general')->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })
             ->get()
@@ -260,7 +299,7 @@ class ProgramService
                 ->get()
                 ->toArray();
         }
-        $sportprogram = $user->playerPrograms()->whereHas('category', function ($query) {
+        $sportprogram = $user->playerPrograms()->where('type', 'general')->whereHas('category', function ($query) {
             $query->where('type', 'sport');
         })
             ->get()
@@ -281,7 +320,35 @@ class ProgramService
         ];
 
         return $result;
-
     }
+    public function programDetails($program)
+        {
+            $type=$program->type;
+            $categoryName=$program->category()->value('name');
+            $categoryType=$program->category()->value('type');
+            $programName=$program->name;
+            $programFile=$program->file;
+            $players=$program->players()->with('image')->get();
+            $programDay=$program->players()->first();
+            $days=$programDay->pivot->days;
+            $cover=$program->imageUrl;
+
+$result=[
+    'type'=>$type,
+    'categoryName'=>$categoryName,
+    'categoryType'=>$categoryType,
+    'programName'=>$programName,
+    'programFile'=>$programFile,
+    'cover'=>$cover,
+    'days'=>$days,
+    'players'=>$players
+
+
+
+];
+return $result;
+
+        }
+
 
 }

@@ -66,7 +66,7 @@ class UserInfoController extends Controller
                         'BFP' => null,
                     ]
                 );
-                $userInfo = $user->userInfo()->get()->toArray();
+                $userInfo = $user->userInfo()->with('program')->get()->toArray();
                 return ResponseHelper::success($userInfo);
             }
             $BFP = $this->calculateBFP($weight, $height, $neck, $gender, $waist_measurement);
@@ -77,7 +77,7 @@ class UserInfoController extends Controller
                     'age' => $age
                 ]
             );
-            $userInfo = $user->userInfo()->get()->toArray();
+            $userInfo = $user->userInfo()->with('program')->get()->toArray();
             return ResponseHelper::success($userInfo);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
@@ -126,6 +126,7 @@ class UserInfoController extends Controller
                 ]
             );
             if ($request->image) {
+
                 $user->image()->delete();
                 $this->imageService->storeImage($request, Auth::id(), null, 'profile');
             }

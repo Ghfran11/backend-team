@@ -44,7 +44,7 @@ class ProgramController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreprogramRequest $request)
+    public function store(Request $request)
     {
         try{
         $result=$this->programService->store($request);
@@ -193,6 +193,17 @@ class ProgramController extends Controller
     return responseHelper::success($result);
 } catch (\Exception $e) {
     return ResponseHelper::error($e->getMessage(), $e->getCode());
+}
+}
+
+public function programDetails(Program $program)
+{
+    try {
+        $result=$this->programService->programDetails($program);
+
+return responseHelper::success($result);
+} catch (\Exception $e) {
+return ResponseHelper::error($e->getMessage(), $e->getCode());
 }
 }
 

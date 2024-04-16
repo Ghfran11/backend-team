@@ -107,7 +107,7 @@ class ProgramService
         $user = User::find(Auth::id());
         if ($user->role == 'player') {
             $result = $user->playerPrograms()
-                ->whereHas('category', function ($query) use ($request) {
+                ->where('category', function ($query) use ($request) {
                     $query->where('type', $request->type)
                         ->where('id', $request->categoryId);
                 })
@@ -117,7 +117,7 @@ class ProgramService
         } else {
             if ($user->role == 'coach') {
                 $result = $user->program()->where('type', $request->programType)
-                    ->whereHas('category', function ($query) use ($request) {
+                    ->where('category', function ($query) use ($request) {
                         $query->where('type', $request->type)
                             ->where('id', $request->categoryId);
                     })

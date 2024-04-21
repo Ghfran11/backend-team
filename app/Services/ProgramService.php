@@ -83,8 +83,7 @@ class ProgramService
      */
     public function update($request, $program)
     {
-        if(Auth::id()!= $program->user_id)
-        {
+        if (Auth::id() != $program->user_id) {
             return 'you can not update this program , you don not have permission';
         }
 
@@ -93,24 +92,22 @@ class ProgramService
             'type' => $request->type,
             'categoryId' => $request->categoryId,
         ]);
-        if($request->has('imageUrl'))
-        {
+        if ($request->has('imageUrl')) {
             $image = Files::saveImage($request);
             $program->update(
                 [
-                    'imageUrl'=>$image
+                    'imageUrl' => $image,
                 ]
-                );
+            );
         }
 
-        if($request->has('file'))
-        {
+        if ($request->has('file')) {
             Files::deleteFile($program->file);
-        $path = Files::saveFile($request);
-        $program->update(
-            [
-                'file'=>$path
-            ]
+            $path = Files::saveFile($request);
+            $program->update(
+                [
+                    'file' => $path,
+                ]
             );
         }
         return 'program updated successfuly';
@@ -322,33 +319,30 @@ class ProgramService
         return $result;
     }
     public function programDetails($program)
-        {
-            $type=$program->type;
-            $categoryName=$program->category()->value('name');
-            $categoryType=$program->category()->value('type');
-            $programName=$program->name;
-            $programFile=$program->file;
-            $players=$program->players()->with('image')->get();
-            $programDay=$program->players()->first();
-            $days=$programDay->pivot->days;
-            $cover=$program->imageUrl;
+    {
+        $type = $program->type;
+        $categoryName = $program->category()->value('name');
+        $categoryType = $program->category()->value('type');
+        $programName = $program->name;
+        $programFile = $program->file;
+        $players = $program->players()->with('image')->get();
+        $programDay = $program->players()->first();
+        $days = $programDay->pivot->days;
+        $cover = $program->imageUrl;
 
-$result=[
-    'type'=>$type,
-    'categoryName'=>$categoryName,
-    'categoryType'=>$categoryType,
-    'programName'=>$programName,
-    'programFile'=>$programFile,
-    'cover'=>$cover,
-    'days'=>$days,
-    'players'=>$players
+        $result = [
+            'type' => $type,
+            'categoryName' => $categoryName,
+            'categoryType' => $categoryType,
+            'programName' => $programName,
+            'programFile' => $programFile,
+            'cover' => $cover,
+            'days' => $days,
+            'players' => $players,
 
+        ];
+        return $result;
 
-
-];
-return $result;
-
-        }
-
+    }
 
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Article;
+use App\Models\ArticleUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,9 +80,8 @@ class ArticleService
     public function makeFavourite(Article $article,$user_id)
     {
 
-        $favorite = DB::table('article_user')
-            ->where('article_id', $article->id)
-            ->where('user_id',$user_id)
+        $favorite = ArticleUser::where('article_id', $article->id)
+            ->where('user_id', $user_id)
             ->first();
         if ($favorite) {
             if ($favorite->isFavourite == true) {

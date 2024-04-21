@@ -7,6 +7,7 @@ use App\Http\Requests\StoreArticleRequest;
 use App\Models\Article;
 use App\Models\User;
 use App\Services\ArticleService;
+use Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -72,7 +73,8 @@ class ArticleController extends Controller
     public function makeFavourite(Article $article)
     {
         try {
-            $result = $this->articleService->makeFavourite($article);
+            $user_id=Auth::user()->id;
+            $result = $this->articleService->makeFavourite($article,$user_id);
             return ResponseHelper::success($result);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

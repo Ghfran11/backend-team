@@ -122,6 +122,7 @@ class UserInfoController extends Controller
                     'name' => $request->name,
                     'phoneNumber' => $request->phoneNumber ?: $user->phoneNumber,
                     'bio' => $request->bio ?: null
+            
                 ]
             );
             if ($request->image) {

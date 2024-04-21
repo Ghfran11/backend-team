@@ -38,7 +38,7 @@ class ProgramService
 
         $path = Files::saveFile($request);
         $image = Files::saveImage($request);
-        $program = Program::query()->create(
+        $result = Program::query()->create(
             [
                 'user_id' => Auth::id(),
                 'name' => $request->name,
@@ -48,22 +48,7 @@ class ProgramService
                 'categoryId' => $request->categoryId,
             ]
         );
-
-        if ($request->player_id && $request->days && $request->type != 'general') {
-            $players = $request->player_id;
-            foreach ($players as $item) {
-                $attach = [
-                    'user_id' => Auth::id(),
-                    'startDate' => Carbon::now(),
-                    'player_id' => $item,
-                    'days' => $request->days,
-                    'created_at' => Carbon::now(),
-                ];
-                $program->coachs()->syncWithoutDetaching([$attach]);
-
-            }
-        }
-        return $program;
+        return $result;
 
     }
 
@@ -87,9 +72,11 @@ class ProgramService
             return 'you can not update this program , you don not have permission';
         }
 
+        Files::deleteFile($program->file);
+        $path = Files::saveFile($request);
         $program->update([
             'name' => $request->name,
-            'type' => $request->type,
+            'file' => $path,
             'categoryId' => $request->categoryId,
         ]);
         if ($request->has('imageUrl')) {
@@ -139,7 +126,6 @@ class ProgramService
     public function showMyPrograms($request)
     {
         $user = User::find(Auth::id());
-
         if ($user->role == 'player') {
             $result = $user->playerPrograms()
                 ->whereHas('category', function ($query) use ($request) {
@@ -151,7 +137,6 @@ class ProgramService
             return $result;
         } else {
             if ($user->role == 'coach') {
-
                 $result = $user->program()->where('type', $request->programType)
                     ->whereHas('category', function ($query) use ($request) {
                         $query->where('type', $request->type)
@@ -179,7 +164,7 @@ class ProgramService
         foreach ($players as $item) {
             $attach = [
                 'user_id' => Auth::id(),
-                'startDate' => Carbon::now(),
+                'startDate' => $startDate,
                 'player_id' => $item,
                 'days' => $request->days,
                 'created_at' => Carbon::now(),
@@ -284,7 +269,7 @@ class ProgramService
     {
 
         $user = User::find(Auth::id());
-        $foodprogram = $user->playerPrograms()->where('type', 'general')->whereHas('category', function ($query) {
+        $foodprogram = $user->playerPrograms()->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })
             ->get()
@@ -296,7 +281,7 @@ class ProgramService
                 ->get()
                 ->toArray();
         }
-        $sportprogram = $user->playerPrograms()->where('type', 'general')->whereHas('category', function ($query) {
+        $sportprogram = $user->playerPrograms()->whereHas('category', function ($query) {
             $query->where('type', 'sport');
         })
             ->get()
@@ -317,6 +302,7 @@ class ProgramService
         ];
 
         return $result;
+
     }
     public function programDetails($program)
     {

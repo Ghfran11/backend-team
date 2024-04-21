@@ -9,7 +9,7 @@ use App\Models\User;
 
 class ImageService
 {
-    public function storeImage($request, $userId , $exerciseId = null, $type = null)
+    public function storeImage($request, $userId, $exerciseId = null, $type = null)
     {
 
         $images = $request->file('image');
@@ -19,22 +19,20 @@ class ImageService
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/images'), $new_name);
 
-            $existImage=Image::query()->where('userId',$userId)->where('type','profile')->get()->toArray();
+            $existImage = Image::query()->where('userId', $userId)->where('type', 'profile')->get()->toArray();
 
-            if($existImage && $type == null)
-            {
+            if ($existImage && $type == null) {
                 return 'you have profile Image';
-            }
-            else{
+            } else {
 
-            $result[] = Image::query()->create([
-                'userId' => $userId ? : (Auth::user()->id),
-                'exerciseId' => $exerciseId,
-                'image' => $new_name,
-                'type' => $type
-            ]);
+                $result[] = Image::query()->create([
+                    'userId' => $userId ?: (Auth::user()->id),
+                    'exerciseId' => $exerciseId,
+                    'image' => $new_name,
+                    'type' => $type
+                ]);
+            }
         }
-    }
         return $result;
     }
     // public function deleteUserImage($user)
@@ -67,9 +65,11 @@ class ImageService
     }
 
 
-    public function deleteoneImage($image)
+    public function deleteoneImage($image_id)
     {
-        $result=$image->delete();
+        $image = Image::findOrFail($image_id);
+        
+        $result = $image->delete();
         return $result;
 
     }

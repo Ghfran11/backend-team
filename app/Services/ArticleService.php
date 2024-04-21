@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Article;
-use App\Models\ArticleUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,11 +25,11 @@ class ArticleService
 
             $results[] =
                 [
-                'id' => $article->id,
-                'title' => $article->title,
-                'content' => $article->content,
-                'isFavourite' => $isFavourite,
-            ];
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'content' => $article->content,
+                    'isFavourite' => $isFavourite,
+                ];
 
         }
         return $results;
@@ -77,22 +76,24 @@ class ArticleService
 
     }
 
-    public function makeFavourite(Article $article,$user_id)
+    public function makeFavourite(Article $article, $user_id)
     {
 
-        $favorite = ArticleUser::where('article_id', $article->id)
+        $favorite = DB::table('article_user')
+            ->where('article_id', $article->id)
             ->where('user_id', $user_id)
             ->first();
         if ($favorite) {
             if ($favorite->isFavourite == true) {
-                // DB::table('article_user')
-                //     ->where('article_id', $article->id)
-                    $favorite->update(['isFavourite' => false]);
+                DB::table('article_user')
+                    ->where('article_id', $article->id)
+                    ->where('user_id', $user_id)
+                    ->update(['isFavourite' => false]);
                 return 'isFavourite : false';
             } elseif ($favorite->isFavourite == false) {
-                // DB::table('article_user')->where('article_id', $article->id)
-                //     ->update(['isFavourite' => true]);
-                $favorite->update(['isFavourite' => true]);
+                DB::table('article_user')->where('article_id', $article->id)
+                    ->where('user_id', $user_id)
+                    ->update(['isFavourite' => true]);
                 return 'isFavourite :true';
             }
         }
@@ -109,33 +110,29 @@ class ArticleService
     public function getCoachArticle(User $user)
     {
         $articles = $user->coachArticle()->get();
-        if(!empty($articles->toArray()))
-       {
-        foreach ($articles as $article) {
-            $isFav = DB::table('article_user')
-                ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
+        if (!empty($articles->toArray())) {
+            foreach ($articles as $article) {
+                $isFav = DB::table('article_user')
+                    ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
 
-            if ($user->favorites->contains('id', $article->id) && $isFav == true) {
-                $isFavourite = true;
-            } else {
-                $isFavourite = false;
+                if ($user->favorites->contains('id', $article->id) && $isFav == true) {
+                    $isFavourite = true;
+                } else {
+                    $isFavourite = false;
+                }
+
+                $results[] =
+                    [
+                        'id' => $article->id,
+                        'title' => $article->title,
+                        'content' => $article->content,
+                        'isFavourite' => $isFavourite,
+                    ];
             }
-
-            $results[] =
-                [
-                'id' => $article->id,
-                'title' => $article->title,
-                'content' => $article->content,
-                'isFavourite' => $isFavourite,
-            ];
+            return $results;
+        } else {
+            return null;
         }
-        return $results;
-    }
-
-    else
-    {
-    return null;
-}
     }
 
     public function getMyArticle()

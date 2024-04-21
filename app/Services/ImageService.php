@@ -68,9 +68,10 @@ class ImageService
     public function deleteoneImage($image_id)
     {
         $image = Image::findOrFail($image_id);
-        // if (!$image) {
-        //     return;
-        // }
+        dd($image);
+        if (!$image) {
+            return;
+        }
         $result = $image->delete();
         return $result;
 

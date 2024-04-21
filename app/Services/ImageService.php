@@ -67,9 +67,10 @@ class ImageService
 
     public function deleteoneImage($image)
     {
-        if ($image) {
-            $result = $image->delete();
+        if (!$image) {
+            return;
         }
+        $result = $image->delete();
         return $result;
 
     }

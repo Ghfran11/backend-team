@@ -76,20 +76,23 @@ class ArticleService
 
     }
 
-    public function makeFavourite(Article $article)
+    public function makeFavourite(Article $article,$user_id)
     {
 
         $favorite = DB::table('article_user')
-            ->where('article_id', $article->id)->first();
+            ->where('article_id', $article->id)
+            ->where('user_id',$user_id)
+            ->first();
         if ($favorite) {
             if ($favorite->isFavourite == true) {
-                DB::table('article_user')
-                    ->where('article_id', $article->id)
-                    ->update(['isFavourite' => false]);
+                // DB::table('article_user')
+                //     ->where('article_id', $article->id)
+                    $favorite->update(['isFavourite' => false]);
                 return 'isFavourite : false';
             } elseif ($favorite->isFavourite == false) {
-                DB::table('article_user')->where('article_id', $article->id)
-                    ->update(['isFavourite' => true]);
+                // DB::table('article_user')->where('article_id', $article->id)
+                //     ->update(['isFavourite' => true]);
+                $favorite->update(['isFavourite' => true]);
                 return 'isFavourite :true';
             }
         }

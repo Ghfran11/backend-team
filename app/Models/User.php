@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -43,7 +44,7 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
         'email_verified_at'
     ];
-    protected $appends = ['rate', 'is_paid'];
+    protected $appends = ['rate', 'is_paid','checkinStatus'];
 
     /**
      * The attributes that should be cast.
@@ -135,6 +136,21 @@ class User extends Authenticatable implements JWTSubject
         $averageRating = $totalRating / $userCount;
         return intval($averageRating);
     }
+
+
+    public function getCheckinStatusAttribute()
+    {
+        $coachId = $this->id;
+        $checkin = Time::query()
+            ->where('userId', $coachId)
+            ->whereDate('startTime', Carbon::now()->format('Y-m-d'))
+            ->where('endTime', null)
+            ->latest()
+            ->exists();
+
+        return $checkin;
+    }
+
     public function userInfo()
     {
         return $this->hasOne(UserInfo::class, 'userId');

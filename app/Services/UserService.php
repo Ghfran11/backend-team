@@ -298,6 +298,7 @@ class UserService
                 ->get()
                 ->toArray();
             $result = [
+                'user'=> $user,
                 'hasCoach' => $hasCoach,
                 'myCoach' => $mycoach,
                 'foodProgram' => $foodProgram,

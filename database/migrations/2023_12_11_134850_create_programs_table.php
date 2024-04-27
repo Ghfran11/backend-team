@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categoryId')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('categoryId')->nullable()->constrained('categories')->cascadeOnDelete();
             $table->string('name');
             $table->string('file');
             $table->string('imageUrl')->nullable();

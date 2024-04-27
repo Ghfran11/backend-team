@@ -19,6 +19,7 @@ return new class extends Migration
            $table->date('startDate');
            $table->integer('days');
            $table->timestamps();
+           $table->unique('user_id','program_id');
         });
     }
 

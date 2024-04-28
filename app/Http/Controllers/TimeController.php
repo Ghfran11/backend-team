@@ -88,25 +88,25 @@ class TimeController extends Controller
 
 
 
-    public function CoachMyTime(StoretimeRequest $request)
-    {
-        try {
-            foreach ($request->coachTime as $item) {
-                $time = Time::query()
-                    ->create([
-                    'userId' => Auth::id(),
-                    'isCoach' => '1',
-                    'dayId' => $item['dayId'],
-                    'startTime' => $item['startTime'],
-                    'endTime' => $item['endTime']
-                ]);
-                $results[] = $time;
-            }
-            return ResponseHelper::success($results, null, 'success', 200);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-    }
+    // public function CoachMyTime(StoretimeRequest $request)
+    // {
+    //     try {
+    //         foreach ($request->coachTime as $item) {
+    //             $time = Time::query()
+    //                 ->create([
+    //                 'userId' => Auth::id(),
+    //                 'isCoach' => '1',
+    //                 'dayId' => $item['dayId'],
+    //                 'startTime' => $item['startTime'],
+    //                 'endTime' => $item['endTime']
+    //             ]);
+    //             $results[] = $time;
+    //         }
+    //         return ResponseHelper::success($results, null, 'success', 200);
+    //     } catch (\Exception $e) {
+    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
+    //     }
+    // }
 
     public function showCoachTime(User $user)
     {

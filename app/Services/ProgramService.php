@@ -27,7 +27,6 @@ class ProgramService
             ->get()
             ->toArray();
         return $program;
-
     }
 
     /**
@@ -49,7 +48,6 @@ class ProgramService
             ]
         );
         return $result;
-
     }
 
     /**
@@ -60,7 +58,6 @@ class ProgramService
 
         $result = $program->get();
         return $result;
-
     }
 
     /**
@@ -98,7 +95,6 @@ class ProgramService
             );
         }
         return 'program updated successfuly';
-
     }
 
     /**
@@ -120,7 +116,6 @@ class ProgramService
         $filename = $program->name;
 
         return response()->download($filepath, $filename);
-
     }
 
     public function showMyPrograms($request)
@@ -194,7 +189,6 @@ class ProgramService
             ->orWhere('type', 'LIKE', "%{$search}%")
             ->get();
         return $programs;
-
     }
 
     // public function getCategory()
@@ -219,7 +213,6 @@ class ProgramService
         $userRange = $user->time()->whereBetween('startTime', [$startDate, $endDate])->count();
         $result = ($userRange / $numberOfDays) * 100;
         return $result;
-
     }
 
     public function getPrograms(Request $request)
@@ -236,7 +229,6 @@ class ProgramService
             ->get()
             ->toArray();
         return $result;
-
     }
     public function selectProgram(Request $request)
     {
@@ -263,7 +255,6 @@ class ProgramService
         $userinfo = UserInfo::find($userinfo_id);
         $result = DB::table('program_userinfos')->where('program_id', $request->program_id)->where('userInfo_id', $userinfo_id)->delete();
         return $result;
-
     }
     public function recomendedProgram()
     {
@@ -294,7 +285,6 @@ class ProgramService
             })
                 ->get()
                 ->toArray();
-
         }
         $result = [
             'foodProgram' => $foodprogram,
@@ -302,7 +292,6 @@ class ProgramService
         ];
 
         return $result;
-
     }
     public function programDetails($program)
     {
@@ -311,26 +300,31 @@ class ProgramService
         $categoryType = $program->category()->value('type');
         $programName = $program->name;
         $programFile = $program->file;
-        $players = $program->players()->with('image')->get();
-        $programDay = $program->players()->first();
-        $days = $programDay->pivot->days;
+        $data = DB::table('programe_users')->where('program_id', $program->id)->exists();
+        if($data){
+       $players = $program->players()->with('image')->get();
+       $programDay = $program->players()->first();
+        $days = $programDay->pivot->days;}
+        else{
+        $players = null;
+        $programDay = null;
+         $days = null;}
+
         $cover = $program->imageUrl;
 
         $result = [
-            'type' => $type,
-            'categoryName' => $categoryName,
-            'categoryType' => $categoryType,
-            'programName' => $programName,
-            'programFile' => $programFile,
-            'cover' => $cover,
-            'days' => $days,
-            'players' => $players,
+
+            'type' =>!empty($type) ? $type : 0,
+            'categoryName' =>!empty($categoryName) ? $categoryName : 0,
+            'categoryType' => !empty($categoryType) ? $categoryType : 0,
+            'programName' => !empty($programName) ? $programName : 0,
+            'programFile' => !empty($programFile) ? $programFile : 0,
+            'cover' => !empty($cover) ? $cover : 0,
+            'days' => !empty($days)? $days : [],
+            'players' =>!empty($players) ? $players : []
+
 
         ];
         return $result;
-
     }
-
 }
-
-

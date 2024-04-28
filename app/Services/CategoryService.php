@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Traits\Files;
 use App\Models\Category;
 use App\Services\ImageService;
 
@@ -27,7 +28,7 @@ class CategoryService
     public function store($request)
     {
 
-        $image = $this->imageService->storeImage($request);
+        $image = Files::saveImage($request);
         $result = Category::query()->create([
             'name' => $request->name,
             'description' => $request->description,

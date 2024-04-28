@@ -43,6 +43,54 @@ class TimeController extends Controller
     public function storeCoachTime(StoretimeRequest $request)
     {
         try {
+            foreach($request->coachTime as $item)
+            {
+            $time = Time::query()
+                ->create([
+                    'userId' => $request->coachId,
+                    'isCoach' => '1',
+                    'dayId' => $item['dayId'],
+                    'startTime' => $item['startTime'],
+                    'endTime' => $item['endTime']
+                ]);
+                $results[]=  $time;
+            }
+            return ResponseHelper::success($results, null, 'success', 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+
+
+    public function CoachMyTime(StoretimeRequest $request)
+    {
+        try {
+            foreach($request->coachTime as $item)
+            {
+            $time = Time::query()
+                ->create([
+                    'userId' => $request->coachId,
+                    'isCoach' => '1',
+                    'dayId' => $item['dayId'],
+                    'startTime' => $item['startTime'],
+                    'endTime' => $item['endTime']
+                ]);
+                $results[] = $time;
+            }
+            return ResponseHelper::success($results, null, 'success', 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+
+
+    public function CoachMyTime(StoretimeRequest $request)
+    {
+        try {
             foreach ($request->coachTime as $item) {
                 $time = Time::query()
                     ->create([
@@ -192,8 +240,10 @@ class TimeController extends Controller
                 })->count();
             }
             return ResponseHelper::success([
-                'active_players' => $endtimes,
-                'total_players' => $not_expired
+                'active_players' =>!empty($endtimes) ? $endtimes : 0,
+
+                'total_players' =>!empty($not_expired) ? $not_expired : 0,
+
             ]);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

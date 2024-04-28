@@ -52,7 +52,7 @@ class UserService
             ->get()
             ->toArray();
         if (empty($result)) {
-            return ResponseHelper::error([], null, 'No players found', 204);
+            return [];
         }
 
         return $result;
@@ -102,6 +102,8 @@ class UserService
     public function CheckSubscription()
     {
         $users = User::query()->where('role', 'player')->get()->toArray();
+        $results = [];
+
         foreach ($users as $user) {
             $userName = $user['name'];
             $expiration = Carbon::parse($user['expiration']);
@@ -115,15 +117,17 @@ class UserService
             }
             $SubscriptionDate = $expiration->subMonth();
             $Paid = $user['is_paid'];
-            $result = [
-                'id' => $user['id'],
-                'userName' => $userName,
-                'remainingTime' => $remainingTime,
-                'paidStatus' => $Paid,
-                'SubscriptionDate' => $SubscriptionDate,
-                'daysNotPaid' => $daysNotPaid,
-            ];
-            $results[] = $result;
+
+                $result = [
+                    'id' =>!empty($user['id']) ? $user['id'] : 0,
+                    'userName' => !empty($userName) ? $userName : 0,
+                    'remainingTime' => !empty($remainingTime) ? $remainingTime : 0,
+                    'paidStatus' => !empty($Paid) ? $Paid : 0,
+                    'SubscriptionDate'=>!empty($SubscriptionDate) ? $SubscriptionDate : 0,
+                    'daysNotPaid' =>!empty($daysNotPaid) ? $daysNotPaid : 0,
+                ];
+                $results[] = $result;
+
         }
 
         return $results;
@@ -253,12 +257,16 @@ class UserService
         $numOfCoach = User::where('role', 'coach')->count();
         $reports = Report::get();
         $numOfReports = $reports->count();
+
+
         return ResponseHelper::success([
-            'players' => $not_expired,
-            'coaches' => $numOfCoach,
+            'players' => !empty($not_expired) ? $not_expired : 0,
+            'coaches' => !empty($numOfCoach) ? $numOfCoach : 0,
             'subscriptionFee' => 2000000,
-            'numOfReports' => $numOfReports
+            'numOfReports' => !empty($numOfReports) ? $numOfReports : 0,
         ]);
+
+
     }
 
     public function Annual()

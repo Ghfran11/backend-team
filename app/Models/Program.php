@@ -22,9 +22,10 @@ class Program extends Model
 
     public function players()
     {
-        return $this->belongsToMany(User::class, 'programe_users', 'program_id')
+        $data = $this->belongsToMany(User::class, 'programe_users', 'program_id')
         ->withPivot('days')
-        ->wherePivot('days', '!=', null);    }
+        ->wherePivot('days', '<>', null)
+        ->exists();   }
     public function userInfo()
     {
         return $this->hasMany(userInfo::class ,'program_userinfos', 'program_id');

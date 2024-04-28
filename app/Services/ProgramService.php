@@ -320,8 +320,8 @@ class ProgramService
             'programName' => !empty($programName) ? $programName : 0,
             'programFile' => !empty($programFile) ? $programFile : 0,
             'cover' => !empty($cover) ? $cover : 0,
-            'days' => null? $days : 0,
-            'players' =>null ? $players : 0
+            'days' => !empty($days)? $days : 0,
+            'players' =>!empty($players) ? $players : 0
 
 
         ];

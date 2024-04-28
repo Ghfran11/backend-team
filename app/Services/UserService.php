@@ -262,13 +262,12 @@ class UserService
         if (!empty($not_expired)) {
 
         return ResponseHelper::success([
-            'players' => $not_expired,
-            'coaches' => $numOfCoach,
+            'players' => !empty($not_expired) ? $not_expired : 0,
+            'coaches' => !empty($numOfCoach) ? $numOfCoach : 0,
             'subscriptionFee' => 2000000,
             'numOfReports' => $numOfReports
         ]);
     }
-    return ResponseHelper::success('empty');
 
     }
 

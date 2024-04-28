@@ -128,8 +128,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('deletereport/{report}', 'destroy');
     Route::get('myreport', 'showMyReport');
     //rate
-    Route::post('setRate','setRate');
-    Route::delete('deleteRate', 'deleteRate');
+
     });
 
     //subscribe
@@ -183,5 +182,12 @@ Route::controller(CategoryController::class)->group(function () {
     Route::post('AddCategory', 'store');
 
 });
+
+Route::controller(RatingController::class)->group(function () {
+    Route::post('setRate','setRate');
+    Route::delete('deleteRate', 'deleteRate');
+
+});
+
 });
 

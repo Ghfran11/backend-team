@@ -91,18 +91,20 @@ class UserInfoController extends Controller
     {
         try {
             $user = Auth::user();
+            $info = UserInfo::where('userId', $user->id)->first();
 
-            $userInfo = UserInfo::where('userId',$user->id)->updateOrcreate(
+            $userInfo = $info->updateOrCreate(
                 ['userId' => $user->id],
                 [
-                    'gender' => $request->gender,
-                    'weight' => $request->weight,
-                    'waist_measurement' => $request->waistMeasurement,
-                    'neck' => $request->neck,
-                    'height' => $request->height,
-                    'birthDate' => $request->birthDate
+                    'gender' => $request->gender ?? $info->gender,
+                    'weight' => $request->weight ?? $info->weight,
+                    'waist_measurement' => $request->waistMeasurement ?? $info->waistMeasurement,
+                    'neck' => $request->neck ?? $info->neck,
+                    'height' => $request->height ?? $info->height,
+                    'birthDate' => $request->birthDate ?? $info->birthDate
                 ]
             );
+
 
             if ($request->has('image')) {
                 $this->imageService->storeImage($request, Auth::id(), null, null);

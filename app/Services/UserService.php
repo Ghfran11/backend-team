@@ -265,7 +265,7 @@ class UserService
             'players' => !empty($not_expired) ? $not_expired : 0,
             'coaches' => !empty($numOfCoach) ? $numOfCoach : 0,
             'subscriptionFee' => 2000000,
-            'numOfReports' => $numOfReports
+            'numOfReports' => !empty($numOfReports) ? $numOfReports : 0,
         ]);
     }
 

@@ -81,15 +81,17 @@ class UserInfoController extends Controller
     public function update(UpdateUserInfoRequest $request)
     {
         $user = Auth::user();
-        $userInfo = $user->userInfo()->updateOrcreate(
+        $info = UserInfo::where('userId', $user->id)->first();
+
+        $userInfo = $info->updateOrCreate(
             ['userId' => $user->id],
             [
-                'gender' => $request->gender,
-                'weight' => $request->weight,
-                'waist_measurement' => $request->waistMeasurement,
-                'neck' => $request->neck,
-                'height' => $request->height,
-                'birthDate' => $request->birthDate
+                'gender' => $request->gender ?? $info->gender,
+                'weight' => $request->weight ?? $info->weight,
+                'waist_measurement' => $request->waistMeasurement ?? $info->waistMeasurement,
+                'neck' => $request->neck ?? $info->neck,
+                'height' => $request->height ?? $info->height,
+                'birthDate' => $request->birthDate ?? $info->birthDate
             ]
         );
         if ($request->has('image')) {

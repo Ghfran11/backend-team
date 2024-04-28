@@ -23,9 +23,9 @@ class Program extends Model
     public function players()
     {
         $data = $this->belongsToMany(User::class, 'programe_users', 'program_id')
-        ->withPivot('days')
-        ->exists();
-        if ($data) {
+        ->withPivot('days');
+
+        if ($data->exists()) {
             return  $data;
         } else {
             return    $data;

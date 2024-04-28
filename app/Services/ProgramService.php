@@ -302,9 +302,9 @@ class ProgramService
         $programFile = $program->file;
         $players = $program->players()->with('image')->get();
         $programDay = $program->players()->first();
+        $days = optional($programDay)->pivot->days;
         $days = $programDay->pivot->days;
-        $cover = $program->imageUrl;
-
+        $cover = ($players !== null) ? $program->imageUrl : 'default_image.jpg';
         $result = [
 
             'type' =>!empty($type) ? $type : 0,

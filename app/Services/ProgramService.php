@@ -300,9 +300,9 @@ class ProgramService
         $categoryType = $program->category()->value('type');
         $programName = $program->name;
         $programFile = $program->file;
-       // $players = $program->players()->with('image')->get();
-       // $programDay = $program->players()->first();
-        //$days = $programDay->pivot->days;
+       $players = $program->players()->with('image')->get();
+       $programDay = $program->players()->first();
+        $days = $programDay->pivot->days;
         $cover = $program->imageUrl;
 
         $result = [

@@ -306,18 +306,22 @@ class ProgramService
         $cover = $program->imageUrl;
 
         $result = [
-
-            'type' =>!empty($type) ? $type : 0,
-            'categoryName' =>!empty($categoryName) ? $categoryName : 0,
+            'type' => !empty($type) ? $type : 0,
+            'categoryName' => !empty($categoryName) ? $categoryName : 0,
             'categoryType' => !empty($categoryType) ? $categoryType : 0,
             'programName' => !empty($programName) ? $programName : 0,
             'programFile' => !empty($programFile) ? $programFile : 0,
             'cover' => !empty($cover) ? $cover : 0,
             'days' => !empty($days) ? $days : 0,
-            'players' =>!empty($players) ? $players : 0
-
-
+            'players' => !empty($players) ? $players : 0
         ];
+
+        foreach ($result as $key => $value) {
+            if ($value === null) {
+                $result[$key] = 0;
+            }
+        }
+
         return $result;
     }
 }

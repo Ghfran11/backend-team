@@ -92,7 +92,7 @@ class UserInfoController extends Controller
         try {
             $user = Auth::user();
 
-            $userInfo = UserInfo::where('userId',$user->id)->firstWhereupdateOrcreate(
+            $userInfo = UserInfo::where('userId',$user->id)->updateOrcreate(
                 ['userId' => $user->id],
                 [
                     'gender' => $request->gender,

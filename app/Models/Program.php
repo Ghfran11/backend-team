@@ -28,7 +28,7 @@ class Program extends Model
         if ($data) {
             return  $data;
         } else {
-            return   null;
+            return    $data;
 
         }
       }

@@ -300,7 +300,7 @@ class ProgramService
         $categoryType = $program->category()->value('type');
         $programName = $program->name;
         $programFile = $program->file;
-        $data = DB::table('programs_users')->where('program_id', $program->id)->exists();
+        $data = DB::table('programe_users')->where('program_id', $program->id)->exists();
         if($data){
        $players = $program->players()->with('image')->get();
        $programDay = $program->players()->first();

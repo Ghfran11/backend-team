@@ -6,7 +6,6 @@ use App\Models\Report;
 use App\Models\User;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\StoreReportRequest;
-use App\Http\Requests\UpdateReportRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller

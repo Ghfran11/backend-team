@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'=>['string','min:3','max:25'],
             'birthDate'=>['date'],
-            'phoneNumber'=>['integer','digits:10'],
+            'phoneNumber'=>['digits:10'],
             'role'=>['string'],
             'finance'=>['integer']
         ];

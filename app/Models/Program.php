@@ -24,7 +24,7 @@ class Program extends Model
     {
         $data = $this->belongsToMany(User::class, 'programe_users', 'program_id');
 
-        if ($data->exists()) {
+        if ($data->withPivot('days')->exists()) {
             return  $data->withPivot('days');
         } else {
 

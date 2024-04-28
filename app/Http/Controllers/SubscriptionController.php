@@ -40,7 +40,7 @@ class SubscriptionController extends Controller
             $coach_id = Auth::id();
             $totalOrderCount = Order::whereYear('created_at', date('Y'))->count();
             if ($totalOrderCount == 0) {
-                return ResponseHelper::error('There is no Orders');
+                return ResponseHelper::error([]);
             }
             $dailyOrderCounts = Order::select(
                 DB::raw('DATE(created_at) as date'),

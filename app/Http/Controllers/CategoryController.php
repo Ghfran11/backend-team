@@ -15,7 +15,7 @@ class CategoryController extends Controller
     protected $imageService;
     protected $categoryService;
 
-    public function __construct(ImageService $imageService , CategoryService $categoryService)
+    public function __construct(ImageService $imageService, CategoryService $categoryService)
     {
         $this->imageService = $imageService;
         $this->categoryService = $categoryService;
@@ -26,12 +26,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-      $result=$this->categoryService->index($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->categoryService->index($request);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -39,11 +35,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        try {
-            $result=$this->categoryService->store($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->categoryService->store($request);
+        return ResponseHelper::success($result);
     }
 }

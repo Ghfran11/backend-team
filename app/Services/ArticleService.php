@@ -16,13 +16,11 @@ class ArticleService
         $articles = Article::query()->get();
         foreach ($articles as $article) {
             $isFav = $article->users()->where('user_id', Auth::id())->value('isFavourite');
-
             if ($isFav == true) {
                 $isFavourite = true;
             } else {
                 $isFavourite = false;
             }
-
             $results[] =
                 [
                     'id' => $article->id,
@@ -30,10 +28,8 @@ class ArticleService
                     'content' => $article->content,
                     'isFavourite' => $isFavourite,
                 ];
-
         }
         return $results;
-
     }
 
     /**
@@ -41,7 +37,6 @@ class ArticleService
      */
     public function store($request)
     {
-
         //  $validated = $request->validated();
         $user = User::findOrFail(Auth::id());
         $article = $user->coachArticle()->create(
@@ -55,7 +50,6 @@ class ArticleService
 
     public function update($request, $id)
     {
-
         $user = User::findOrFail(Auth::id());
         $user->coachArticle()->where('article_id', $id)
             ->update(
@@ -65,20 +59,16 @@ class ArticleService
                 ]
             );
         return 'updated';
-
     }
 
     public function destroy($article)
     {
-
         $delete = $article->delete();
         return $delete;
-
     }
 
     public function makeFavourite(Article $article, $user_id)
     {
-
         $favorite = DB::table('article_user')
             ->where('article_id', $article->id)
             ->where('user_id', $user_id)
@@ -104,7 +94,6 @@ class ArticleService
             'isFavourite' => true,
         ]);
         return 'isFavourite :true';
-
     }
 
     public function getCoachArticle(User $user)
@@ -113,14 +102,13 @@ class ArticleService
         if (!empty($articles->toArray())) {
             foreach ($articles as $article) {
                 $isFav = DB::table('article_user')
-                    ->where('article_id', $article->id)->where('user_id', Auth::id())->value('isFavourite');
-
+                    ->where('article_id', $article->id)
+                    ->where('user_id', Auth::id())->value('isFavourite');
                 if ($user->favorites->contains('id', $article->id) && $isFav == true) {
                     $isFavourite = true;
                 } else {
                     $isFavourite = false;
                 }
-
                 $results[] =
                     [
                         'id' => $article->id,
@@ -140,7 +128,6 @@ class ArticleService
         $user = User::find(Auth::id());
         $result = $user->coachArticle()->get()->toArray();
         return $result;
-
     }
 
 }

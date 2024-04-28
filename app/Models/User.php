@@ -44,7 +44,7 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
         'email_verified_at'
     ];
-    protected $appends = ['rate', 'is_paid','checkinStatus'];
+    protected $appends = ['rate', 'is_paid', 'checkinStatus'];
 
     /**
      * The attributes that should be cast.
@@ -74,18 +74,22 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
     public function coachPrograms()
     {
         return $this->belongsToMany(Program::class, 'programe_users', 'user_id')->withPivot('days', 'startDate');
     }
+
     public function playerPrograms()
     {
         return $this->belongsToMany(Program::class, 'programe_users', 'player_id')->withPivot('days', 'startDate');
     }
+
     public function coachOrder()
     {
-        return $this->hasMany(Order::class, 'coachId')->where('status','waiting');
+        return $this->hasMany(Order::class, 'coachId')->where('status', 'waiting');
     }
+
     public function playerOrder()
     {
         return $this->hasMany(Order::class, 'playerId');
@@ -160,6 +164,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Message::class, 'sennder_id');
     }
+
     public function receivedMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'receiver_id');
@@ -169,6 +174,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->isPaid();
     }
+
     public function isPaid()
     {
         $currentDate = now();
@@ -189,14 +195,17 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Article::class, 'article_user', 'user_id', 'article_id')->withPivot('isFavourite');
     }
+
     public function coachArticle()
     {
         return $this->belongsToMany(Article::class, 'article_user', 'coach_id', 'article_id')->withPivot('isFavourite');
     }
+
     public function program()
     {
         return $this->hasMany(Program::class, 'user_id');
     }
+
     public function images()
     {
         return $this->hasMany(Image::class, 'userId');

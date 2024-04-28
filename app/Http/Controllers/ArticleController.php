@@ -22,18 +22,11 @@ class ArticleController extends Controller
         $this->articleService = $articleService;
 
     }
+
     public function index()
     {
-        try {
-            $result = $this->articleService->index();
-            return ResponseHelper::success($result);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return ResponseHelper::error($e->validator->errors()->first(), 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseHelper::error('Query Exception', 400);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->articleService->index();
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -41,65 +34,41 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        try {
-            $result = $this->articleService->store($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->articleService->store($request);
+        return ResponseHelper::success($result);
     }
 
     public function update(Request $request, $id)
     {
-        try {
-            $result = $this->articleService->update($request, $id);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->articleService->update($request, $id);
+        return ResponseHelper::success($result);
+
     }
 
     public function destroy(Article $article)
     {
-        try {
-            $results = $this->articleService->destroy($article);
-            return ResponseHelper::success($results);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-
+        $results = $this->articleService->destroy($article);
+        return ResponseHelper::success($results);
     }
 
     public function makeFavourite(Article $article)
     {
-        try {
-            $user_id=Auth::user()->id;
-            $result = $this->articleService->makeFavourite($article,$user_id);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $user_id = Auth::user()->id;
+        $result = $this->articleService->makeFavourite($article, $user_id);
+        return ResponseHelper::success($result);
     }
 
     public function getCoachArticle(User $user)
     {
-        try {
-
-            $result = $this->articleService->getCoachArticle($user);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->articleService->getCoachArticle($user);
+        return ResponseHelper::success($result);
     }
 
     public function getMyArticle()
     {
-        try {
-            $result = $this->articleService->getMyArticle();
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->articleService->getMyArticle();
+        return ResponseHelper::success($result);
+
     }
 
 }

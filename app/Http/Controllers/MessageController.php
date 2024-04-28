@@ -20,22 +20,19 @@ class MessageController extends Controller
      * Display a listing of the resource.
      */
 
-     protected $messageService;
+    protected $messageService;
 
-     public function __construct(MessageService $messageService)
-     {
-         $this->messageService = $messageService;
+    public function __construct(MessageService $messageService)
+    {
+        $this->messageService = $messageService;
 
-     }
+    }
+
     public function index() //TODO last message !!needs editing!!
 
     {
-        try{
-     $result=$this->messageService->index();
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->messageService->index();
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -43,12 +40,8 @@ class MessageController extends Controller
      */
     public function store(StoremessageRequest $request) //send message
     {
-        try {
-            $result=$this->messageService->store($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->messageService->store($request);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -56,12 +49,8 @@ class MessageController extends Controller
      */
     public function show(User $user) //show chat with messages!!!!
     {
-        try {
-            $result=$this->messageService->show($user);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->messageService->show($user);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -69,11 +58,7 @@ class MessageController extends Controller
      */
     public function destroy(ModelsMessage $message) //delete message
     {
-        try {
-            $result=$this->messageService->destroy($message);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->messageService->destroy($message);
+        return ResponseHelper::success($result);
     }
 }

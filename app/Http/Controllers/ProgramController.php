@@ -22,10 +22,10 @@ class ProgramController extends Controller
     protected $imageService;
     protected $programService;
 
-    public function __construct(ImageService $imageService , ProgramService $programService)
+    public function __construct(ImageService $imageService, ProgramService $programService)
     {
         $this->imageService = $imageService;
-        $this->programService=$programService;
+        $this->programService = $programService;
     }
 
     /**
@@ -33,12 +33,8 @@ class ProgramController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $result=$this->programService->index($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->index($request);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -46,12 +42,8 @@ class ProgramController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-        $result=$this->programService->store($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->store($request);
+        return ResponseHelper::success($result);
     }
 
 
@@ -60,12 +52,8 @@ class ProgramController extends Controller
      */
     public function show(Program $program)
     {
-        try {
-            $result=$this->programService->show($program);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->show($program);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -73,12 +61,8 @@ class ProgramController extends Controller
      */
     public function update(UpdateprogramRequest $request, Program $program)
     {
-        try {
-            $result=$this->programService->update($request ,$program);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->update($request, $program);
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -86,125 +70,68 @@ class ProgramController extends Controller
      */
     public function destroy(program $program)
     {
-        try {
-            $result=$this->programService->destroy($program);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->destroy($program);
+        return ResponseHelper::success($result);
     }
 
     public function downloadFile(Program $program)
     {
-        try {
-            $result=$this->programService->downloadFile($program);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->downloadFile($program);
+
     }
-
-
 
     public function showMyPrograms(Request $request)
     {
-        try {
-            $result=$this->programService->showMyPrograms($request);
-                    return ResponseHelper::success($result);
-
-
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->showMyPrograms($request);
+        return ResponseHelper::success($result);
     }
 
     public function assignProgram(Program $program, Request $request)
     {
-        try {
-            $result=$this->programService->assignProgram($program,$request);
-            return ResponseHelper::success([], null, $result, 200);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->assignProgram($program, $request);
+        return ResponseHelper::success([], null, $result, 200);
     }
 
     public function search(Request $request)
     {
-        try {
-            $result=$this->programService->search($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->search($request);
+        return ResponseHelper::success($result);
     }
-
-    // public function getCategory()
-    // {
-    //     try {
-    //         $result = Category::query()->get()->toArray();
-    //         return ResponseHelper::success($result);
-    //     } catch (\Exception $e) {
-    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
-    //     }
-    // }
 
     public function programCommitment()
     {
-        try {
-            $result=$this->programService->programCommitment();
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->programCommitment();
+        return ResponseHelper::success($result);
     }
 
     public function getPrograms(Request $request)
     {
-        try {
-            $result=$this->programService->getPrograms($request);
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result = $this->programService->getPrograms($request);
+        return ResponseHelper::success($result);
     }
+
     public function selectProgram(Request $request)
     {
-        try{
-        $result=$this->programService->selectProgram($request);
-
+        $result = $this->programService->selectProgram($request);
         return ResponseHelper::success($result);
-    } catch (\Exception $e) {
-        return ResponseHelper::error($e->getMessage(), $e->getCode());
     }
-    }
+
     public function unselectProgram(Request $request)
     {
-        try{
-            $result=$this->programService->unselectProgram($request);
+        $result = $this->programService->unselectProgram($request);
         return ResponseHelper::success($result);
-    } catch (\Exception $e) {
-        return ResponseHelper::error($e->getMessage(), $e->getCode());
     }
-    }
+
     public function recomendedProgram()
     {
-        try {
-            $result=$this->programService->recomendedProgram();
+        $result = $this->programService->recomendedProgram();
+        return responseHelper::success($result);
+    }
 
-    return responseHelper::success($result);
-} catch (\Exception $e) {
-    return ResponseHelper::error($e->getMessage(), $e->getCode());
-}
-}
-
-public function programDetails(Program $program)
-{
-    try {
-        $result=$this->programService->programDetails($program);
-
-return responseHelper::success($result);
-} catch (\Exception $e) {
-return ResponseHelper::error($e->getMessage(), $e->getCode());
-}
-}
+    public function programDetails(Program $program)
+    {
+        $result = $this->programService->programDetails($program);
+        return responseHelper::success($result);
+    }
 
 }

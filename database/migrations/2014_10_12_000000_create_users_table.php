@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 use function Laravel\Prompts\table;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->date('expiration')->default(now()->addMonth());
             $table->text('bio')->nullable();
             $table->double('finance')->default(0);
-
             $table->rememberToken();
             $table->timestamps();
         });

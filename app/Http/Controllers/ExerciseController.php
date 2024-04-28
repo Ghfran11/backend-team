@@ -14,13 +14,8 @@ class ExerciseController extends Controller
      */
     public function index()
     {
-        try {
-            $result = Exercise::query()->get();
-            return ResponseHelper::success($result);
-        }  catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-
+        $result = Exercise::query()->get();
+        return ResponseHelper::success($result);
     }
 
     /**
@@ -28,17 +23,13 @@ class ExerciseController extends Controller
      */
     public function store(StoreexerciseRequest $request)
     {
-        try {
-            $exercie = Exercise::query()->create(
-                [
-                    'name' => $request->name,
-                    'description' => $request->description
-                ]
-            );
-            return ResponseHelper::success($exercie);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $exercie = Exercise::query()->create(
+            [
+                'name' => $request->name,
+                'description' => $request->description
+            ]
+        );
+        return ResponseHelper::success($exercie);
     }
 
     /**
@@ -46,13 +37,9 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-        try {
-            $result['exercise'] = $exercise;
-            $result['images'] = $exercise->image();
-            return ResponseHelper::success($result);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $result['exercise'] = $exercise;
+        $result['images'] = $exercise->image();
+        return ResponseHelper::success($result);
     }
 
 }

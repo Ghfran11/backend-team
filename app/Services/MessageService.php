@@ -13,7 +13,6 @@ class MessageService
 {
     public function index() //TODO last message !!needs editing!!
     {
-
         $user = User::find(Auth::id());
         $messages = Message::where('sender_id', $user->id)
             ->orWhere('receiver_id', $user->id)
@@ -29,16 +28,14 @@ class MessageService
             $chatDetails[] = [
                 'sid2' => $sid2,
                 'latestMessage' => $latestMessage,
-
             ];
         }
         return $chatDetails;
-
     }
 
-/**
- * Store a newly created resource in storage.
- */
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store($request) //send message
     {
         $message = ModelsMessage::query()->create([
@@ -54,12 +51,11 @@ class MessageService
         // ]);
         event(new MessagesNotification($message, $sender_name));
         return $message;
-
     }
 
-/**
- * Display the specified resource.
- */
+    /**
+     * Display the specified resource.
+     */
     public function show(User $user) //show chat with messages!!!!
     {
         $message = Message::query()->where([
@@ -77,29 +73,26 @@ class MessageService
             }
             $results[] =
                 [
-                'id' => $item->id,
-                'sender_id' => $item->sender_id,
-                'receiver_id' => $item->receiver_id,
-                'content' => $item->content,
-                'is_sender' => $is_sender,
-                'created_at' => $item->created_at,
-            ];
+                    'id' => $item->id,
+                    'sender_id' => $item->sender_id,
+                    'receiver_id' => $item->receiver_id,
+                    'content' => $item->content,
+                    'is_sender' => $is_sender,
+                    'created_at' => $item->created_at,
+                ];
         }
         return $results;
-
     }
 
-/**
- * Remove the specified resource from storage.
- */
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(ModelsMessage $message) //delete message
     {
-
         if ($message->sender_id != Auth::id()) {
             return ResponseHelper::error('unauthorized');
         }
         $message->delete();
         return 'Message deleted successfully';
-
     }
 }

@@ -13,13 +13,8 @@ class DaysController extends Controller
      */
     public function index()
     {
-        try {
-            $days = Day::query()->get();
-            return ResponseHelper::success($days);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-
+        $days = Day::query()->get();
+        return ResponseHelper::success($days);
     }
 
     /**
@@ -27,24 +22,15 @@ class DaysController extends Controller
      */
     public function store(StoredaysRequest $request)
     {
-        try {
-            Day::create([
-                'name' => $request->name,
-            ]);
-            return ResponseHelper::success(['message' => 'day stored successfully']);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        Day::create([
+            'name' => $request->name,
+        ]);
+        return ResponseHelper::success(['message' => 'day stored successfully']);
     }
 
     public function destroy(Day $Day)
     {
-        try {
-            $Day->delete();
-            return ResponseHelper::success('Day deleted successfully');
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
-
+        $Day->delete();
+        return ResponseHelper::success('Day deleted successfully');
     }
 }

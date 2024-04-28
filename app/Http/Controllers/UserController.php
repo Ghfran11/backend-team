@@ -20,9 +20,10 @@ class UserController extends Controller
      * @return none
      */
     public function __construct(
-        UserService $userservice,
+        UserService  $userservice,
         MonthService $monthService
-    ) {
+    )
+    {
         $this->userservice = $userservice;
         $this->monthService = $monthService;
     }
@@ -56,12 +57,8 @@ class UserController extends Controller
      */
     public function showCoachInfo($id)
     {
-        try {
             $result = $this->userservice->coachinfo($id);
             return ResponseHelper::success($result, null, 'Coach info', 200);
-        } catch (\Exception $e) {
-            return ResponseHelper::error([], null, $e->getMessage(), 500);
-        }
     }
 
     /**
@@ -71,12 +68,8 @@ class UserController extends Controller
      */
     public function showPlayer()
     {
-        try {
-            $result = $this->userservice->ShowPlayers();
-            return ResponseHelper::success($result, null, 'All Players', 200);
-        } catch (\Exception $e) {
-            return ResponseHelper::error([], null, $e->getMessage(), 500);
-        }
+        $result = $this->userservice->ShowPlayers();
+        return ResponseHelper::success($result, null, 'All Players', 200);
     }
 
     /**
@@ -86,98 +79,70 @@ class UserController extends Controller
      */
     public function playerInfo($id)
     {
-        try {
-            $result = $this->userservice->playerinfo($id);
-            return ResponseHelper::success($result, null, 'Player info', 200);
-        } catch (\Exception $e) {
-            return ResponseHelper::error([], null, $e->getMessage(), 500);
-        }
+        $result = $this->userservice->playerinfo($id);
+        return ResponseHelper::success($result, null, 'Player info', 200);
     }
 
     /**
      * Edit a specific user details.
      * @param User $user
      * @param Request $request
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function updateUser(User $user, UpdateUserRequest $request)
     {
-        try {
-            return $this->userservice->UpdateUser($user, $request->toArray());
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->UpdateUser($user, $request->toArray());
     }
 
     /**
      * Delete a specific user model.
      * @param User $user
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function deleteUser(User $user)
     {
-        try {
-            return $this->userservice->DeleteUser($user);
-        } catch (\Exception $e) {
-            return ResponseHelper::error([], null, $e->getMessage(), 500);
-        }
+        return $this->userservice->DeleteUser($user);
     }
 
     /**
      * Get the financials of all players & coaches.
      * @param none
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function financial()
     {
-        try {
-            return $this->userservice->GetFinance();
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->GetFinance();
     }
 
     /**
      * Check the subscriptions of all users.
      * @param none
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function subscription()
     {
-        try {
-            $results = $this->userservice->CheckSubscription();
-            return ResponseHelper::success($results);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $results = $this->userservice->CheckSubscription();
+        return ResponseHelper::success($results);
     }
 
     /**
      * renew the subscription of a user.
      * @param User $user
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
-    public function updateSubscription(User $user)
+    public function updateSubscription(User $user,Request $request)
     {
-        try {
-            return $this->userservice->RenewSubscription($user);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->RenewSubscription($user,$request);
     }
 
     /**
      * renew the subscription of a user.
      * @param User $user
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function showCountPercentage(User $user)
     {
-        try {
-            return $this->userservice->showCountPercentage($user);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->showCountPercentage($user);
     }
 
     /**
@@ -187,82 +152,58 @@ class UserController extends Controller
      */
     public function financeMonth()
     {
-        try {
-            $previousMonths = $this->monthService->getPreviousMonths(7);
-            $monthlyData = $this->userservice->financeMonth($previousMonths);
-            return ResponseHelper::success($monthlyData);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        $previousMonths = $this->monthService->getPreviousMonths(7);
+        $monthlyData = $this->userservice->financeMonth($previousMonths);
+        return ResponseHelper::success($monthlyData);
     }
 
     /**
      * Get the most rated coach.
      * @param none
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function mvpCoach()
     {
-        try {
-            return $this->userservice->MVPcoach();
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->MVPcoach();
     }
 
     /**
      * Search for a specific coach  by name.
      * @param Request $request
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function search(Request $request)
     {
-        try {
-            return $this->userservice->Search($request);
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->Search($request);
     }
 
     /**
      * Get the number of expired players, coachs, reports.
      * @param none
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function statistics()
     {
-        try {
-            return $this->userservice->Statistics();
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->Statistics();
     }
 
     /**
      * Get the financials of the last year.
      * @param none
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function showAnnual()
     {
-        try {
-            return $this->userservice->Annual();
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->Annual();
     }
 
     /**
      * Check if a player has a coach,who is the coach & get the food,sport programs .
      * @param none
-     * @return UserService
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function info()
     {
-        try {
-            return $this->userservice->Info();
-        } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), $e->getCode());
-        }
+        return $this->userservice->Info();
     }
 }

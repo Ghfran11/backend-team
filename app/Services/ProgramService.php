@@ -17,7 +17,6 @@ class ProgramService
 
     public function index($request)
     {
-
         $lowerCaseType = strtolower($request->type);
         $program = Program::with('category')
             ->whereHas('category', function ($query) use ($lowerCaseType, $request) {
@@ -34,7 +33,6 @@ class ProgramService
      */
     public function store($request)
     {
-
         $path = Files::saveFile($request);
         $image = Files::saveImage($request);
         $result = Program::query()->create(
@@ -55,7 +53,6 @@ class ProgramService
      */
     public function show(Program $program)
     {
-
         $result = $program->get();
         return $result;
     }
@@ -68,7 +65,6 @@ class ProgramService
         if (Auth::id() != $program->user_id) {
             return 'you can not update this program , you don not have permission';
         }
-
         Files::deleteFile($program->file);
         $path = Files::saveFile($request);
         $program->update([
@@ -84,7 +80,6 @@ class ProgramService
                 ]
             );
         }
-
         if ($request->has('file')) {
             Files::deleteFile($program->file);
             $path = Files::saveFile($request);
@@ -102,19 +97,15 @@ class ProgramService
      */
     public function destroy($program)
     {
-
         Files::deleteFile($program);
         $program->delete();
-
         return 'user deleted successfully';
     }
 
     public function downloadFile($program)
     {
-
         $filepath = $program->file;
         $filename = $program->name;
-
         return response()->download($filepath, $filename);
     }
 
@@ -142,16 +133,11 @@ class ProgramService
                 return $result;
             }
         }
+        return 0;
     }
 
     public function assignProgram($program, $request)
     {
-
-        // $user = User::findOrFail('id', $request->player_id)->first();
-        // dd( $user);
-        // if ($user->role == 'coach') {
-        //     return ResponseHelper::error('');
-
         $startDate = Carbon::parse($request->startDate)
             ->addDays($request->days)
             ->toDateString();
@@ -171,7 +157,6 @@ class ProgramService
 
     public function search($request)
     {
-
         $search = $request->search_text;
         if ($request->categoryId && $request->programType) {
             $programs = Program::query()
@@ -191,22 +176,10 @@ class ProgramService
         return $programs;
     }
 
-    // public function getCategory()
-    // {
-    //     try {
-    //         $result = Category::query()->get()->toArray();
-    //         return ResponseHelper::success($result);
-    //     } catch (\Exception $e) {
-    //         return ResponseHelper::error($e->getMessage(), $e->getCode());
-    //     }
-    // }
-
     public function programCommitment()
     {
-
         $user = User::find(Auth::id());
         $numberOfDays = $user->playerPrograms()->value('days');
-
         $startDate = $user->playerPrograms()->value('startDate');
         $carbonStartDate = Carbon::createFromFormat('Y-m-d', $startDate);
         $endDate = $carbonStartDate->addDays($numberOfDays);
@@ -217,7 +190,6 @@ class ProgramService
 
     public function getPrograms(Request $request)
     {
-
         $result = Category::query()
             ->where('id', $request->categoryId)
             ->where('type', $request->type)
@@ -230,32 +202,37 @@ class ProgramService
             ->toArray();
         return $result;
     }
+
     public function selectProgram(Request $request)
     {
         $userinfo_id = UserInfo::where('userId', Auth::id())->value('id');
         $userinfo = UserInfo::find($userinfo_id);
         $program = Program::findOrFail($request->program_id);
         $programType = $program->category()->value('type');
-        $existprogram = $userinfo->program()->whereHas('category', function ($query) use ($programType) {
-            $query->where('type', $programType);
-        })->value('program_id');
+        $existprogram = $userinfo->program()
+            ->whereHas('category', function ($query) use ($programType) {
+                $query->where('type', $programType);
+            })->value('program_id');
         if ($existprogram) {
-            DB::table('program_userInfos')->where('program_id', $existprogram)->where('userInfo_id', $userinfo_id)->delete();
+            DB::table('program_userInfos')->where('program_id', $existprogram)
+                ->where('userInfo_id', $userinfo_id)->delete();
         }
-        $result = DB::table('program_userInfos')->insert([
+        DB::table('program_userInfos')->insert([
             'program_id' => $request->program_id,
             'userInfo_id' => $userinfo_id,
         ]);
-
         return 'set successfully';
     }
+
     public function unselectProgram(Request $request)
     {
         $userinfo_id = UserInfo::where('userId', Auth::id())->value('id');
         $userinfo = UserInfo::find($userinfo_id);
-        $result = DB::table('program_userinfos')->where('program_id', $request->program_id)->where('userInfo_id', $userinfo_id)->delete();
+        $result = DB::table('program_userinfos')->where('program_id', $request->program_id)
+            ->where('userInfo_id', $userinfo_id)->delete();
         return $result;
     }
+
     public function recomendedProgram()
     {
 
@@ -266,9 +243,10 @@ class ProgramService
             ->get()
             ->toArray();
         if (!$foodprogram) {
-            $foodprogram = Program::query()->where('type', 'recommended')->whereHas('category', function ($query) {
-                $query->where('type', 'food');
-            })
+            $foodprogram = Program::query()->where('type', 'recommended')
+                ->whereHas('category', function ($query) {
+                    $query->where('type', 'food');
+                })
                 ->get()
                 ->toArray();
         }
@@ -277,12 +255,12 @@ class ProgramService
         })
             ->get()
             ->toArray();
-
         if (!$sportprogram) {
 
-            $sportprogram = Program::query()->where('type', 'recommended')->whereHas('category', function ($query) {
-                $query->where('type', 'sport');
-            })
+            $sportprogram = Program::query()->where('type', 'recommended')
+                ->whereHas('category', function ($query) {
+                    $query->where('type', 'sport');
+                })
                 ->get()
                 ->toArray();
         }
@@ -290,9 +268,9 @@ class ProgramService
             'foodProgram' => $foodprogram,
             'sportProgram' => $sportprogram,
         ];
-
         return $result;
     }
+
     public function programDetails($program)
     {
         $type = $program->type;
@@ -301,29 +279,25 @@ class ProgramService
         $programName = $program->name;
         $programFile = $program->file;
         $data = DB::table('programe_users')->where('program_id', $program->id)->exists();
-        if($data){
-       $players = $program->players()->with('image')->get();
-       $programDay = $program->players()->first();
-        $days = $programDay->pivot->days;}
-        else{
-        $players = null;
-        $programDay = null;
-         $days = null;}
-
+        if ($data) {
+            $players = $program->players()->with('image')->get();
+            $programDay = $program->players()->first();
+            $days = $programDay->pivot->days;
+        } else {
+            $players = null;
+            $programDay = null;
+            $days = null;
+        }
         $cover = $program->imageUrl;
-
         $result = [
-
-            'type' =>!empty($type) ? $type : 0,
-            'categoryName' =>!empty($categoryName) ? $categoryName : 0,
+            'type' => !empty($type) ? $type : 0,
+            'categoryName' => !empty($categoryName) ? $categoryName : 0,
             'categoryType' => !empty($categoryType) ? $categoryType : 0,
             'programName' => !empty($programName) ? $programName : 0,
             'programFile' => !empty($programFile) ? $programFile : 0,
             'cover' => !empty($cover) ? $cover : 0,
-            'days' => !empty($days)? $days : [],
-            'players' =>!empty($players) ? $players : []
-
-
+            'days' => !empty($days) ? $days : [],
+            'players' => !empty($players) ? $players : []
         ];
         return $result;
     }

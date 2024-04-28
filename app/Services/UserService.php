@@ -25,7 +25,6 @@ class UserService
         if (empty($result)) {
             return ResponseHelper::error([], null, 'No coaches found', 204);
         }
-
         return $result;
     }
 
@@ -40,7 +39,6 @@ class UserService
         if (empty($result)) {
             return ResponseHelper::error([], null, 'Coach not found', 202);
         }
-
         return $result;
     }
 
@@ -54,7 +52,6 @@ class UserService
         if (empty($result)) {
             return [];
         }
-
         return $result;
     }
 
@@ -69,7 +66,6 @@ class UserService
         if (empty($result)) {
             return ResponseHelper::error([], null, 'User not found', 202);
         }
-
         return $result;
     }
 
@@ -84,7 +80,6 @@ class UserService
     {
         $user->rate()->delete();
         $result = $user->delete();
-
         return $result ? ResponseHelper::success(['message' => 'User deleted successfully']) :
             ResponseHelper::error([], null, 'Failed to delete user', 500);
     }
@@ -103,7 +98,6 @@ class UserService
     {
         $users = User::query()->where('role', 'player')->get()->toArray();
         $results = [];
-
         foreach ($users as $user) {
             $userName = $user['name'];
             $expiration = Carbon::parse($user['expiration']);
@@ -117,25 +111,22 @@ class UserService
             }
             $SubscriptionDate = $expiration->subMonth();
             $Paid = $user['is_paid'];
-
-                $result = [
-                    'id' =>!empty($user['id']) ? $user['id'] : 0,
-                    'userName' => !empty($userName) ? $userName : 0,
-                    'remainingTime' => !empty($remainingTime) ? $remainingTime : 0,
-                    'paidStatus' => !empty($Paid) ? $Paid : 0,
-                    'SubscriptionDate'=>!empty($SubscriptionDate) ? $SubscriptionDate : 0,
-                    'daysNotPaid' =>!empty($daysNotPaid) ? $daysNotPaid : 0,
-                ];
-                $results[] = $result;
-
+            $result = [
+                'id' => !empty($user['id']) ? $user['id'] : 0,
+                'userName' => !empty($userName) ? $userName : 0,
+                'remainingTime' => !empty($remainingTime) ? $remainingTime : 0,
+                'paidStatus' => !empty($Paid) ? $Paid : 0,
+                'SubscriptionDate' => !empty($SubscriptionDate) ? $SubscriptionDate : 0,
+                'daysNotPaid' => !empty($daysNotPaid) ? $daysNotPaid : 0,
+            ];
+            $results[] = $result;
         }
-
         return $results;
     }
 
-    public function RenewSubscription($user)
+    public function RenewSubscription($user, $request)
     {
-        $finance = Info::query()->value('finance');
+        $finance = $request->finance;
         $currentMonth = Carbon::now()
             ->format('F');
         if ($user->is_paid == 'unpaid') {
@@ -257,16 +248,12 @@ class UserService
         $numOfCoach = User::where('role', 'coach')->count();
         $reports = Report::get();
         $numOfReports = $reports->count();
-
-
         return ResponseHelper::success([
             'players' => !empty($not_expired) ? $not_expired : 0,
             'coaches' => !empty($numOfCoach) ? $numOfCoach : 0,
             'subscriptionFee' => 2000000,
             'numOfReports' => !empty($numOfReports) ? $numOfReports : 0,
         ]);
-
-
     }
 
     public function Annual()
@@ -281,37 +268,35 @@ class UserService
     public function Info()
     {
         $user = User::find(Auth::id());
-            $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
-
-            if (!empty($userOrder)) {
-                $status = $user->playerOrder()->where('type', 'join')->value('status');
-
-                if ($status == 'accepted') {
-                    $hasCoach = 'true';
-                    $mycoach = $user->playerOrder()->where('type', 'join')->with('coach')->get();
-                } else {
-                    $hasCoach = 'false';
-                    $mycoach = null;
-                }
+        $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
+        if (!empty($userOrder)) {
+            $status = $user->playerOrder()->where('type', 'join')->value('status');
+            if ($status == 'accepted') {
+                $hasCoach = 'true';
+                $mycoach = $user->playerOrder()->where('type', 'join')->with('coach')->get();
+            } else {
+                $hasCoach = 'false';
+                $mycoach = null;
             }
-            $userInfo = UserInfo::query()->where('userId', $user->id)->value('id');
-            $info = UserInfo::find($userInfo);
-            $foodProgram = $info->program()->whereHas('category', function ($query) {
-                $query->where('type', 'food');
-            })->get()
-                ->toArray();
-            $sportProgram = $info->program()->whereHas('category', function ($query) {
-                $query->where('type', 'sport');
-            })
-                ->get()
-                ->toArray();
-            $result = [
-                'user'=> $user,
-                'hasCoach' => $hasCoach,
-                'myCoach' => $mycoach,
-                'foodProgram' => $foodProgram,
-                'sportProgram' => $sportProgram
-            ];
-            return responseHelper::success([$result]);
+        }
+        $userInfo = UserInfo::query()->where('userId', $user->id)->value('id');
+        $info = UserInfo::find($userInfo);
+        $foodProgram = $info->program()->whereHas('category', function ($query) {
+            $query->where('type', 'food');
+        })->get()
+            ->toArray();
+        $sportProgram = $info->program()->whereHas('category', function ($query) {
+            $query->where('type', 'sport');
+        })
+            ->get()
+            ->toArray();
+        $result = [
+            'user' => $user,
+            'hasCoach' => $hasCoach,
+            'myCoach' => $mycoach,
+            'foodProgram' => $foodProgram,
+            'sportProgram' => $sportProgram
+        ];
+        return responseHelper::success([$result]);
     }
 }

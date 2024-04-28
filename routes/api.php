@@ -31,6 +31,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 
+Route::controller(InfoController::class)->group(function () {
+    Route::post('updateFinance/{info}', 'update');
+
+    });
+
 Route::middleware('auth:api')->group(function () {
     Route::controller(ImageController::class)->group(function () {
     Route::post('storeUserImage', 'storeUserImage');
@@ -153,7 +158,6 @@ Route::controller(UserInfoController::class)->group(function () {
     Route::post('updateInfo', 'update');
     Route::get('showInfo/{user}', 'show');
     Route::post('storeFinance','store');
-    Route::post('updateFinance/{info}', 'update');
     Route::get('showFinance/{info}', 'show');
     Route::post('updateUserInfo', 'updateInfo');
 });

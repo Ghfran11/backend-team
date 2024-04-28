@@ -101,6 +101,26 @@ class UserInfoController extends Controller
 
     public function updateInfo(Request $request)//update image and name and phone
     {
+        try {
+            $user = User::find(Auth::id());
+            $newUser = $user->update(
+                [
+                    'name' => $request->name,
+                    'phoneNumber' => $request->phoneNumber ?: $user->phoneNumber,
+                    'bio' => $request->bio ?: null
+
+                ]
+            );
+            if ($request->image) {
+
+                $user->image()->delete();
+                $this->imageService->storeImage($request, Auth::id(), null, 'profile');
+            }
+            return ResponseHelper::success($newUser);
+        } catch (\Exception $e) {
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+
         $user = User::find(Auth::id());
         $newUser = $user->update(
             [

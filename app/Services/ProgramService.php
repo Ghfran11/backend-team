@@ -305,10 +305,10 @@ class ProgramService
        $players = $program->players()->with('image')->get();
        $programDay = $program->players()->first();
         $days = $programDay->pivot->days;}
-        else
+        else{
         $players = null;
         $programDay = null;
-         $days = null;
+         $days = null;}
 
         $cover = $program->imageUrl;
 

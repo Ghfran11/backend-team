@@ -259,7 +259,6 @@ class UserService
         $reports = Report::get();
         $numOfReports = $reports->count();
 
-        if (!empty($not_expired)) {
 
         return ResponseHelper::success([
             'players' => !empty($not_expired) ? $not_expired : 0,
@@ -267,7 +266,7 @@ class UserService
             'subscriptionFee' => 2000000,
             'numOfReports' => !empty($numOfReports) ? $numOfReports : 0,
         ]);
-    }
+
 
     }
 

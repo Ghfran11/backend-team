@@ -26,9 +26,9 @@ class Program extends Model
         ->withPivot('days')
         ->exists();
         if ($data) {
-            return   $data;
+            return  $data;
         } else {
-            return  0;
+            return   null;
 
         }
       }

@@ -118,17 +118,16 @@ class UserService
             $SubscriptionDate = $expiration->subMonth();
             $Paid = $user['is_paid'];
 
-            if (!empty($user)) {
                 $result = [
-                    'id' => $user['id'],
-                    'userName' => $userName,
-                    'remainingTime' => $remainingTime,
-                    'paidStatus' => $Paid,
-                    'SubscriptionDate' => $SubscriptionDate,
-                    'daysNotPaid' => $daysNotPaid,
+                    'id' =>!empty($user['id']) ? $user['id'] : 0,
+                    'userName' => !empty($userName) ? $userName : 0,
+                    'remainingTime' => !empty($remainingTime) ? $remainingTime : 0,
+                    'paidStatus' => !empty($Paid) ? $Paid : 0,
+                    'SubscriptionDate'=>!empty($SubscriptionDate) ? $SubscriptionDate : 0,
+                    'daysNotPaid' =>!empty($daysNotPaid) ? $daysNotPaid : 0,
                 ];
                 $results[] = $result;
-            }
+
         }
 
         return $results;

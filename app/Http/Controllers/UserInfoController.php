@@ -92,7 +92,7 @@ class UserInfoController extends Controller
         try {
             $user = Auth::user();
 
-            $userInfo = $user->userInfo()->updateOrcreate(
+            $userInfo = UserInfo::where('userId',$user->id)->firstWhereupdateOrcreate(
                 ['userId' => $user->id],
                 [
                     'gender' => $request->gender,
@@ -122,7 +122,7 @@ class UserInfoController extends Controller
                     'name' => $request->name,
                     'phoneNumber' => $request->phoneNumber ?: $user->phoneNumber,
                     'bio' => $request->bio ?: null
-            
+
                 ]
             );
             if ($request->image) {

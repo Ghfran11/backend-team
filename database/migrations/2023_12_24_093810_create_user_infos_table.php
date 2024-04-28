@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->date('birthDate')->nullable();
             $table->integer('age')->nullable();
             $table->double('weight')->nullable();

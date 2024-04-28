@@ -24,7 +24,7 @@ class Program extends Model
     {
         return $this->belongsToMany(User::class, 'programe_users', 'program_id')
         ->withPivot('days')
-        ->wherePivot('days', '<>', null);    }
+        ->wherePivot('days', '!=', null);    }
     public function userInfo()
     {
         return $this->hasMany(userInfo::class ,'program_userinfos', 'program_id');

@@ -52,7 +52,7 @@ class UserService
             ->get()
             ->toArray();
         if (empty($result)) {
-            return ResponseHelper::success([], null, 'No players found');
+            return [];
         }
 
         return $result;

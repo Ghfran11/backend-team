@@ -193,8 +193,10 @@ class TimeController extends Controller
                 })->count();
             }
             return ResponseHelper::success([
-                'active_players' => $endtimes,
-                'total_players' => $not_expired
+                'active_players' =>!empty($endtimes) ? $endtimes : 0,
+
+                'total_players' =>!empty($not_expired) ? $not_expired : 0,
+
             ]);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());

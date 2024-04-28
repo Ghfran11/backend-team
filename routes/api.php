@@ -72,6 +72,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('playerInfo/{id}', 'playerInfo');
     Route::delete('delete/{user}',  'deleteUser');
     Route::post('updateUser/{user}', 'updateUser');
+    Route::get('showAnnual', 'showAnnual');
 
     Route::post('rate/{user}','rateCoach');
     Route::get('subscription', 'subscription');
@@ -136,7 +137,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('acceptOrder/{order}', 'acceptOrder');
     Route::delete('deleteOrder' ,'destroy');
     Route::post('showOrder/{order}', 'show');
-    Route::get('showAnnual', 'showAnnual');
 
     Route::post('requestPrograme','requestProgram');
     Route::get('Premum',  'getPremium');

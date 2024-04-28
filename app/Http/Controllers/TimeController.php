@@ -47,7 +47,7 @@ class TimeController extends Controller
             {
             $time = Time::query()
                 ->create([
-                    'userId' =>  $request->coachId,
+                    'userId' => $request->coachId,
                     'isCoach' => '1',
                     'dayId' => $item['dayId'],
                     'startTime' => $item['startTime'],

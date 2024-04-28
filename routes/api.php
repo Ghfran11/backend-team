@@ -50,7 +50,7 @@ Route::middleware('auth:api')->group(function () {
     //time
     Route::controller(TimeController::class)->group(function () {
     Route::post('storeTime', 'CoachMyTime');//coach
-    Route::post('storeCoachTime', 'CoachMyTime');
+    Route::post('storeCoachTime', 'storeCoachTime');
     Route::post('storeUserTime', 'storeUserTime');
     Route::post('endCounter', 'endCounter');
     Route::get('showMyTime', 'show');

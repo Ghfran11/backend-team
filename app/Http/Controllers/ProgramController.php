@@ -7,15 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Services\ImageService;
 use App\Services\ProgramService;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreprogramRequest;
 use App\Http\Requests\UpdateprogramRequest;
-use App\Models\Category;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\UserInfo;
-use App\Http\Traits\Files;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class ProgramController extends Controller
 {

@@ -102,6 +102,8 @@ class UserService
     public function CheckSubscription()
     {
         $users = User::query()->where('role', 'player')->get()->toArray();
+        $results = [];
+
         foreach ($users as $user) {
             $userName = $user['name'];
             $expiration = Carbon::parse($user['expiration']);
@@ -115,15 +117,18 @@ class UserService
             }
             $SubscriptionDate = $expiration->subMonth();
             $Paid = $user['is_paid'];
-            $result = [
-                'id' => $user['id'],
-                'userName' => $userName,
-                'remainingTime' => $remainingTime,
-                'paidStatus' => $Paid,
-                'SubscriptionDate' => $SubscriptionDate,
-                'daysNotPaid' => $daysNotPaid,
-            ];
-            $results[] = $result;
+
+            if (!empty($user)) {
+                $result = [
+                    'id' => $user['id'],
+                    'userName' => $userName,
+                    'remainingTime' => $remainingTime,
+                    'paidStatus' => $Paid,
+                    'SubscriptionDate' => $SubscriptionDate,
+                    'daysNotPaid' => $daysNotPaid,
+                ];
+                $results[] = $result;
+            }
         }
 
         return $results;
@@ -253,12 +258,18 @@ class UserService
         $numOfCoach = User::where('role', 'coach')->count();
         $reports = Report::get();
         $numOfReports = $reports->count();
+
+        if (!empty($numofplayers)) {
+
         return ResponseHelper::success([
             'players' => $not_expired,
             'coaches' => $numOfCoach,
             'subscriptionFee' => 2000000,
             'numOfReports' => $numOfReports
         ]);
+    }
+    return ResponseHelper::success('empty');
+
     }
 
     public function Annual()

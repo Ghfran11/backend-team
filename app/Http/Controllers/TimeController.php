@@ -43,17 +43,16 @@ class TimeController extends Controller
     public function storeCoachTime(StoretimeRequest $request)
     {
         try {
-            foreach($request->coachTime as $item)
-            {
-            $time = Time::query()
-                ->create([
+            foreach ($request->coachTime as $item) {
+                $time = Time::query()
+                    ->create([
                     'userId' => Auth::id(),
                     'isCoach' => '1',
                     'dayId' => $item['dayId'],
                     'startTime' => $item['startTime'],
                     'endTime' => $item['endTime']
                 ]);
-                $results[]=  $time;
+                $results[] = $time;
             }
             return ResponseHelper::success($results, null, 'success', 200);
         } catch (\Exception $e) {
@@ -142,7 +141,7 @@ class TimeController extends Controller
     public function update(UpdatetimeRequest $request, Time $time)
     {
         try {
-            $user=User::find(Auth::id());
+            $user = User::find(Auth::id());
             $result = $time->update(
                 [
                     'userId' => $user->id,
@@ -233,7 +232,7 @@ class TimeController extends Controller
             $user = User::find(Auth::id());
             $result = $user->time()->whereBetween('startTime', [$startDate, $endDate])
                 ->pluck('startTime');
-            return ResponseHelper::success($result);
+            return ResponseHelper::success([Auth::user(), $result]);
         } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage(), $e->getCode());
         }

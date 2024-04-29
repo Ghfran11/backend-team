@@ -30,6 +30,6 @@ if (! function_exists('upload')) {
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $path = $file->storeAs('uploads/images', $fileName, 'public');
 
-        return $path;
+        return $file;
     }
 }

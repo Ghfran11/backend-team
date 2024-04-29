@@ -14,6 +14,7 @@ class ArticleService
     {
         $user = User::find(Auth::id());
         $articles = Article::query()->get();
+        if(!empty($articles)){
         foreach ($articles as $article) {
             $isFav = $article->users()->where('user_id', Auth::id())->value('isFavourite');
             if ($isFav == true) {
@@ -28,7 +29,10 @@ class ArticleService
                     'content' => $article->content,
                     'isFavourite' => $isFavourite,
                 ];
-        }
+        }}
+        else
+
+        $results[] =[];
         return $results;
     }
 

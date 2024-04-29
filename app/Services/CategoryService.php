@@ -35,7 +35,7 @@ class CategoryService
             'name' => $request->name,
             'description' => $request->description,
             'type' => $request->type,
-            'imageUrl' =>$image,
+            'imageUrl' =>$request->image,
         ]);
         return $result;
     }

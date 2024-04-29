@@ -28,7 +28,7 @@ if (! function_exists('upload')) {
     function upload(UploadedFile $file, $filePath)
     {
         $fileName = time().'.'.$file->getClientOriginalExtension();
-        $path = $file->storeAs($filePath, $fileName, 'public');
+        $path = $file->storeAs($filePath, $fileName, 'public/uploads/images');
 
         return $path;
     }

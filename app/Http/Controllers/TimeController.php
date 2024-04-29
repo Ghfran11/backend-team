@@ -204,7 +204,9 @@ class TimeController extends Controller
         $user = User::find(Auth::id());
         $result = $user->time()->whereBetween('startTime', [$startDate, $endDate])
             ->pluck('startTime');
-        return ResponseHelper::success([Auth::user(), $result]);
+
+        $checkinStatus = Auth::user()->checkinStatus;
+        return ResponseHelper::success([$checkinStatus, $result]);
     }
 
     public function weeklyProgress()

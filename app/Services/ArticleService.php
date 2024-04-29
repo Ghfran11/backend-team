@@ -24,7 +24,7 @@ class ArticleService
                 'id' => $article->id,
                 'title' => $article->title,
                 'content' => $article->content,
-                'isFavourite' => $isFav ,
+                'isFavourite' => ($isFav === 0) ? false : true,
             ];
         }
 

@@ -267,6 +267,7 @@ class UserService
 
     public function Info()
     {
+        $result = [];
         $user = User::find(Auth::id());
         $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
         if (!empty($userOrder)) {

@@ -206,7 +206,7 @@ class TimeController extends Controller
             ->pluck('startTime');
 
         $checkinStatus = Auth::user()->checkinStatus;
-        return ResponseHelper::success([$result, 'checkinStatus' => $checkinStatus]);
+        return ResponseHelper::success([$result, $checkinStatus]);
     }
 
     public function weeklyProgress()

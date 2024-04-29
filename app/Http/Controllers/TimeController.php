@@ -160,7 +160,7 @@ class TimeController extends Controller
 
     public function activePlayersCounter()
     {
-//select only the 'endTime' column , we don't want the other details of the records...
+        //select only the 'endTime' column , we don't want the other details of the records...
         $endtimes = Time::select('endTime')
             ->whereNull('endTime')
             ->count();
@@ -206,7 +206,7 @@ class TimeController extends Controller
             ->pluck('startTime');
 
         $checkinStatus = Auth::user()->checkinStatus;
-        return ResponseHelper::success([$checkinStatus, $result]);
+        return ResponseHelper::success([$result, 'checkinStatus' => $checkinStatus]);
     }
 
     public function weeklyProgress()

@@ -3,6 +3,7 @@
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
@@ -115,11 +116,11 @@ Route::middleware('auth:api')->group(function () {
     });
     //report
     Route::controller(ReportController::class)->group(function () {
-    Route::get('indexreport','index');
-    Route::post('report', 'store');
-    Route::delete('deletereport/{report}', 'destroy');
-    Route::get('myreport', 'showMyReport');
-    //rate
+        Route::get('indexreport', 'index');
+        Route::post('report', 'store');
+        Route::delete('deletereport/{report}', 'destroy');
+        Route::get('myreport', 'showMyReport');
+        //rate
 
     });
 
@@ -176,13 +177,13 @@ Route::middleware('auth:api')->group(function () {
         Route::get('getCategories', 'index');
         Route::post('AddCategory', 'store');
 
-});
+    });
 
-Route::controller(RatingController::class)->group(function () {
-    Route::post('setRate','setRate');
-    Route::delete('deleteRate', 'deleteRate');
+    Route::controller(RatingController::class)->group(function () {
+        Route::post('setRate', 'setRate');
+        Route::delete('deleteRate', 'deleteRate');
 
-});
+    });
 
 });
 

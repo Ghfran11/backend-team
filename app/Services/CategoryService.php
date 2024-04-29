@@ -31,7 +31,6 @@ class CategoryService
     public function store($request)
     {
         $image = upload($request->image,'uploads/images');
-        //dd($image[0]->image);
         $result = Category::query()->create([
             'name' => $request->name,
             'description' => $request->description,

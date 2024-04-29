@@ -267,7 +267,8 @@ class UserService
 
     public function Info()
     {
-        $result = [];
+         $result = [];
+
         $user = User::find(Auth::id());
         $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
         if (!empty($userOrder)) {
@@ -282,7 +283,7 @@ class UserService
         }
         $userInfo = UserInfo::query()->where('userId', $user->id)->value('id');
         $info = UserInfo::findOrFail($userInfo);
-        if($userInfo){
+        if($userInfo || $info){
         $foodProgram = $info->program()->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })->get()

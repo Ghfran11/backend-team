@@ -310,6 +310,6 @@ class UserService
             'foodProgram' => [],
             'sportProgram' => []
         ];
-        return responseHelper::success($result);
+        return responseHelper::success([$result]);
     }
 }

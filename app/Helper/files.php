@@ -28,8 +28,8 @@ if (! function_exists('upload')) {
     function upload(UploadedFile $file, $filePath)
     {
         $fileName = time().'.'.$file->getClientOriginalExtension();
-        $path = $file->storeAs($filePath, $fileName, 'public');
+        $path = $file->storeAs('uploads/images', $fileName, 'public');
 
-        return $path;
+        return basename($path);
     }
 }

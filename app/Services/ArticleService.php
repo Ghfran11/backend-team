@@ -13,22 +13,21 @@ class ArticleService
     public function index()
     {
         $user = User::find(Auth::id());
-        $articles = Article::query()->get();
+        $articles = Article::all();
+        $results = [];
+
         foreach ($articles as $article) {
             $isFav = $article->users()->where('user_id', Auth::id())->value('isFavourite');
-            if ($isFav == true) {
-                $isFavourite = true;
-            } else {
-                $isFavourite = false;
-            }
-            $results[] =
-                [
-                    'id' => $article->id,
-                    'title' => $article->title,
-                    'content' => $article->content,
-                    'isFavourite' => $isFavourite,
-                ];
+
+
+            $results[] = [
+                'id' => $article->id,
+                'title' => $article->title,
+                'content' => $article->content,
+                'isFavourite' => ($isFav === 0) ? false : true,
+            ];
         }
+
         return $results;
     }
 
@@ -80,7 +79,7 @@ class ArticleService
                     ->where('user_id', $user_id)
                     ->update(['isFavourite' => false]);
                 return 'isFavourite : false';
-            } elseif ($favorite->isFavourite == false) {
+            } if ($favorite->isFavourite == false) {
                 DB::table('article_user')->where('article_id', $article->id)
                     ->where('user_id', $user_id)
                     ->update(['isFavourite' => true]);

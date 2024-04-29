@@ -58,6 +58,7 @@ class MessageService
      */
     public function show(User $user) //show chat with messages!!!!
     {
+        $results = [];
         $message = Message::query()->where([
             ['sender_id', $user->id],
             ['receiver_id', Auth::id()],
@@ -71,6 +72,7 @@ class MessageService
             } else {
                 $is_sender = false;
             }
+
             $results[] =
                 [
                     'id' => $item->id,

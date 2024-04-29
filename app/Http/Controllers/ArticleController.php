@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\ArticleService;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ArticleController extends Controller
 {
@@ -53,7 +54,7 @@ class ArticleController extends Controller
 
     public function makeFavourite(Article $article)
     {
-        $user_id = Auth::user()->id;
+        $user_id = FacadesAuth::user()->id;
         $result = $this->articleService->makeFavourite($article, $user_id);
         return ResponseHelper::success($result);
     }

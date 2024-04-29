@@ -291,14 +291,16 @@ class UserService
             $query->where('type', 'sport');
         })
             ->get()
-            ->toArray();}
+            ->toArray();
+
+
         $result = [
             'user' => $user,
             'hasCoach' => $hasCoach,
             'myCoach' => $mycoach,
             'foodProgram' => $foodProgram,
             'sportProgram' => $sportProgram
-        ];
+        ];}
         return responseHelper::success([$result]);
     }
 }

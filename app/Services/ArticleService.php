@@ -13,26 +13,21 @@ class ArticleService
     public function index()
     {
         $user = User::find(Auth::id());
-        $articles = Article::query()->get();
-        if(!empty($articles)){
+        $articles = Article::all();
+        $results = [];
+
         foreach ($articles as $article) {
             $isFav = $article->users()->where('user_id', Auth::id())->value('isFavourite');
-            if ($isFav == true) {
-                $isFavourite = true;
-            } else {
-                $isFavourite = false;
-            }
-            $results[] =
-                [
-                    'id' => $article->id,
-                    'title' => $article->title,
-                    'content' => $article->content,
-                    'isFavourite' => $isFavourite,
-                ];
-        }}
-        else
+            $isFavourite = ($isFav === true);
 
-        $results[] =[];
+            $results[] = [
+                'id' => $article->id,
+                'title' => $article->title,
+                'content' => $article->content,
+                'isFavourite' => $isFavourite,
+            ];
+        }
+
         return $results;
     }
 

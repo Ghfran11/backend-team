@@ -18,13 +18,13 @@ class ArticleService
 
         foreach ($articles as $article) {
             $isFav = $article->users()->where('user_id', Auth::id())->value('isFavourite');
-            $isFavourite = ($isFav == true);
+
 
             $results[] = [
                 'id' => $article->id,
                 'title' => $article->title,
                 'content' => $article->content,
-                'isFavourite' => $isFavourite,
+                'isFavourite' => $isFav ,
             ];
         }
 

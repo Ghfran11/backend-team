@@ -282,8 +282,8 @@ class UserService
             }
         }
         $userInfo = UserInfo::query()->where('userId', $user->id);
-        if( $userInfo ->exists()){
-        $info = UserInfo::findOrFail($userInfo->id);}
+        if($userInfo ->exists()){
+        $info = UserInfo::findOrFail($userInfo->id);
         if($userInfo || $info){
         $foodProgram = $info->program()->whereHas('category', function ($query) {
             $query->where('type', 'food');
@@ -302,7 +302,7 @@ class UserService
             'myCoach' => $mycoach,
             'foodProgram' => $foodProgram,
             'sportProgram' => $sportProgram
-        ];}
+        ];}}
         return responseHelper::success([$result]);
     }
 }

@@ -303,6 +303,13 @@ class UserService
             'foodProgram' => $foodProgram,
             'sportProgram' => $sportProgram
         ];}}
+        $result = [
+            'user' => $user ,
+            'hasCoach' => false,
+            'myCoach' => [],
+            'foodProgram' => [],
+            'sportProgram' => []
+        ];
         return responseHelper::success($result);
     }
 }

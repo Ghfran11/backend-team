@@ -303,6 +303,6 @@ class UserService
             'foodProgram' => $foodProgram,
             'sportProgram' => $sportProgram
         ];}}
-        return responseHelper::success([$result]);
+        return responseHelper::success($result);
     }
 }

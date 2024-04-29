@@ -18,7 +18,7 @@ class ArticleService
 
         foreach ($articles as $article) {
             $isFav = $article->users()->where('user_id', Auth::id())->value('isFavourite');
-            $isFavourite = ($isFav === true);
+            $isFavourite = ($isFav == true);
 
             $results[] = [
                 'id' => $article->id,
@@ -79,7 +79,7 @@ class ArticleService
                     ->where('user_id', $user_id)
                     ->update(['isFavourite' => false]);
                 return 'isFavourite : false';
-            } elseif ($favorite->isFavourite == false) {
+            } if ($favorite->isFavourite == false) {
                 DB::table('article_user')->where('article_id', $article->id)
                     ->where('user_id', $user_id)
                     ->update(['isFavourite' => true]);

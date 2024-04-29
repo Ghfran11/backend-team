@@ -282,6 +282,7 @@ class UserService
         }
         $userInfo = UserInfo::query()->where('userId', $user->id)->value('id');
         $info = UserInfo::find($userInfo);
+        if($info->exists()){
         $foodProgram = $info->program()->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })->get()
@@ -290,7 +291,7 @@ class UserService
             $query->where('type', 'sport');
         })
             ->get()
-            ->toArray();
+            ->toArray();}
         $result = [
             'user' => $user,
             'hasCoach' => $hasCoach,

@@ -302,7 +302,9 @@ class UserService
             'myCoach' => $mycoach,
             'foodProgram' => $foodProgram,
             'sportProgram' => $sportProgram
-        ];}}
+        ];}
+
+    }
         // $result = [
         //     'user' => $user ,
         //     'hasCoach' => false,

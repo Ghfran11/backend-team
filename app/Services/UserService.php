@@ -307,7 +307,14 @@ class UserService
     }
 
     else {
-        return responseHelper::success([]);
+          $result = [
+            'user' => $user ,
+            'hasCoach' => false,
+            'myCoach' => [],
+            'foodProgram' => [],
+            'sportProgram' => []
+        ];
+        return responseHelper::success([$result]);
 
     }
         // $result = [

@@ -306,7 +306,10 @@ class UserService
 
     }
 
-    else $result = [];
+    else {
+        return responseHelper::success([]);
+
+    }
         // $result = [
         //     'user' => $user ,
         //     'hasCoach' => false,

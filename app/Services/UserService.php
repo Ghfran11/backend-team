@@ -269,7 +269,7 @@ class UserService
     {
         $result = [];
         $user = User::find(Auth::id());
-        $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
+        $userOrder[] = $user->playerOrder()->where('type', 'join')->first();
         if (!empty($userOrder)) {
             $status = $user->playerOrder()->where('type', 'join')->value('status');
             if ($status == 'accepted') {

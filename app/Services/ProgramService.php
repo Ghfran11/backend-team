@@ -62,34 +62,52 @@ class ProgramService
      */
     public function update($request, $program)
     {
-        if (Auth::id() != $program->user_id) {
-            return 'you can not update this program , you don not have permission';
-        }
-        Files::deleteFile($program->file);
-        $path = Files::saveFile($request);
-        $program->update([
-            'name' => $request->name,
-            'file' => $path,
-            'categoryId' => $request->categoryId,
-        ]);
-        if ($request->has('imageUrl')) {
-            $image = Files::saveImage($request);
-            $program->update(
-                [
-                    'imageUrl' => $image,
-                ]
-            );
-        }
+        $prog = Program::query()->findOrFail($program);
         if ($request->has('file')) {
-            Files::deleteFile($program->file);
-            $path = Files::saveFile($request);
-            $program->update(
-                [
-                    'file' => $path,
-                ]
-            );
+            Files::deleteFile($prog->file);
+            $prog->file = Files::saveFile($request);
+            if ($request->has('imageUrl')) {
+                Files::deleteFile($prog->imageUrl);
+                $prog->image = Files::saveImage($request);
+            }
         }
-        return 'program updated successfuly';
+        $prog->update([
+            'name' => $request->name,
+            'categoryId' => $request->categoryId,
+            'type' => $request->type,
+        ]);
+        return true;
+
+
+        // if (Auth::id() != $program->user_id) {
+        //     return 'you can not update this program , you don not have permission';
+        // }
+        // $cat = Program::findOrFail($program->id);
+
+        // $path = Files::saveFile($request);
+        // $program->update([
+        //     'name' => $request->name,
+        //     'file' => $path,
+        //     'categoryId' => $request->has('categoryId') ? $request->categoryId : $cat->categoryId,
+        // ]);
+        // if ($request->has('imageUrl')) {
+        //     $image = Files::saveImage($request);
+        //     $program->update(
+        //         [
+        //             'imageUrl' => $image,
+        //         ]
+        //     );
+        // }
+        // if ($request->has('file') && $cat->file != null) {
+        //     Files::deleteFile($program->file);
+        //     $path = Files::saveFile($request);
+        //     $program->update(
+        //         [
+        //             'file' => $path,
+        //         ]
+        //     );
+        // }
+        // return 'program updated successfuly';
     }
 
     /**

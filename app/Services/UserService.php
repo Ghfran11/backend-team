@@ -284,7 +284,7 @@ class UserService
         $userInfo = UserInfo::query()->where('userId', $user->id)->first();
         if($userInfo ->exists()){
         $info = UserInfo::findOrFail($userInfo->id);
-        if($info){
+        if(!empty($info)){
         $foodProgram = $info->program()->whereHas('category', function ($query) {
             $query->where('type', 'food');
         })->get()

@@ -19,7 +19,8 @@ class TimeController extends Controller
     public function storeUserTime()
     {
         $today = Carbon::today()->toDateString();
-        $existingRecord = Time::where('userId', Auth::id())
+        $user = Auth::user();
+        $existingRecord =$user->time()
             ->whereDate('startTime', $today)
             ->whereNull('endTime')
             ->first();
@@ -32,7 +33,8 @@ class TimeController extends Controller
             'isCoach' => '0',
             'dayId' => null
         ]);
-        return ResponseHelper::success($time, null, 'success', 200);
+
+        return ResponseHelper::success(['time'=>$time,'checkinStatus'=>$user->checkinStatus], null, 'success', 200);
     }
 
     public function storeCoachTime(StoretimeRequest $request)
@@ -76,7 +78,8 @@ class TimeController extends Controller
     public function endCounter(Request $request)
     {
         $today = Carbon::today()->toDateString();
-        $result = Time::where('userId', Auth::id())
+         $user = Auth::user();
+        $result =$user->time()
             ->whereDate('startTime', $today)
             ->whereNull('endTime')
             ->latest()->first();
@@ -85,7 +88,7 @@ class TimeController extends Controller
                 'endTime' => Carbon::now()
                     ->format('Y-m-d H:i:s')
             ]);
-            return ResponseHelper::success('Done', 'success', 200);
+            return ResponseHelper::success(['checkinStatus'=>$user->checkinStatus], 'success', 200);
         }
         return ResponseHelper::error('You have alredy closed the counter Or You havent started yet.');
     }

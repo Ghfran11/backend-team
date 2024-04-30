@@ -21,6 +21,9 @@ trait Files
 
     public static function deleteFile($file)
     {
+        if(!$file){
+            return;
+        }
         Storage::delete($file);
     }
 

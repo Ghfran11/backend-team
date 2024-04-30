@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('categoryId')->nullable()->constrained('categories')->cascadeOnDelete();
             $table->string('name');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->string('imageUrl')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->enum('type', ['general', 'private','recommended']);

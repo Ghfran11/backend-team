@@ -267,48 +267,49 @@ class UserService
 
     public function Info()
     {
-        $result = [];
+         $result = [];
 
         $user = User::find(Auth::id());
-        $userOrder = $user->playerOrder()->where('type', 'join')->get();
-        if (!$userOrder->isEmpty()) {
-            $status = $userOrder->where('type', 'join')->value('status');
+        $userOrder[] = $user->playerOrder()->where('type', 'join')->get();
+        if (!empty($userOrder)) {
+            $status = $user->playerOrder()->where('type', 'join')->value('status');
             if ($status == 'accepted') {
                 $hasCoach = 'true';
-                $mycoach = $userOrder->where('type', 'join')->with('coach')->get();
+                $mycoach = $user->playerOrder()->where('type', 'join')->with('coach')->get();
             } else {
                 $hasCoach = 'false';
                 $mycoach = null;
             }
         }
+        $userInfo = UserInfo::query()->where('userId', $user->id);
+        if($userInfo ->exists()){
+        $info = UserInfo::findOrFail($userInfo->id);
+        if($userInfo || $info){
+        $foodProgram = $info->program()->whereHas('category', function ($query) {
+            $query->where('type', 'food');
+        })->get()
+            ->toArray();
+        $sportProgram = $info->program()->whereHas('category', function ($query) {
+            $query->where('type', 'sport');
+        })
+            ->get()
+            ->toArray();
 
-        $userInfo = UserInfo::where('userId', $user->id)->first();
-        if ($userInfo) {
-            $foodProgram = $userInfo->program()->whereHas('category', function ($query) {
-                $query->where('type', 'food');
-            })->get()->toArray();
 
-            $sportProgram = $userInfo->program()->whereHas('category', function ($query) {
-                $query->where('type', 'sport');
-            })->get()->toArray();
-
-            $result = [
-                'user' => $user,
-                'hasCoach' => $hasCoach,
-                'myCoach' => $mycoach,
-                'foodProgram' => $foodProgram,
-                'sportProgram' => $sportProgram
-            ];
-        } else {
-            $result = [
-                'user' => $user,
-                'hasCoach' => false,
-                'myCoach' => [],
-                'foodProgram' => [],
-                'sportProgram' => []
-            ];
-        }
-
+        $result = [
+            'user' => $user,
+            'hasCoach' => $hasCoach,
+            'myCoach' => $mycoach,
+            'foodProgram' => $foodProgram,
+            'sportProgram' => $sportProgram
+        ];}}
+        $result = [
+            'user' => $user ,
+            'hasCoach' => false,
+            'myCoach' => [],
+            'foodProgram' => [],
+            'sportProgram' => []
+        ];
         return responseHelper::success([$result]);
     }
 }

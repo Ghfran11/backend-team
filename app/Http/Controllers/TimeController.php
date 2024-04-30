@@ -221,7 +221,7 @@ class TimeController extends Controller
         $daysOfWeek = [];
         foreach ($result as $result) {
             $day = Carbon::parse($result->startTime)->startOfDay();
-            $daysOfWeek[] = $day->format('l'); // Eg "Monday"
+            $daysOfWeek[] = $result; // Eg "Monday"
         }
         return ResponseHelper::success($daysOfWeek);
     }

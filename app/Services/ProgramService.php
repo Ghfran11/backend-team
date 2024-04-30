@@ -65,7 +65,7 @@ class ProgramService
         if (Auth::id() != $program->user_id) {
             return 'you can not update this program , you don not have permission';
         }
-        $cat=Program::findOrFail($program);
+        $cat=Program::findOrFail($program->id);
         Files::deleteFile($program->file);
         $path = Files::saveFile($request);
         $program->update([

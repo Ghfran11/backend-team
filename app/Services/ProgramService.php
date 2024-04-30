@@ -67,8 +67,8 @@ class ProgramService
         }
         $cat=Program::findOrFail($program->id);
         if ($request->has('file') ||$cat->file !=null ){
-        Files::deleteFile($program->file);
-        $path = Files::saveFile($request);}
+        Files::deleteFile($program->file);}
+        $path = Files::saveFile($request);
         $program->update([
             'name' => $request->name,
             'file' => $path,

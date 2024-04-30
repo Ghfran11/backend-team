@@ -66,8 +66,9 @@ class ProgramService
             return 'you can not update this program , you don not have permission';
         }
         $cat=Program::findOrFail($program->id);
+        if ($request->has('file') ||$cat->file !=null ){
         Files::deleteFile($program->file);
-        $path = Files::saveFile($request);
+        $path = Files::saveFile($request);}
         $program->update([
             'name' => $request->name,
             'file' => $path,

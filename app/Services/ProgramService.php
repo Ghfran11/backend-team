@@ -62,7 +62,7 @@ class ProgramService
      */
     public function update($request, $program)
     {
-        $prog = Program::query()->findOrFail($program);
+        $prog = Program::query()->findOrFail($program->id);
         if ($request->has('file')) {
             Files::deleteFile($prog->file);
             $prog->file = Files::saveFile($request);

@@ -281,7 +281,7 @@ class UserService
                 $mycoach = null;
             }
         }
-        $userInfo = UserInfo::query()->where('userId', $user->id)->first()->toArray();
+        $userInfo = UserInfo::query()->where('userId', $user->id)->first();
         if($userInfo !== null){
         $info = UserInfo::findOrFail($userInfo->id);
         if(!empty($info)){
@@ -305,6 +305,8 @@ class UserService
         ];}
 
     }
+
+    else $result = [];
         // $result = [
         //     'user' => $user ,
         //     'hasCoach' => false,

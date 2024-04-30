@@ -280,35 +280,49 @@ class UserService
                 $mycoach = null;
             }
         }
-        $userInfo = UserInfo::query()->where('userId', $user->id);
-        if ($userInfo->exists()) {
-            $info = UserInfo::findOrFail($userInfo->id);
-            if ($userInfo || $info) {
-                $foodProgram = $info->program()->whereHas('category', function ($query) {
-                    $query->where('type', 'food');
-                })->get()
-                    ->toArray();
-                $sportProgram = $info->program()->whereHas('category', function ($query) {
-                    $query->where('type', 'sport');
-                })
-                    ->get()
-                    ->toArray();
-                $result = [
-                    'user' => $user,
-                    'hasCoach' => $hasCoach,
-                    'myCoach' => $mycoach,
-                    'foodProgram' => $foodProgram,
-                    'sportProgram' => $sportProgram
-                ];
-            }
-        }
+        $userInfo = UserInfo::query()->where('userId', $user->id)->first();
+        if($userInfo !== null){
+        $info = UserInfo::findOrFail($userInfo->id);
+        if(!empty($info)){
+        $foodProgram = $info->program()->whereHas('category', function ($query) {
+            $query->where('type', 'food');
+        })->get()
+            ->toArray();
+        $sportProgram = $info->program()->whereHas('category', function ($query) {
+            $query->where('type', 'sport');
+        })
+            ->get()
+            ->toArray();
+
+
         $result = [
             'user' => $user,
+            'hasCoach' => $hasCoach,
+            'myCoach' => $mycoach,
+            'foodProgram' => $foodProgram,
+            'sportProgram' => $sportProgram
+        ];}
+
+    }
+
+    else {
+          $result = [
+            'user' => $user ,
             'hasCoach' => false,
             'myCoach' => [],
             'foodProgram' => [],
             'sportProgram' => []
         ];
+        return responseHelper::success([$result]);
+
+    }
+        // $result = [
+        //     'user' => $user ,
+        //     'hasCoach' => false,
+        //     'myCoach' => [],
+        //     'foodProgram' => [],
+        //     'sportProgram' => []
+        // ];
         return responseHelper::success([$result]);
     }
 }

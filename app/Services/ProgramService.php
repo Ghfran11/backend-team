@@ -80,7 +80,7 @@ class ProgramService
                 ]
             );
         }
-        if ($request->has('file')) {
+        if ($request->has('file') ||$cat->file !=null ) {
             Files::deleteFile($program->file);
             $path = Files::saveFile($request);
             $program->update(

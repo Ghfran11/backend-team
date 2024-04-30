@@ -70,8 +70,7 @@ class ProgramService
         $program->update([
             'name' => $request->name,
             'file' => $path,
-            'categoryId' => $request->categoryId,
-        ]);
+            'categoryId' => $request->has('categoryId') ? $request->input('categoryId') : $program->categoryId,        ]);
         if ($request->has('imageUrl')) {
             $image = Files::saveImage($request);
             $program->update(

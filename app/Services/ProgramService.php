@@ -86,19 +86,11 @@ class ProgramService
             'type' => $request->type,
         ]);
 
-        $program_user = ProgramUser::query();
-
-        $program = Program::find($program->id);
-
-        $users = $request->player_id;
-
-        foreach ($users as $player_id) {
-            $program_user->create([
-                'player_id' => $player_id,
-                'program_id' => $program->id,
-                'user_id' => $program->user_id,
-                'days' => $program->days,
-                'startDate' => $program->startDate
+        foreach ($request->player_id as $player) {
+            $program->players()->attach($player, [
+                'user_id' => $player,
+                'startDate' => Carbon::now()->format('Y-m-d'),
+                'days' => $request->days
             ]);
         }
 

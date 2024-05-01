@@ -46,12 +46,14 @@ class ProgramService
                 'categoryId' => $request->categoryId,
             ]
         );
-        foreach ($request->player_id as $player) {
-            $program->players()->attach($player, [
-                'user_id' => $player,
-                'startDate' => Carbon::now()->format('Y-m-d'),
-                'days' => $request->days
-            ]);
+        if ($request->player_id) {
+            foreach ($request->player_id as $player) {
+                $program->players()->attach($player, [
+                    'user_id' => $player,
+                    'startDate' => Carbon::now()->format('Y-m-d'),
+                    'days' => $request->days
+                ]);
+            }
         }
         return $program;
     }

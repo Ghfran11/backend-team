@@ -247,7 +247,7 @@ class ProgramService
     {
         $userinfo_id = UserInfo::where('userId', Auth::id())->value('id');
         $userinfo = UserInfo::find($userinfo_id);
-        $result = DB::table('program_userinfos')->where('program_id', $request->program_id)
+        $result = DB::table('program_userInfos')->where('program_id', $request->program_id)
             ->where('userInfo_id', $userinfo_id)->delete();
         return $result;
     }

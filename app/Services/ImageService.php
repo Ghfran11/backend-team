@@ -25,7 +25,7 @@ class ImageService
                     'userId' => $userId ?: (Auth::id()),
                     'exerciseId' => $exerciseId,
                     'image' => $new_name,
-                    'type' => $request->type
+                    'type' => $type
                 ]);
             }
         }

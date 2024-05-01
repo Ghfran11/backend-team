@@ -70,7 +70,6 @@ class ProgramService
      */
     public function update($request, $program)
     {
-
         $prog = Program::query()->findOrFail($program->id);
         if ($request->has('file')) {
             Files::deleteFile($prog->file);
@@ -86,45 +85,17 @@ class ProgramService
             'type' => $request->type,
         ]);
 
-        foreach ($request->player_id as $player) {
-            $program->players()->attach($player, [
-                'user_id' => $player,
-                'startDate' => Carbon::now()->format('Y-m-d'),
-                'days' => $request->days
-            ]);
+        if ($request->has('player_id') && is_array($request->player_id)) {
+            foreach ($request->player_id as $player) {
+                $program->players()->attach($player, [
+                    'user_id' => $player,
+                    'startDate' => Carbon::now()->format('Y-m-d'),
+                    'days' => $request->days
+                ]);
+            }
         }
 
         return true;
-
-
-
-        // }
-        // $cat = Program::findOrFail($program->id);
-
-        // $path = Files::saveFile($request);
-        // $program->update([
-        //     'name' => $request->name,
-        //     'file' => $path,
-        //     'categoryId' => $request->has('categoryId') ? $request->categoryId : $cat->categoryId,
-        // ]);
-        // if ($request->has('imageUrl')) {
-        //     $image = Files::saveImage($request);
-        //     $program->update(
-        //         [
-        //             'imageUrl' => $image,
-        //         ]
-        //     );
-        // }
-        // if ($request->has('file') && $cat->file != null) {
-        //     Files::deleteFile($program->file);
-        //     $path = Files::saveFile($request);
-        //     $program->update(
-        //         [
-        //             'file' => $path,
-        //         ]
-        //     );
-        // }
-        // return 'program updated successfuly';
     }
 
     /**

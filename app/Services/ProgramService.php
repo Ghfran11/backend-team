@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Traits\Files;
 use App\Models\Category;
 use App\Models\Program;
+use App\Models\ProgramUser;
 use App\Models\User;
 use App\Models\UserInfo;
 use Carbon\Carbon;
@@ -69,7 +70,6 @@ class ProgramService
      */
     public function update($request, $program)
     {
-
         $prog = Program::query()->findOrFail($program->id);
         if ($request->has('file')) {
             Files::deleteFile($prog->file);
@@ -84,6 +84,9 @@ class ProgramService
             'categoryId' => $request->categoryId,
             'type' => $request->type,
         ]);
+
+
+
         return true;
         // if (Auth::id() != $program->user_id) {
         //     return 'you can not update this program , you don not have permission';

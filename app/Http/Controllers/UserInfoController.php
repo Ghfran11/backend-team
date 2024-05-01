@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserInfoRequest;
 use App\Http\Requests\UpdateUserInfoRequest;
 use App\Helpers\ResponseHelper;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -112,7 +113,7 @@ class UserInfoController extends Controller
         );
         if ($request->image) {
           //  $user->image->delete();
-          
+          $image=Image::where('userId',$user->id)->where('type','profile')->delete();
             $this->imageService->storeImage($request, Auth::id(), null, 'profile');
         }
         return ResponseHelper::success($newUser);

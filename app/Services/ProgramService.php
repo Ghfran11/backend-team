@@ -36,7 +36,7 @@ class ProgramService
     {
         $path = Files::saveFile($request);
         $image = Files::saveImage($request);
-        $result = Program::query()->create(
+        $program = Program::query()->create(
             [
                 'user_id' => Auth::id(),
                 'name' => $request->name,
@@ -46,7 +46,14 @@ class ProgramService
                 'categoryId' => $request->categoryId,
             ]
         );
-        return $result;
+        foreach ($request->player_id as $player) {
+            $program->players()->attach($player, [
+                'user_id' => $player,
+                'startDate' => Carbon::now()->format('Y-m-d'),
+                'days' => $request->days
+            ]);
+        }
+        return $program;
     }
 
     /**

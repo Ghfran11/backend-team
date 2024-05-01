@@ -9,7 +9,7 @@ use App\Models\User;
 
 class ImageService
 {
-    public function storeImage($request, $userId, $exerciseId = null, $type = null)
+    public function storeImage($request, $userId, $exerciseId = null, $type)
     {
         $images = $request->file('image');
         $result = [];

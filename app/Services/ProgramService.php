@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Traits\Files;
 use App\Models\Category;
 use App\Models\Program;
+use App\Models\ProgramUser;
 use App\Models\User;
 use App\Models\UserInfo;
 use Carbon\Carbon;
@@ -78,13 +79,26 @@ class ProgramService
             'type' => $request->type,
         ]);
 
-        
+        $program_user = ProgramUser::query();
+
+        $program = Program::find($program->id);
+
+        $users = $request->player_id;
+
+        foreach ($users as $player_id) {
+            $program_user->create([
+                'player_id' => $player_id,
+                'program_id' => $program->id,
+                'user_id' => $program->user_id,
+                'days' => $program->days,
+                'startDate' => $program->startDate
+            ]);
+        }
 
         return true;
 
 
-        // if (Auth::id() != $program->user_id) {
-        //     return 'you can not update this program , you don not have permission';
+
         // }
         // $cat = Program::findOrFail($program->id);
 

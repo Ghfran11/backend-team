@@ -14,7 +14,7 @@ class UserInfo extends Model
 
     public function program()
     {
-        return $this->belongsToMany(Program::class, 'program_userinfos', 'userInfo_id');
+        return $this->belongsToMany(Program::class, 'program_userInfos', 'userInfo_id');
     }
 }
 

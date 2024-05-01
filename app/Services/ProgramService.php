@@ -84,12 +84,7 @@ class ProgramService
             'categoryId' => $request->categoryId,
             'type' => $request->type,
         ]);
-
-        
-
         return true;
-
-
         // if (Auth::id() != $program->user_id) {
         //     return 'you can not update this program , you don not have permission';
         // }

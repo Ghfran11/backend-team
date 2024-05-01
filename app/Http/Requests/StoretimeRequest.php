@@ -25,8 +25,8 @@ class StoretimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'coachTime'=>['required'],
-
+            'coachTime' => ['required'],
+            'coachId' => ['required', 'exists:users,id'],
         ];
     }
 }
